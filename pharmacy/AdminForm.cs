@@ -111,8 +111,8 @@ namespace pharmacy
             }
 
             //Магазин
-            Shop.getMedicinesInAdmin(Authorization.pharmacy_id);
-            dtShop = Shop.dtShop;
+            ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+            dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
 
             //Заказы
@@ -131,7 +131,7 @@ namespace pharmacy
                                                      JOIN users u on b.users_id = u.id
                                                      JOIN status s on b.status_id = s.id
                                                      JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + Authorization.pharmacy_id;
+                                                     WHERE p.id = " + AuthorizationService.pharmacy_id;
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -170,7 +170,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.AdminGetCountBuyMedicinesStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat();
 
             chart1.Series.Clear();
 
@@ -248,8 +248,8 @@ namespace pharmacy
             }
             else
             {
-                Shop.getMedicinesInAdmin(Authorization.pharmacy_id);
-                dtShop = Shop.dtShop;
+                ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+                dtShop = ShopService.dtShop;
                 dataGridView1.DataSource = dtShop;
             }
         }
@@ -266,8 +266,8 @@ namespace pharmacy
             changeForm = false;
             changePrescription = false;
 
-            Shop.getMedicinesInAdmin(Authorization.pharmacy_id);
-            dtShop = Shop.dtShop;
+            ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+            dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
         }
 
@@ -285,7 +285,7 @@ namespace pharmacy
             if (startIndex != -1 && endIndex != -1)
             {
                 id = Int32.Parse(clickedTextBox.Text.Substring(startIndex, endIndex - startIndex));
-                Basket.GetBasketMedicines(id);
+                BasketService.GetBasketMedicines(id);
             }
 
             startIndex = clickedTextBox.Text.IndexOf("Имя заказчика: ") + "Имя заказчика: ".Length;
@@ -330,7 +330,7 @@ namespace pharmacy
             {
 
             }
-            dataGridView2.DataSource = Basket.dtBasket;
+            dataGridView2.DataSource = BasketService.dtBasket;
             dataGridView2.Columns["id"].Visible = false;
 
             textBox2.Text = dataGridView2.Rows
@@ -372,7 +372,7 @@ namespace pharmacy
                                                      JOIN users u on b.users_id = u.id
                                                      JOIN status s on b.status_id = s.id
                                                      JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + Authorization.pharmacy_id;
+                                                     WHERE p.id = " + AuthorizationService.pharmacy_id;
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -426,7 +426,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.AdminGetCountBuyMedicinesStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat();
 
             chart1.Series.Clear();
 
@@ -455,7 +455,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.AdminGetCountBasketStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBasketStat();
 
             chart1.Series.Clear();
 
@@ -475,8 +475,8 @@ namespace pharmacy
         {
             chart1.Visible = false;
             dataGridView3.Visible = true;
-            Statist.getTopUsersInPharmacy();
-            dataGridView3.DataSource = Statist.dtStat;
+            StatisticsService.getTopUsersInPharmacy();
+            dataGridView3.DataSource = StatisticsService.dtStat;
 
         }
 

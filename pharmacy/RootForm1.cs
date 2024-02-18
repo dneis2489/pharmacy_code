@@ -536,7 +536,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.RootGetCountBuyMedicinesStat();
+            DataTable dummyData = StatisticsService.RootGetCountBuyMedicinesStat();
 
 
 
@@ -566,7 +566,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.RootGetCountBasketStat();
+            DataTable dummyData = StatisticsService.RootGetCountBasketStat();
 
             chart1.Series.Clear();
 
@@ -587,8 +587,8 @@ namespace pharmacy
             chart1.Visible = false;
             dataGridView1.Visible = true;
             dataGridView2.Visible = false;
-            Statist.getTopPharmacy();
-            dataGridView1.DataSource = Statist.dtStat;
+            StatisticsService.getTopPharmacy();
+            dataGridView1.DataSource = StatisticsService.dtStat;
         }
 
         private void button21_Click(object sender, EventArgs e) //Статистика - Доходы
@@ -604,7 +604,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = Statist.RootGetRevenueByMonth();
+            DataTable dummyData = StatisticsService.RootGetRevenueByMonth();
 
             chart1.Series.Clear();
 
@@ -625,8 +625,8 @@ namespace pharmacy
             chart1.Visible = true;
             dataGridView1.Visible = false;
             dataGridView2.Visible = false;
-            Statist.getTopMedicines();
-            dataGridView2.DataSource = Statist.dtStat2;
+            StatisticsService.getTopMedicines();
+            dataGridView2.DataSource = StatisticsService.dtStat2;
         }
 
 

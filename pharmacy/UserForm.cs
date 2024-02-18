@@ -56,8 +56,8 @@ namespace pharmacy
 
             ToolStripControlHost host;
             System.Windows.Forms.TextBox textBox;
-            Shop.getMedicines();
-            dtShop = Shop.dtShop;
+            ShopService.getMedicines();
+            dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
             dataGridView1.Columns["id"].Visible = false;
             textBox7.TextChanged += textBox7_TextChanged;
@@ -110,8 +110,8 @@ namespace pharmacy
         {
             ToolStripControlHost host;
             System.Windows.Forms.TextBox textBox;
-            Shop.getMedicines();
-            dtShop = Shop.dtShop;
+            ShopService.getMedicines();
+            dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
             dataGridView1.Columns["id"].Visible = false;
             textBox7.TextChanged += textBox7_TextChanged;
@@ -246,7 +246,7 @@ namespace pharmacy
                                                          FROM pharmacy.basket_has_users b
                                                          JOIN status s on b.status_id = s.id
                                                          JOIN pharmacy p on b.pharmacy_id = p.id
-                                                         WHERE users_id = " + Authorization.id + ";";
+                                                         WHERE users_id = " + AuthorizationService.id + ";";
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -316,15 +316,15 @@ namespace pharmacy
             System.Windows.Forms.TextBox clickedTextBox = (System.Windows.Forms.TextBox)sender;
             if (clickedTextBox.Text == "Все")
             {
-                Shop.getMedicines();
-                dataGridView1.DataSource = Shop.dtShop;
+                ShopService.getMedicines();
+                dataGridView1.DataSource = ShopService.dtShop;
                 dataGridView1.Columns["id"].Visible = false;
                 //dataGridView1.Columns["category"].Visible = false;
             }
             else
             {
-                Shop.updateViaCategory(clickedTextBox.Text);
-                dataGridView1.DataSource = Shop.dtShop;
+                ShopService.updateViaCategory(clickedTextBox.Text);
+                dataGridView1.DataSource = ShopService.dtShop;
                 dataGridView1.Columns["id"].Visible = false;
             }
         }
@@ -389,8 +389,8 @@ namespace pharmacy
             }
             else
             {
-                Shop.getMedicines();
-                dtShop = Shop.dtShop;
+                ShopService.getMedicines();
+                dtShop = ShopService.dtShop;
                 dataGridView1.DataSource = dtShop;
             }
         }
@@ -402,8 +402,8 @@ namespace pharmacy
             comboBox4.SelectedIndex = -1;
             textBox7.Text = "";
 
-            Shop.getMedicines();
-            dtShop = Shop.dtShop;
+            ShopService.getMedicines();
+            dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
         }
 
@@ -464,10 +464,10 @@ namespace pharmacy
             if (startIndex != -1 && endIndex != -1)
             {
                 id = Int32.Parse(clickedTextBox.Text.Substring(startIndex, endIndex - startIndex));
-                Basket.GetBasketMedicines(id);
+                BasketService.GetBasketMedicines(id);
             }
 
-            dataGridView3.DataSource = Basket.dtBasket;
+            dataGridView3.DataSource = BasketService.dtBasket;
             dataGridView3.Columns["id"].Visible = false;
         }
 
@@ -497,10 +497,10 @@ namespace pharmacy
             comboBox1.Text = null;
             if (comboBox1.SelectedItem != null && med.Count != 0)
             {
-                textBox2.Text = Basket.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
+                textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
-            textBox5.Text = Basket.BasketNumber().ToString();
-            textBox6.Text = Authorization.name;
+            textBox5.Text = BasketService.BasketNumber().ToString();
+            textBox6.Text = AuthorizationService.name;
         }
 
         private void button2_Click(object sender, EventArgs e) //Кнопка "удалить из списка"
@@ -531,7 +531,7 @@ namespace pharmacy
 
         private void button3_Click(object sender, EventArgs e) //Кнопка "Сделать заказ"
         {
-            Basket.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text);
+            BasketService.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text);
             dataGridView2.DataSource = null;
             textBox2.Text = "";
             textBox3.Text = "";
@@ -552,7 +552,7 @@ namespace pharmacy
                                                          FROM pharmacy.basket_has_users b
                                                          JOIN status s on b.status_id = s.id
                                                          JOIN pharmacy p on b.pharmacy_id = p.id
-                                                         WHERE users_id = " + Authorization.id + ";";
+                                                         WHERE users_id = " + AuthorizationService.id + ";";
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -598,7 +598,7 @@ namespace pharmacy
             }
             if (comboBox1.SelectedItem != null || med.Count == 0)
             {
-                textBox2.Text = Basket.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
+                textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
         }
 

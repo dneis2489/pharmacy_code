@@ -34,7 +34,7 @@ namespace pharmacy
         {
             if(textBox1.Text != "" && textBox2.Text != "")
             {
-                Authorization.AuthorizationUser(textBox1.Text, textBox2.Text);
+                AuthorizationService.AuthorizationUser(textBox1.Text, textBox2.Text);
                 OpenForm();
             }
             else
@@ -46,7 +46,7 @@ namespace pharmacy
 
         public void OpenForm()
         {
-            switch (Authorization.role)
+            switch (AuthorizationService.role)
             {
                 case ("Пользователь"):
                     this.Hide();
