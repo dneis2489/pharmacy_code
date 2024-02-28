@@ -1,3 +1,4 @@
-pharmacy/bin/Debug/**
-pharmacy/obj/Debug/**
-pharmacy/.vs/**
+*/**/bin/Debug
+*/**/bin/Release
+*/**/obj/Debug
+*/**/obj/Release
