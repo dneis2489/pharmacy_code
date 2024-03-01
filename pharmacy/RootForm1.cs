@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pharmacy.service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,20 @@ namespace pharmacy
         public RootForm1()
         {
             InitializeComponent();
+            ScheduleService = new ScheduleService();
+            UsersService = new UsersService();
+            PharmacyService = new PharmacyService();
+            StatusService = new StatusService();
+            CategoryService = new CategoryService();
         }
+
+        public ScheduleService ScheduleService { get; set; }
+        public UsersService UsersService { get; set; }
+        public PharmacyService PharmacyService { get; set; }
+        public StatusService StatusService { get; set; }
+        public CategoryService CategoryService { get; set; }
+
+
 
         private void RootForm1_Load(object sender, EventArgs e)
         {
@@ -28,194 +42,32 @@ namespace pharmacy
             comboBox3.Items.Clear();
 
             //Подгрузка графиков работ для добавления Магазина
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy_schedule;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox1.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetTimeSpan("opening_time").ToString() + " - " + reader.GetTimeSpan("ending_time").ToString() +
-                                " (" + reader.GetTimeSpan("opening_time_on_weekands").ToString() + " - " + reader.GetTimeSpan("ending_time_on_weekands").ToString() + ")");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            ScheduleService.GetAll().ForEach(item => comboBox1.Items.Add(item));
 
             //Подгрузка системных ролей и магазинов для добавления пользователя
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.role;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox2.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox3.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            var pharmacies = PharmacyService.GetAll();
+            UsersService.GetAllRoles().ForEach(item => comboBox2.Items.Add(item));            
+            pharmacies.ForEach(item => comboBox3.Items.Add(item));
 
             //Вкладка удалить данные
-
             comboBox4.Items.Clear(); //Магазины
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox4.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
+            pharmacies.ForEach(item => comboBox4.Items.Add(item));
 
-            }
-
+            //Подгрузка графиков работ для добавления Магазина
             comboBox5.Items.Clear(); //Графики
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy_schedule;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox5.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetTimeSpan("opening_time").ToString() + "-" + reader.GetTimeSpan("ending_time").ToString() +
-                                " (" + reader.GetTimeSpan("opening_time_on_weekands").ToString() + "-" + reader.GetTimeSpan("ending_time_on_weekands").ToString() + ")");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
+            ScheduleService.GetAll().ForEach(item => comboBox5.Items.Add(item));
 
-            }
+            //Пользователи
+            comboBox6.Items.Clear(); 
+            UsersService.GetAll().ForEach(item => comboBox6.Items.Add(item));
 
-            comboBox6.Items.Clear(); //Пользователи
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.users;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox6.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
+            //Статусы
+            comboBox7.Items.Clear();
+            StatusService.GetAll().ForEach(item => comboBox7.Items.Add(item));
 
-            }
-
-            comboBox7.Items.Clear(); //Статусы
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.status;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox7.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
-            comboBox8.Items.Clear(); //Категории
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.category;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox8.Items.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            //Категории
+            comboBox8.Items.Clear();
+            CategoryService.GetAll().ForEach(item => comboBox8.Items.Add(item));           
 
             //Вкладка статусы
             dataGridView1.Visible = false;

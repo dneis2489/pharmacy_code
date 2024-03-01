@@ -1,13 +1,15 @@
-﻿using pharmacy.service;
+﻿using MySql.Data.MySqlClient;
+using pharmacy.service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace pharmacy
 {
-    internal class ScheduleService: IService<string>
+    public class ScheduleService: IService<List<string>>
     {
         public ScheduleService()
         {
@@ -23,9 +25,32 @@ namespace pharmacy
             throw new NotImplementedException();
         }
 
-        public string GetAll()
+        //Подгрузка графиков работ для добавления Магазина
+        public List<string> GetAll()
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            try
+            {                
+                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy_schedule;";
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetTimeSpan("opening_time").ToString() + " - " + reader.GetTimeSpan("ending_time").ToString() +
+                                " (" + reader.GetTimeSpan("opening_time_on_weekands").ToString() + " - " + reader.GetTimeSpan("ending_time_on_weekands").ToString() + ")");
+                        }
+                    }                    
+                }                
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
     }
 }

@@ -1,16 +1,19 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy.service
 {
-    internal class UsersService:IService<string>
+    public class UsersService:IService<List<string>>
     {
-        public UsersService(Medicine medicine)
+        public UsersService()
         {
-            Medicine = medicine;
+            
         }
 
         Medicine Medicine { get; set; } // TODO: а зачем?
@@ -25,14 +28,58 @@ namespace pharmacy.service
             throw new NotImplementedException();
         }
 
-        public string GetAllRoles()
+        //Подгрузка системных ролей
+        public List<string> GetAllRoles()
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.role;";
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
+
+                        }
+                    }                    
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
 
-        public string GetAll()
+        public List<string> GetAll()
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.users;";
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
+                        }
+                    }                    
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }        
     }
 }

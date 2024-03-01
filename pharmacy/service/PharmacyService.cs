@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace pharmacy.service
 {
-    internal class PharmacyService:IService<string>
+    public class PharmacyService:IService<List<string>>
     {
 
         public void Add(string name, string address, string phoneNumber, int pharmacySchedule)
@@ -19,13 +21,36 @@ namespace pharmacy.service
             throw new NotImplementedException();
         }
 
-        public string GetAll()
+        //Подгрузка магазинов для добавления пользователя
+        public List<string> GetAll()
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy;";
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
+
+                        }
+                    }                   
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
 
 
-        public string GetAllName()
+        public List<string> GetAllName()
         {
             throw new NotImplementedException();
         }
