@@ -4,5 +4,13 @@
 
 /packages
 /.vs
-/pharmacy/bin
-/pharmacy/obj
+/pharmacy/bin/
+/pharmacy/obj/
+/pharmacy/bin/Debug/pharmacy.exe
+/pharmacy/bin/Debug/pharmacy.pdb
+/pharmacy/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+/pharmacy/obj/Debug/pharmacy.csproj.CoreCompileInputs.cache
+/pharmacy/obj/Debug/pharmacy.csproj.FileListAbsolute.txt
+/pharmacy/obj/Debug/pharmacy.csproj.GenerateResource.cache
+/pharmacy/obj/Debug/pharmacy.exe
+/pharmacy/obj/Debug/pharmacy.pdb
