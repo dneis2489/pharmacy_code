@@ -105,8 +105,8 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthorizationService.cs" />
-    <Compile Include="BasketService.cs" />
+    <Compile Include="service\AuthorizationService.cs" />
+    <Compile Include="service\BasketService.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="AuthorizationForm.cs">
       <SubType>Form</SubType>
@@ -124,8 +124,15 @@
     <Compile Include="RootForm1.Designer.cs">
       <DependentUpon>RootForm1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ShopService.cs" />
-    <Compile Include="StatisticsService.cs" />
+    <Compile Include="service\CategoryService.cs" />
+    <Compile Include="service\IService.cs" />
+    <Compile Include="service\Medicine.cs" />
+    <Compile Include="service\PharmacyService.cs" />
+    <Compile Include="service\ScheduleService.cs" />
+    <Compile Include="service\StatusService.cs" />
+    <Compile Include="service\UsersService.cs" />
+    <Compile Include="service\ShopService.cs" />
+    <Compile Include="service\StatisticsService.cs" />
     <Compile Include="UserForm.cs">
       <SubType>Form</SubType>
     </Compile>

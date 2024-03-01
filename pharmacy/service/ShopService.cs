@@ -111,5 +111,18 @@ namespace pharmacy
 
             }
         }
+
+        string GetMedicinesExpirationDate() 
+        {
+            throw new NotImplementedException();
+        }
+        string GetFactoryNameByMedicineId(int id) 
+        {
+            throw new NotImplementedException();
+        }
+        string GetAllReleaseForm() 
+        {
+            throw new NotImplementedException();
+        }
     }
 }

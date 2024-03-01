@@ -11,6 +11,7 @@ namespace pharmacy
 {
     internal class DBConnection
     {
+        // TODO: вынести в конфиг файл?
         static string dbconnect = "server = localhost; user = root; password = root; database = pharmacy";
         static public MySqlDataAdapter dataAdapter;
         static MySqlConnection connect;

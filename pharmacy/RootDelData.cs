@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace pharmacy
 {
-    internal class RootDelData
+    internal class RootDelData// TODO: удалить в дальнейшем
     {
         public static void DelUser(int id) //Удалить пользователя
         {

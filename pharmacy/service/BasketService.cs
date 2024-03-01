@@ -255,7 +255,17 @@ namespace pharmacy
                 MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Ошибка при получении данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-    
+
+        string GetOrdersInfosByPharmacyId(int id) 
+        {
+            throw new NotImplementedException();
+        }
+
+        string UpdateStatusByNameAndBasketNumber(int number, string name) 
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

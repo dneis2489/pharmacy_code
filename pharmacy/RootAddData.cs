@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace pharmacy
 {
-    internal class RootAddData
+    internal class RootAddData // TODO: удалить в дальнейшем
     {
         public static void AddSchedule(string opening, string ending, string openingOnWeekands, string endingOnWeekands) //Добавить график работы
         {

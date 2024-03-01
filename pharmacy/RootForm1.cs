@@ -14,6 +14,7 @@ namespace pharmacy
 {
     public partial class RootForm1 : Form
     {
+        //  TODO: добавить контроллеры (ctrl + \ + T - показать список todo)
         public RootForm1()
         {
             InitializeComponent();
