@@ -27,13 +27,6 @@ namespace pharmacy
             public int costs { get; set; }
             public string on_prescription { get; set; }
             public int count { get; set; }
-            public string best_before_date { get; set; }
-            public string volume { get; set; }
-            public string primary_packaging { get; set; }
-            public string active_substance { get; set; }
-            public string special_properties { get; set; }
-            public string release_form { get; set; }
-
         }
 
         //Перечень препаратов в корзине
@@ -65,45 +58,6 @@ namespace pharmacy
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
-            
-            //Подгрузка и запись категорий товаров
-                try
-                {
-                    menuStrip3.Items.Clear();
-                    DBConnection.command.CommandText = "SELECT name FROM pharmacy.category;";
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                textBox = new System.Windows.Forms.TextBox()
-                                {
-                                    Multiline = true,
-                                    Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
-                                    ReadOnly = true
-                                };
-                                textBox.Text = reader.GetString(reader.GetOrdinal("name"));
-                                host = new ToolStripControlHost(textBox)
-                                {
-                                    AutoSize = false // Отключаем автоматическое определение размеров
-                                };
-                                menuStrip3.Items.Add(host);
-                                textBox.Click += TextBox_Click;
-                            }
-                            categoryMenu = true;
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                }
-                catch
-                {
-
-                }
         }
 
         private void UserForm_Load(object sender, EventArgs e)
@@ -132,15 +86,11 @@ namespace pharmacy
                             comboBox2.Items.Add(reader.GetString("expiration_date"));
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень сроков годности лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //Подгрузка производителей для фильтров
@@ -158,15 +108,11 @@ namespace pharmacy
                             comboBox3.Items.Add(reader.GetString("name"));
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень производителей лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //Подгрузка форм выпуска для фильтра
@@ -182,15 +128,11 @@ namespace pharmacy
                             comboBox4.Items.Add(reader.GetString("release_form"));
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень форм выпуска лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //Подгрузка категорий
@@ -220,15 +162,11 @@ namespace pharmacy
                         categoryMenu = true;
 
                     }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень категорий лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //Подгрузка истории заказов
@@ -270,15 +208,11 @@ namespace pharmacy
                         }
 
                     }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень совершенных заказов", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //Подгрузка аптек для совершения заказа
@@ -294,15 +228,11 @@ namespace pharmacy
                             comboBox1.Items.Add(reader.GetString(reader.GetOrdinal("name")));
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось получить перечень аптек", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -415,12 +345,6 @@ namespace pharmacy
                 EditNameMedicines = dataGridView1.CurrentRow.Cells[1].Value.ToString();
                 EditCostsMedicines = Int32.Parse(dataGridView1.CurrentRow.Cells[2].Value.ToString());
                 EditOnPrescriptionMedicines = dataGridView1.CurrentRow.Cells[5].Value.ToString();
-                EditBestBeforeDateMedicines = dataGridView1.CurrentRow.Cells[6].Value.ToString();
-                EditVolumeMedicines = dataGridView1.CurrentRow.Cells[7].Value.ToString();
-                EditPrimaryPackagingMedicines = dataGridView1.CurrentRow.Cells[8].Value.ToString();
-                EditActiveSubstanceMedicines = dataGridView1.CurrentRow.Cells[9].Value.ToString();
-                EditSpecialPropertiesMedicines = dataGridView1.CurrentRow.Cells[10].Value.ToString();
-                EditReleaseFormMedicines = dataGridView1.CurrentRow.Cells[11].Value.ToString();
 
 
                 Editcount = Int32.Parse(textBox1.Text);
@@ -431,12 +355,6 @@ namespace pharmacy
                     costs = EditCostsMedicines,
                     on_prescription = EditOnPrescriptionMedicines,
                     count = Editcount,
-                    best_before_date = EditBestBeforeDateMedicines,
-                    volume = EditVolumeMedicines,
-                    primary_packaging = EditPrimaryPackagingMedicines,
-                    active_substance = EditActiveSubstanceMedicines,
-                    special_properties = EditSpecialPropertiesMedicines,
-                    release_form = EditReleaseFormMedicines
                 }
                 );
                 textBox1.Text = null;
@@ -468,7 +386,7 @@ namespace pharmacy
             }
 
             dataGridView3.DataSource = BasketService.dtBasket;
-            dataGridView3.Columns["id"].Visible = false;
+            //dataGridView3.Columns["id"].Visible = false;
         }
 
 
@@ -576,17 +494,12 @@ namespace pharmacy
                         }
 
                     }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
                 }
             }
             catch
             {
-
+                MessageBox.Show("Не удалось сохранить совершенный заказ", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            basketCountingValues();
         }
 
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e) //Перерасчет даты доставки в зависимости от выбранного пункта выдачи
@@ -603,6 +516,11 @@ namespace pharmacy
         }
 
         private void textBox7_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }

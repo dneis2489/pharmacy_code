@@ -324,7 +324,7 @@ namespace pharmacy
         {
             if (comboBox7.SelectedIndex != -1)
             {
-                string choice = comboBox5.SelectedItem.ToString();
+                string choice = comboBox7.SelectedItem.ToString();
                 char id = choice[0];
                 int statId = Int32.Parse(id.ToString());
 
@@ -355,7 +355,7 @@ namespace pharmacy
         {
             if (comboBox8.SelectedIndex != -1)
             {
-                string choice = comboBox5.SelectedItem.ToString();
+                string choice = comboBox8.SelectedItem.ToString();
                 char id = choice[0];
                 int catId = Int32.Parse(id.ToString());
                 if(catId == 1)
@@ -481,9 +481,9 @@ namespace pharmacy
 
         private void button25_Click(object sender, EventArgs e) //Рейтинг лекарств
         {
-            chart1.Visible = true;
+            chart1.Visible = false;
             dataGridView1.Visible = false;
-            dataGridView2.Visible = false;
+            dataGridView2.Visible = true;
             StatisticsService.getTopMedicines();
             dataGridView2.DataSource = StatisticsService.dtStat2;
         }
@@ -522,6 +522,11 @@ namespace pharmacy
         }
 
         private void groupBox10_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }

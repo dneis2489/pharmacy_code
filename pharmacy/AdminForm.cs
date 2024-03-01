@@ -197,7 +197,7 @@ namespace pharmacy
                 if (dtShop != null)
                 {
                     DataView dv = new DataView(dtShop);
-                    dv.RowFilter = $"best_before_date LIKE '%{selectedValue}%'";
+                    dv.RowFilter = $"expiration_date LIKE '%{selectedValue}%'";
                     dataGridView1.DataSource = dv;
                 }
 
