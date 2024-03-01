@@ -15,14 +15,49 @@ namespace pharmacy
         {
         }
 
+        //Добавить график работы
         public void Add(string opening, string ending, string openingOnWeekands, string endingOnWeekands)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`pharmacy_schedule`
+                                                        (`opening_time`,
+                                                        `ending_time`,
+                                                        `opening_time_on_weekands`,
+                                                        `ending_time_on_weekands`)
+                                                     VALUES
+                                                        ('" + opening + @"',
+                                                        '" + ending + @"',
+                                                        '" + openingOnWeekands + @"',
+                                                        '" + endingOnWeekands + @"');
+                                                     ";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
+        //Удалить график работы
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`pharmacy_schedule`
+                                                     WHERE id = " + id + ";";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         //Подгрузка графиков работ для добавления Магазина

@@ -10,14 +10,43 @@ namespace pharmacy.service
 {
     public class CategoryService:IService<List<string>>
     {
+        //Добавить категорию товаров
         public void Add(string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`category`
+                                                        (`name`)
+                                                     VALUES
+                                                        ('" + name + @"');
+                                                        ";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
-        public void Delete(int id)
+        //Удалить категорию
+        public void Delete(int id) 
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`category`
+                                                     WHERE id = " + id + ";";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public List<string> GetAll()

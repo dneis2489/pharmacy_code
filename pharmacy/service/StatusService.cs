@@ -10,14 +10,42 @@ namespace pharmacy.service
 {
     public class StatusService : IService<List<string>>
     {
+        //Добавить статус
         public void Add(string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`status`
+                                                        (`name`)
+                                                     VALUES
+                                                        ('" + name + @"');
+                                                        ";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
-        public void Delete(int id)
+        public void Delete(int id) //Удалить статус
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`status`
+                                                     WHERE id = " + id + ";";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public List<string> GetAll()

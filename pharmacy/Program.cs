@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pharmacy.exception;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace pharmacy
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AuthorizationForm());
+            AppDomain.CurrentDomain.UnhandledException += DbConnectionException.UnhandledExceptionHandler;
         }
     }
 }

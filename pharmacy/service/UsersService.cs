@@ -1,11 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy.service
 {
@@ -18,14 +14,65 @@ namespace pharmacy.service
 
         Medicine Medicine { get; set; } // TODO: а зачем?
 
-        public void Add(string name, string birth_day, string phone_number, string login, string password, int role_id, int pharmacy_id)
+        //Добавить пользователя
+        public void AddUser(string name, string birth_day, string phone_number, string login, string password, int role_id, int pharmacy_id)
         {
-            throw new NotImplementedException();
+            DateTime originalDate = DateTime.ParseExact(birth_day, "dd.MM.yyyy", null);
+            birth_day = originalDate.ToString("yyyy-MM-dd HH:mm:ss");
+            try
+            {
+                object pharmacy_id_obj = pharmacy_id;
+
+                if (pharmacy_id == 0)
+                {
+                    pharmacy_id_obj = null;
+                }
+
+                DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`users`
+                                                         (`name`,
+                                                         `birth_day`,
+                                                         `phone_number`,
+                                                         `login`,
+                                                         `password`,
+                                                         `role_id`,
+                                                         `pharmacy_id`)
+                                                     VALUES
+                                                         ('" + name + @"',
+                                                         '" + birth_day + @"',
+                                                         '" + phone_number + @"',
+                                                         '" + login + @"',
+                                                         '" + password + @"',
+                                                         " + role_id + @",
+                                                         " + pharmacy_id_obj + @");
+                                                         ";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
+        //Удалить пользователя
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`users`
+                                                     WHERE id = " + id + ";";
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         //Подгрузка системных ролей

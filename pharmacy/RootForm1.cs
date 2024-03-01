@@ -33,14 +33,24 @@ namespace pharmacy
         public CategoryService CategoryService { get; set; }
 
 
-
-        private void RootForm1_Load(object sender, EventArgs e)
+        private void ClearFormBeforeLoading()
         {
             //Вкладка добавить данные
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
             comboBox3.Items.Clear();
+            comboBox4.Items.Clear();
+            comboBox5.Items.Clear();
+            comboBox6.Items.Clear();
+            comboBox7.Items.Clear();
+            comboBox8.Items.Clear();
+        }
 
+        private void RootForm1_Load(object sender, EventArgs e)
+        {
+            //Вкладка добавить данные
+            ClearFormBeforeLoading();
+            
             //Подгрузка графиков работ для добавления Магазина
             ScheduleService.GetAll().ForEach(item => comboBox1.Items.Add(item));
 
@@ -50,30 +60,26 @@ namespace pharmacy
             pharmacies.ForEach(item => comboBox3.Items.Add(item));
 
             //Вкладка удалить данные
-            comboBox4.Items.Clear(); //Магазины
+            //Магазины
             pharmacies.ForEach(item => comboBox4.Items.Add(item));
 
             //Подгрузка графиков работ для добавления Магазина
-            comboBox5.Items.Clear(); //Графики
+            //Графики
             ScheduleService.GetAll().ForEach(item => comboBox5.Items.Add(item));
 
-            //Пользователи
-            comboBox6.Items.Clear(); 
+            //Пользователи            
             UsersService.GetAll().ForEach(item => comboBox6.Items.Add(item));
 
-            //Статусы
-            comboBox7.Items.Clear();
+            //Статусы            
             StatusService.GetAll().ForEach(item => comboBox7.Items.Add(item));
 
-            //Категории
-            comboBox8.Items.Clear();
+            //Категории            
             CategoryService.GetAll().ForEach(item => comboBox8.Items.Add(item));           
 
             //Вкладка статусы
             dataGridView1.Visible = false;
             dataGridView2.Visible = false;
             chart1.Visible = true;
-
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +92,7 @@ namespace pharmacy
                 char id = choice[0];
                 int sheduleId = Int32.Parse(id.ToString());
 
-                RootAddData.AddPharmacy(textBox1.Text, textBox2.Text, textBox3.Text, sheduleId);
+                PharmacyService.Add(textBox1.Text, textBox2.Text, textBox3.Text, sheduleId);
 
                 comboBox1.SelectedIndex = -1;
                 textBox1.Text = "";
@@ -111,7 +117,7 @@ namespace pharmacy
         {
             if (textBox5.Text != "")
             {
-                RootAddData.AddCategory(textBox5.Text);
+                CategoryService.Add(textBox5.Text);
                 textBox5.Text = "";
             }
             else
@@ -129,7 +135,7 @@ namespace pharmacy
         {
             if (textBox6.Text != "" && textBox7.Text != "" && textBox8.Text != "" && textBox9.Text != "")
             {
-                RootAddData.AddSchedule(textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text);
+                ScheduleService.Add(textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text);
                 textBox6.Text = "";
                 textBox7.Text = "";
                 textBox8.Text = "";
@@ -153,7 +159,7 @@ namespace pharmacy
         {
             if (textBox10.Text != "")
             {
-                RootAddData.AddStatus(textBox10.Text);
+                StatusService.Add(textBox10.Text);
                 textBox10.Text = "";
             }
             else
@@ -183,11 +189,11 @@ namespace pharmacy
                         string choicePharm = comboBox3.SelectedItem.ToString();
                         char pharm = choicePharm[0];
                         int pharmId = Int32.Parse(pharm.ToString());
-                        RootAddData.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, pharmId);
+                        UsersService.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, pharmId);
                     }
                     else
                     {
-                        RootAddData.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, 0);
+                        UsersService.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, 0);
                     }
                     textBox4.Text = "";
                     textBox11.Text = "";
@@ -238,7 +244,7 @@ namespace pharmacy
                 }
                 else
                 {
-                    RootDelData.DelPharmacy(pharmId);
+                    PharmacyService.Delete(pharmId);
                 }
 
 
@@ -268,7 +274,7 @@ namespace pharmacy
                 }
                 else
                 {
-                    RootDelData.DelShedule(cheduleId);
+                    ScheduleService.Delete(cheduleId);
                 }
                 
 
@@ -298,7 +304,7 @@ namespace pharmacy
                 }
                 else
                 {
-                    RootDelData.DelUser(userId);
+                    UsersService.Delete(userId);
                 }
 
                 comboBox6.SelectedItem = "";
@@ -328,7 +334,7 @@ namespace pharmacy
                 }
                 else
                 {
-                    RootDelData.DelStat(statId);
+                    StatusService.Delete(statId);
                 }
                 
 
@@ -358,7 +364,7 @@ namespace pharmacy
                 }
                 else
                 {
-                    RootDelData.DelCategory(catId);
+                    CategoryService.Delete(catId);
                 }
                 comboBox8.SelectedItem = "";
             }
