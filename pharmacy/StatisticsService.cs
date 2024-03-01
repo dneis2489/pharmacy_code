@@ -329,7 +329,7 @@ namespace pharmacy
                      FROM 
                              basket_has_users bhu
                      JOIN 
-                             medicines m ON bhu.basket_id = m.id
+                             medicines m ON bhu.medicines_id = m.id
                      GROUP BY 
                              OrderDate
                      ORDER BY 

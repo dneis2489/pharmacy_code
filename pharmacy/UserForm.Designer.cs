@@ -39,11 +39,6 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip3 = new System.Windows.Forms.MenuStrip();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.costs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.on_prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -75,6 +70,11 @@
             this.button7 = new System.Windows.Forms.Button();
             this.basket = new System.Windows.Forms.TabPage();
             this.button6 = new System.Windows.Forms.Button();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.costs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.on_prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -175,8 +175,8 @@
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
             this.name,
+            this.id,
             this.costs,
             this.on_prescription,
             this.count});
@@ -187,42 +187,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(763, 432);
             this.dataGridView2.TabIndex = 10;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "Наименование:";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // costs
-            // 
-            this.costs.DataPropertyName = "costs";
-            this.costs.HeaderText = "Стоимость:";
-            this.costs.Name = "costs";
-            this.costs.ReadOnly = true;
-            // 
-            // on_prescription
-            // 
-            this.on_prescription.DataPropertyName = "on_prescription";
-            this.on_prescription.HeaderText = "Рецепт";
-            this.on_prescription.Name = "on_prescription";
-            this.on_prescription.ReadOnly = true;
-            // 
-            // count
-            // 
-            this.count.DataPropertyName = "count";
-            this.count.HeaderText = "Количество:";
-            this.count.Name = "count";
-            this.count.ReadOnly = true;
             // 
             // label2
             // 
@@ -368,6 +332,7 @@
             // 
             this.dataGridView3.AllowUserToAddRows = false;
             this.dataGridView3.AllowUserToDeleteRows = false;
+            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Location = new System.Drawing.Point(140, 13);
             this.dataGridView3.Name = "dataGridView3";
@@ -546,6 +511,42 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "Наименование:";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // costs
+            // 
+            this.costs.DataPropertyName = "costs";
+            this.costs.HeaderText = "Стоимость:";
+            this.costs.Name = "costs";
+            this.costs.ReadOnly = true;
+            // 
+            // on_prescription
+            // 
+            this.on_prescription.DataPropertyName = "on_prescription";
+            this.on_prescription.HeaderText = "Рецепт";
+            this.on_prescription.Name = "on_prescription";
+            this.on_prescription.ReadOnly = true;
+            // 
+            // count
+            // 
+            this.count.DataPropertyName = "count";
+            this.count.HeaderText = "Количество:";
+            this.count.Name = "count";
+            this.count.ReadOnly = true;
+            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -606,16 +607,16 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn costs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn on_prescription;
-        private System.Windows.Forms.DataGridViewTextBoxColumn count;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage pharm;
         private System.Windows.Forms.TabPage ordres;
         private System.Windows.Forms.TabPage basket;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn costs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn on_prescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn count;
     }
 }

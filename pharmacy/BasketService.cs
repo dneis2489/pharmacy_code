@@ -1,7 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -131,58 +133,10 @@ namespace pharmacy
 
             try
             {
+
                 DBConnection.command.CommandText =
-                     @"SELECT MAX(id) FROM pharmacy.basket";
+                     @"SELECT id FROM pharmacy.pharmacy WHERE name like '" + adress + "'";
                 Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    id = 1;
-                }
-                else
-                {
-                    id = Int32.Parse(result.ToString()) + 1;
-                }
-
-                supId = id;
-                int i = 0;
-                foreach (var obj in med)
-                {
-                    DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`basket`
-                                                            (`id`,
-                                                            `name`,
-                                                            `costs`,
-                                                            `on_prescription`,
-                                                            `expiration_date`,
-                                                            `volume`,
-                                                            `packaged`,
-                                                            'units_of_measurement',
-                                                            `active_substance`,
-                                                            `special_properties`,
-                                                            `release_form`)
-                                                         VALUES
-                                                            (" + id + @",
-                                                            '"+ obj.name + @"',
-                                                            "+ obj.costs + @",
-                                                            "+ (obj.on_prescription == "По рецепту" ? 1 : 0) + @",
-                                                            '"+ obj.best_before_date + @"',
-                                                            "+ obj.volume + @",
-                                                            "+ obj.volume + @",  
-                                                            '"+ obj.primary_packaging + @"',
-                                                            '"+ obj.active_substance + @"',
-                                                            '"+ obj.special_properties + @"',
-                                                            '"+ obj.release_form + @"');";
-                    if (DBConnection.command.ExecuteNonQuery() < 0)
-                    {
-                        MessageBox.Show("Ошибка добавления значений в базу basket_has_users", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    id++;
-                    medCount[i] = obj.count;
-                    i++;
-                }
-
-                DBConnection.command.CommandText =
-                     @"SELECT id FROM pharmacy.pharmacy WHERE name like '"+ adress +"'";
-                result = DBConnection.command.ExecuteScalar();
                 if (result == null)
                 {
                     MessageBox.Show("Аптека с таким id не найдена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -192,34 +146,34 @@ namespace pharmacy
                     pharmId = Int32.Parse(result.ToString()) + 1;
                 }
 
-                for (i = 0; i < medCount.Length; i++)
+                foreach (UserForm.medicine medicine in med)
                 {
                     DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`basket_has_users`
-                                                            (`basket_id`,
-                                                            `users_id`,
-                                                            `basket_number`,
-                                                            `date`,
-                                                            `status_id`,
+                                                            (`date`,
                                                             `count`,
-                                                            `pharmacy_id`)
+                                                            `costs`,
+                                                            `pharmacy_id`,
+                                                            `basket_number`,
+                                                            `users_id`,
+                                                            `status_id`,
+                                                            `medicines_id`)
                                                          VALUES
-                                                            (" + supId + @",
-                                                            " + AuthorizationService.id +@",
+                                                            ('" + date + @"',
+                                                            " + medicine.count + @",
+                                                            " + medicine.costs + @",
+                                                            " + pharmId + @",
                                                             " + basketNumber + @",
-                                                            '" + date + @"',
+                                                            " + AuthorizationService.id + @",
                                                             " + (equalDate ? 2 : 1) + @",
-                                                            "+ medCount[i] + @",
-                                                            "+ pharmId + ");";
-                    if(DBConnection.command.ExecuteNonQuery() < 0)
+                                                            " + medicine.id + ");";
+                    if (DBConnection.command.ExecuteNonQuery() <= 0)
                     {
                         MessageBox.Show("Ошибка добавления значений в базу basket_has_users", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    supId++;
                 }
-
             }
-            catch 
-            { 
+            catch
+            {
 
             }
         }
@@ -235,7 +189,7 @@ namespace pharmacy
                                                         m.costs AS 'Стоимость:',
                                                         CASE WHEN m.on_prescription = 0 THEN 'Не требуется' ELSE 'Требуется' END AS 'Рецепт:',
                                                         m.expiration_date AS 'Срок годности:',
-                                                        m.volume AS 'Объем:',
+                                                        concat(m.volume, ' ' ,m.units_of_measurement) AS 'Объём',
                                                         m.primary_packaging AS 'Первичная упаковка:',
                                                         m.active_substance AS 'Активное вещество:',
                                                         m.special_properties AS 'Специальные свойства:',
@@ -244,7 +198,7 @@ namespace pharmacy
                                                         b.count AS 'Количество:'
                                                      FROM pharmacy.medicines m
                                                      JOIN medicine_factory f on f.id = m.medicine_factory_id
-                                                     JOIN basket_has_users b on b.basket_id = m.id
+                                                     JOIN basket_has_users b on b.medicines_id = m.id
                                                      where b.basket_number = " + id +";";
                 dtBasket.Clear();
                 DBConnection.dataAdapter.SelectCommand = DBConnection.command;

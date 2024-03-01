@@ -24,15 +24,13 @@ namespace pharmacy
                 DBConnection.command.CommandText =
                     @"SELECT 
                         p.id,
-                        p.name,
-                        b.name AS 'role',
-                        COALESCE(ph.pharmacy_id, '') AS 'pharmacy_id' 
+	                    p.name,
+		                b.name AS 'role',
+		                p.pharmacy_id AS 'pharmacy_id'  
                     FROM 
                         users p
                     JOIN 
                         pharmacy.role b ON p.role_id = b.id
-                    LEFT JOIN 
-                        pharmacy.pharmacy_has_users ph ON p.id = ph.users_id
                     WHERE 
                         p.login LIKE '" + login + "' AND p.password LIKE '" + password + "';";
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
@@ -48,7 +46,6 @@ namespace pharmacy
                             {
                                 pharmacy_id = reader.GetInt32(reader.GetOrdinal("pharmacy_id"));
                             }
-                            
                         }
                     }
                     else 

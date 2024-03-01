@@ -622,9 +622,9 @@ namespace pharmacy
 
         private void button25_Click(object sender, EventArgs e) //Рейтинг лекарств
         {
-            chart1.Visible = true;
+            chart1.Visible = false;
             dataGridView1.Visible = false;
-            dataGridView2.Visible = false;
+            dataGridView2.Visible = true;
             StatisticsService.getTopMedicines();
             dataGridView2.DataSource = StatisticsService.dtStat2;
         }
