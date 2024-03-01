@@ -39,7 +39,8 @@ namespace pharmacy
             //Подгрузка срока годности для фильтра в разделе "Лекарства в аптеке"
             try
             {
-                DBConnection.command.CommandText = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";
+                DBConnection.command.CommandText = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";    // в shopService  GetMedicinesExpirationDate()
+
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -65,7 +66,7 @@ namespace pharmacy
             {
                 DBConnection.command.CommandText = @"USE pharmacy;
                                                      SELECT distinct(f.name) FROM pharmacy.medicines m
-                                                     JOIN medicine_factory f on m.medicine_factory_id = f.id;";
+                                                     JOIN medicine_factory f on m.medicine_factory_id = f.id;"; // в shopService  GetFactoryNameByMedicineId(int id)
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -89,7 +90,7 @@ namespace pharmacy
             //Подгрузка формы выпуска для фильтра в разделе "Лекарства в аптеке"
             try
             {
-                DBConnection.command.CommandText = @"SELECT distinct(release_form) FROM pharmacy.medicines;";
+                DBConnection.command.CommandText = @"SELECT distinct(release_form) FROM pharmacy.medicines;";//  в shopService GetAllReleaseForm
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -131,7 +132,7 @@ namespace pharmacy
                                                      JOIN users u on b.users_id = u.id
                                                      JOIN status s on b.status_id = s.id
                                                      JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + AuthorizationService.pharmacy_id;
+                                                     WHERE p.id = " + AuthorizationService.pharmacy_id; // + GetOrdersInfosByPharmacyId(int id)
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -310,7 +311,7 @@ namespace pharmacy
             comboBox1.Items.Clear();
             try
             {
-                DBConnection.command.CommandText = @"SELECT name FROM pharmacy.status;";
+                DBConnection.command.CommandText = @"SELECT name FROM pharmacy.status;"; // StatusService в GetAllName
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -347,8 +348,8 @@ namespace pharmacy
                     DBConnection.command.CommandText = @"USE pharmacy;
                                                          UPDATE `pharmacy`.`basket_has_users`
                                                          SET
-                                                            `status_id` = (SELECT id FROM status WHERE name like '"+ comboBox1.SelectedItem.ToString() + @"')
-                                                         WHERE basket_number = " + textBox3.Text + ";";
+                                                            `status_id` = (SELECT id FROM status WHERE name like '"+ comboBox1.SelectedItem.ToString() + @"') 
+                                                         WHERE basket_number = " + textBox3.Text + ";"; // в BasketService  UpdateStatusByNameAndBasketNumber(int number, string name)
                     DBConnection.command.ExecuteNonQuery();
                 }
                 catch
@@ -372,7 +373,7 @@ namespace pharmacy
                                                      JOIN users u on b.users_id = u.id
                                                      JOIN status s on b.status_id = s.id
                                                      JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + AuthorizationService.pharmacy_id;
+                                                     WHERE p.id = " + AuthorizationService.pharmacy_id; // BasketService GetOrdersInfosByPharmacyId(int id)
                 using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
                 {
                     if (reader.HasRows)
