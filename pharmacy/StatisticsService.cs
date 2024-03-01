@@ -30,24 +30,6 @@ namespace pharmacy
             try
             {
                 DBConnection.command.CommandText =
-                     @"SELECT COUNT(DISTINCT DATE_FORMAT(date, '%Y-%m')) FROM basket_has_users
-                       where pharmacy_id = " + AuthorizationService.pharmacy_id;
-                Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    row = 0;
-                }
-                else
-                {
-                    row = Int32.Parse(result.ToString());
-                }
-
-                data = new string[row, 2];
-                int i = 0;
-
-                if (row > 0)
-                {
-                    DBConnection.command.CommandText =
                    @"USE pharmacy;    
                      SELECT 
                          DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
@@ -60,19 +42,18 @@ namespace pharmacy
                      ORDER BY 
                          PurchaseMonth;";
 
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
                     {
-                        if (reader.HasRows)
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
-                            }
+                            dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
                         }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -94,24 +75,6 @@ namespace pharmacy
             try
             {
                 DBConnection.command.CommandText =
-                     @"SELECT COUNT(DISTINCT DATE_FORMAT(date, '%Y-%m')) FROM basket_has_users
-                       where pharmacy_id = " + AuthorizationService.pharmacy_id;
-                Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    row = 0;
-                }
-                else
-                {
-                    row = Int32.Parse(result.ToString());
-                }
-
-                data = new string[row, 2];
-                int i = 0;
-
-                if (row > 0)
-                {
-                    DBConnection.command.CommandText =
                    @"USE pharmacy;    
                      SELECT 
                          DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
@@ -124,19 +87,18 @@ namespace pharmacy
                      ORDER BY 
                          PurchaseMonth;";
 
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
                     {
-                        if (reader.HasRows)
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
-                            }
+                            dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
                         }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -160,6 +122,7 @@ namespace pharmacy
                                                     GROUP BY users_id
                                                     ORDER BY 'Количество заказов' DESC;";
                 dtStat.Clear();
+                dtStat.Columns.Clear();
                 DBConnection.dataAdapter.SelectCommand = DBConnection.command;
                 DBConnection.dataAdapter.Fill(dtStat);
             }
@@ -185,23 +148,6 @@ namespace pharmacy
             try
             {
                 DBConnection.command.CommandText =
-                     @"SELECT COUNT(DISTINCT DATE_FORMAT(date, '%Y-%m')) FROM basket_has_users";
-                Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    row = 0;
-                }
-                else
-                {
-                    row = Int32.Parse(result.ToString());
-                }
-
-                data = new string[row, 2];
-                int i = 0;
-
-                if (row > 0)
-                {
-                    DBConnection.command.CommandText =
                    @"USE pharmacy;    
                      SELECT 
                          DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
@@ -213,19 +159,18 @@ namespace pharmacy
                      ORDER BY 
                          PurchaseMonth;";
 
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
                     {
-                        if (reader.HasRows)
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
-                            }
+                            dataTable.Rows.Add(reader.GetDateTime("PurchaseMonth"), reader.GetInt32("TotalCount"));
                         }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -247,21 +192,6 @@ namespace pharmacy
             try
             {
                 DBConnection.command.CommandText =
-                     @"SELECT COUNT(DISTINCT DATE_FORMAT(date, '%Y-%m')) FROM basket_has_users";
-                Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    row = 0;
-                }
-                else
-                {
-                    row = Int32.Parse(result.ToString());
-                }
-                int i = 0;
-
-                if (row > 0)
-                {
-                    DBConnection.command.CommandText =
                    @"USE pharmacy;    
                      SELECT 
                          DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
@@ -273,19 +203,18 @@ namespace pharmacy
                      ORDER BY 
                          PurchaseMonth;";
 
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
                     {
-                        if (reader.HasRows)
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                dataTable.Rows.Add(reader.GetString("PurchaseMonth"), reader.GetInt32("TotalCount"));
-                            }
+                            dataTable.Rows.Add(reader.GetString("PurchaseMonth"), reader.GetInt32("TotalCount"));
                         }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -307,21 +236,6 @@ namespace pharmacy
             try
             {
                 DBConnection.command.CommandText =
-                     @"SELECT COUNT(DISTINCT DATE_FORMAT(date, '%Y-%m')) FROM basket_has_users";
-                Object result = DBConnection.command.ExecuteScalar();
-                if (result == null)
-                {
-                    row = 0;
-                }
-                else
-                {
-                    row = Int32.Parse(result.ToString());
-                }
-                int i = 0;
-
-                if (row > 0)
-                {
-                    DBConnection.command.CommandText =
                    @"USE pharmacy;    
                      SELECT 
                          DATE_FORMAT(date, '%Y-%m') AS OrderDate,
@@ -335,19 +249,18 @@ namespace pharmacy
                      ORDER BY 
                              OrderDate";
 
-                    using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
                     {
-                        if (reader.HasRows)
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                dataTable.Rows.Add(reader.GetString("OrderDate"), reader.GetInt32("Revenue"));
-                            }
+                            dataTable.Rows.Add(reader.GetString("OrderDate"), reader.GetInt32("Revenue"));
                         }
-                        else
-                        {
-                            MessageBox.Show("Неправильный логин или пароль!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -357,12 +270,13 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static void getTopPharmacy() //Рейтинг магазинов
+        public static void getTopPharmacy() //Рейтинг аптек
         {
             try
             {
                 DBConnection.command.CommandText = @"SELECT * FROM pharmacy.top_pharmacy;";
                 dtStat.Clear();
+                dtStat.Columns.Clear();
                 DBConnection.dataAdapter.SelectCommand = DBConnection.command;
                 DBConnection.dataAdapter.Fill(dtStat);
             }
@@ -378,6 +292,7 @@ namespace pharmacy
             {
                 DBConnection.command.CommandText = @"SELECT * FROM pharmacy.top_medicines;";
                 dtStat2.Clear();
+                dtStat.Columns.Clear();
                 DBConnection.dataAdapter.SelectCommand = DBConnection.command;
                 DBConnection.dataAdapter.Fill(dtStat2);
             }

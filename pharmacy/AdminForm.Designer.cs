@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Наименование = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Стоимость = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,12 +69,12 @@
             this.button5 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pharmacy = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.orders = new System.Windows.Forms.TabPage();
             this.statistic = new System.Windows.Forms.TabPage();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -280,16 +280,16 @@
             // 
             // chart1
             // 
-            chartArea6.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chart1.Legends.Add(legend6);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(191, 4);
             this.chart1.Name = "chart1";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chart1.Series.Add(series6);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(1003, 486);
             this.chart1.TabIndex = 44;
             this.chart1.Text = "chart1";
@@ -333,7 +333,7 @@
             this.dataGridView3.AllowUserToResizeRows = false;
             this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(191, 3);
+            this.dataGridView3.Location = new System.Drawing.Point(194, 3);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.ReadOnly = true;
             this.dataGridView3.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
@@ -459,6 +459,15 @@
             this.pharmacy.Text = "Лекарства в аптеке";
             this.pharmacy.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(1037, 496);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(146, 23);
+            this.button7.TabIndex = 60;
+            this.button7.Text = "Выгрузить в Excel";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
             // orders
             // 
             this.orders.Controls.Add(this.menuStrip2);
@@ -497,34 +506,6 @@
             this.statistic.Text = "Статистика";
             this.statistic.UseVisualStyleBackColor = true;
             // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(1044, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(166, 23);
-            this.button6.TabIndex = 61;
-            this.button6.Text = "Выход";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(1037, 496);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(146, 23);
-            this.button7.TabIndex = 60;
-            this.button7.Text = "Выгрузить в Excel";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(1048, 496);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(146, 23);
-            this.button8.TabIndex = 61;
-            this.button8.Text = "Выгрузить в Excel";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.button4);
@@ -536,6 +517,25 @@
             this.groupBox1.TabIndex = 62;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выберите статистику";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(1048, 496);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(146, 23);
+            this.button8.TabIndex = 61;
+            this.button8.Text = "Выгрузить в Excel";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1044, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(166, 23);
+            this.button6.TabIndex = 61;
+            this.button6.Text = "Выход";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // AdminForm
             // 
