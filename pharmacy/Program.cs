@@ -18,7 +18,7 @@ namespace pharmacy
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AuthorizationForm());
-            AppDomain.CurrentDomain.UnhandledException += DbConnectionException.UnhandledExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += DbConnectionException.UnhandledExceptionHandler;           
         }
     }
 }

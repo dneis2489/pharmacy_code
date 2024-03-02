@@ -3,21 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace pharmacy
 {
-    internal class BasketService
+    public class BasketService
     {
         public static string date;
         public static int adressId, number_basket, medicineId, pharmacyId, countInPharmacy;
         public static bool equalDate = false;
         public static int id, supId, pharmId = 0;
         static public DataTable dtBasket = new DataTable();
-
 
 
         public static string OrerDate(int[] id, string adress) //Расчет даты доставки
@@ -208,16 +204,59 @@ namespace pharmacy
             }
         }
 
-        string GetOrdersInfosByPharmacyId(int id) 
+        public List<string> GetOrdersInfosByPharmacyId(int id) 
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = @"USE pharmacy;
+                                                     SELECT DISTINCT 
+                                                        b.basket_number,
+                                                        u.name AS user,
+                                                        s.name AS status_id, 
+                                                        b.date
+                                                     FROM pharmacy.basket_has_users b
+                                                     JOIN users u on b.users_id = u.id
+                                                     JOIN status s on b.status_id = s.id
+                                                     JOIN pharmacy p on b.pharmacy_id = p.id
+                                                     WHERE p.id = " + id;
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add("Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
+                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nИмя заказчика: " + reader.GetString(reader.GetOrdinal("user")) + "\r\n");                            
+                        }
+                    }                    
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
 
-        string UpdateStatusByNameAndBasketNumber(int number, string name) 
+        public void UpdateStatusByNameAndBasketNumber(string number, string name) 
         {
-            throw new NotImplementedException();
+            try
+            {
+                DBConnection.command.CommandText = @"USE pharmacy;
+                                                         UPDATE `pharmacy`.`basket_has_users`
+                                                         SET
+                                                            `status_id` = (SELECT id FROM status WHERE name like '"  + name + @"') 
+                                                         WHERE basket_number = " + number + ";";
+                DBConnection.command.ExecuteNonQuery();
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
     }
-
 }

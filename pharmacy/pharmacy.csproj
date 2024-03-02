@@ -105,10 +105,9 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="exception\DbConnectionException.cs" />
     <Compile Include="service\AuthorizationService.cs" />
     <Compile Include="service\BasketService.cs" />
-    <Compile Include="DBConnection.cs" />
+    <Compile Include="data\DBConnection.cs" />
     <Compile Include="AuthorizationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +131,7 @@
     <Compile Include="service\UsersService.cs" />
     <Compile Include="service\ShopService.cs" />
     <Compile Include="service\StatisticsService.cs" />
+    <Compile Include="data\SQLExecutor.cs" />
     <Compile Include="UserForm.cs">
       <SubType>Form</SubType>
     </Compile>

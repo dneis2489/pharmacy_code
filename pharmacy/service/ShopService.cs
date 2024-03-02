@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -6,12 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy
 {
-    internal class ShopService
+    public class ShopService
     {
-        static public DataTable dtShop = new DataTable();
+        public ShopService()
+        {
+            dtShop = new DataTable();
+            SQLExecutor = new SQLExecutor();
+        }
+
+
+        static public DataTable dtShop;
+        public SQLExecutor SQLExecutor { get;}
+
 
         public static void getMedicines() //Подгрузить перечень лекарств из всех аптек
         {
@@ -112,17 +123,49 @@ namespace pharmacy
             }
         }
 
-        string GetMedicinesExpirationDate() 
+        //Подгрузка срока годности для фильтра в разделе "Лекарства в аптеке"
+        public List<string> GetMedicinesExpirationDate() 
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+
+            //Подгрузка срока годности для фильтра в разделе "Лекарства в аптеке"
+            try
+            {
+                DBConnection.command.CommandText = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";    // в shopService  GetMedicinesExpirationDate()
+
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetString("expiration_date"));
+                        }
+                    }                   
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
-        string GetFactoryNameByMedicineId(int id) 
+
+        //Подгрузка производителей для фильтра в разделе "Лекарства в аптеке"
+        public List<string> GetMedicineWithFactory()
         {
-            throw new NotImplementedException();
+            string query = @"USE pharmacy;
+                                SELECT distinct(f.name) FROM pharmacy.medicines m
+                                    JOIN medicine_factory f on m.medicine_factory_id = f.id;";
+
+            return SQLExecutor.ExecuteSelectQuery(query, "name");
         }
-        string GetAllReleaseForm() 
+        public List<string> GetAllReleaseForm() 
         {
-            throw new NotImplementedException();
+            string query = @"SELECT distinct(release_form) FROM pharmacy.medicines;";
+
+            return SQLExecutor.ExecuteSelectQuery(query, "release_form");
         }
     }
 }

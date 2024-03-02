@@ -10,6 +10,13 @@ namespace pharmacy.service
 {
     public class StatusService : IService<List<string>>
     {
+        public StatusService()
+        {
+            SQLExecutor = new SQLExecutor();
+        }
+
+        SQLExecutor SQLExecutor { get; }
+
         //Добавить статус
         public void Add(string name)
         {
@@ -77,7 +84,8 @@ namespace pharmacy.service
 
         public List<string> GetAllName()
         {
-            throw new NotImplementedException();
+            string query = @"SELECT name FROM pharmacy.status;";
+            return SQLExecutor.ExecuteSelectQuery(query, "name");
         }
     }
 }

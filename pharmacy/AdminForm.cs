@@ -1,16 +1,10 @@
-﻿using Google.Protobuf.Collections;
-using MySql.Data.MySqlClient;
+﻿using pharmacy.service;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy
 {
@@ -23,9 +17,17 @@ namespace pharmacy
         public static bool changeForm = false;
         public static bool changePrescription = false;
 
+        public ShopService ShopService { get; }
+        public BasketService BasketService { get; }
+        public StatusService StatusService { get; }
+
+
         public AdminForm()
         {
             InitializeComponent();
+            ShopService = new ShopService();
+            BasketService = new BasketService();
+            StatusService = new StatusService();
         }
 
         private void AdminForm_Load(object sender, EventArgs e)
@@ -36,81 +38,16 @@ namespace pharmacy
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             textBox6.TextChanged += textBox6_TextChanged;
 
+
             //Подгрузка срока годности для фильтра в разделе "Лекарства в аптеке"
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";    // в shopService  GetMedicinesExpirationDate()
-
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox2.Items.Add(reader.GetString("expiration_date"));
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            ShopService.GetMedicinesExpirationDate().ForEach(item => comboBox2.Items.Add(item));
 
             //Подгрузка производителей для фильтра в разделе "Лекарства в аптеке"
-            try
-            {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                     SELECT distinct(f.name) FROM pharmacy.medicines m
-                                                     JOIN medicine_factory f on m.medicine_factory_id = f.id;"; // в shopService  GetFactoryNameByMedicineId(int id)
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox3.Items.Add(reader.GetString("name"));
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            ShopService.GetMedicineWithFactory().ForEach(item => comboBox3.Items.Add(item));
 
             //Подгрузка формы выпуска для фильтра в разделе "Лекарства в аптеке"
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT distinct(release_form) FROM pharmacy.medicines;";//  в shopService GetAllReleaseForm
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox4.Items.Add(reader.GetString("release_form"));
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
+            ShopService.GetAllReleaseForm().ForEach(item => comboBox4.Items.Add(item));
+            
             //Магазин
             ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
             dtShop = ShopService.dtShop;
@@ -120,51 +57,27 @@ namespace pharmacy
             menuStrip2.Items.Clear();
             System.Windows.Forms.TextBox textBox;
             ToolStripControlHost host;
-            try
+
+            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(AuthorizationService.pharmacy_id);
+
+            foreach (var item in ordersInfos)
             {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                     SELECT DISTINCT 
-                                                        b.basket_number,
-                                                        u.name AS user,
-                                                        s.name AS status_id, 
-                                                        b.date
-                                                     FROM pharmacy.basket_has_users b
-                                                     JOIN users u on b.users_id = u.id
-                                                     JOIN status s on b.status_id = s.id
-                                                     JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + AuthorizationService.pharmacy_id; // + GetOrdersInfosByPharmacyId(int id)
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                textBox = new System.Windows.Forms.TextBox()
                 {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            textBox = new System.Windows.Forms.TextBox()
-                            {
-                                Multiline = true,
-                                Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
-                                ReadOnly = true
-                            };
-                            textBox.Text = "Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
-                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nИмя заказчика: " + reader.GetString(reader.GetOrdinal("user")) + "\r\n";
-                            host = new ToolStripControlHost(textBox)
-                            {
-                                AutoSize = false // Отключаем автоматическое определение размеров
-                            };
-                            menuStrip2.Items.Add(host);
-                            textBox.Click += TextBox_Admin_Orders_Click;
-                        }
+                    Multiline = true,
+                    Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
+                textBox.Text = item;
 
+                host = new ToolStripControlHost(textBox)
+                {
+                    AutoSize = false // Отключаем автоматическое определение размеров
+                };
+
+                menuStrip2.Items.Add(host);
+                textBox.Click += TextBox_Admin_Orders_Click;
             }
 
             //Статистика
@@ -185,6 +98,8 @@ namespace pharmacy
             }
 
             chart1.Series.Add(series);
+
+            StatusService.GetAllName().ForEach(item => comboBox1.Items.Add(item)); //перенесено из метода TextBox_Admin_Orders_Click
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -307,30 +222,6 @@ namespace pharmacy
             endIndex = clickedTextBox.Text.IndexOf(Environment.NewLine, startIndex);
             textBox5.Text = clickedTextBox.Text.Substring(startIndex, endIndex - startIndex);
 
-
-            comboBox1.Items.Clear();
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT name FROM pharmacy.status;"; // StatusService в GetAllName
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox1.Items.Add(reader.GetString(reader.GetOrdinal("name")));
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
             dataGridView2.DataSource = BasketService.dtBasket;
             dataGridView2.Columns["id"].Visible = false;
 
@@ -343,71 +234,34 @@ namespace pharmacy
         {
             if(comboBox1.SelectedItem.ToString() != "" && textBox3.Text != "")
             {
-                try
-                {
-                    DBConnection.command.CommandText = @"USE pharmacy;
-                                                         UPDATE `pharmacy`.`basket_has_users`
-                                                         SET
-                                                            `status_id` = (SELECT id FROM status WHERE name like '"+ comboBox1.SelectedItem.ToString() + @"') 
-                                                         WHERE basket_number = " + textBox3.Text + ";"; // в BasketService  UpdateStatusByNameAndBasketNumber(int number, string name)
-                    DBConnection.command.ExecuteNonQuery();
-                }
-                catch
-                {
-
-                }
+                BasketService.UpdateStatusByNameAndBasketNumber(textBox3.Text, comboBox1.SelectedItem.ToString());                
             }
 
             System.Windows.Forms.TextBox textBox;
             ToolStripControlHost host;
             menuStrip2.Items.Clear();
-            try
+
+            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(AuthorizationService.pharmacy_id);
+
+            foreach (var item in ordersInfos)
             {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                     SELECT DISTINCT 
-                                                        b.basket_number,
-                                                        u.name AS user,
-                                                        s.name AS status_id, 
-                                                        b.date
-                                                     FROM pharmacy.basket_has_users b
-                                                     JOIN users u on b.users_id = u.id
-                                                     JOIN status s on b.status_id = s.id
-                                                     JOIN pharmacy p on b.pharmacy_id = p.id
-                                                     WHERE p.id = " + AuthorizationService.pharmacy_id; // BasketService GetOrdersInfosByPharmacyId(int id)
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                textBox = new System.Windows.Forms.TextBox()
                 {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            textBox = new System.Windows.Forms.TextBox()
-                            {
-                                Multiline = true,
-                                Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
-                                ReadOnly = true
-                            };
-                            textBox.Text = "Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
-                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nИмя заказчика: " + reader.GetString(reader.GetOrdinal("user")) + "\r\n";
-                            host = new ToolStripControlHost(textBox)
-                            {
-                                AutoSize = false // Отключаем автоматическое определение размеров
-                            };
-                            menuStrip2.Items.Add(host);
-                            textBox.Click += TextBox_Admin_Orders_Click;
-                        }
+                    Multiline = true,
+                    Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch
-            {
+                textBox.Text = item;
 
-            }
+                host = new ToolStripControlHost(textBox)
+                {
+                    AutoSize = false // Отключаем автоматическое определение размеров
+                };
 
+                menuStrip2.Items.Add(host);
+                textBox.Click += TextBox_Admin_Orders_Click;
+            }           
         }
 
 
