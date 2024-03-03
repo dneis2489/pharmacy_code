@@ -14,9 +14,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace pharmacy
 {
-    public partial class RootForm1 : Form
+    public partial class RootController : Form
     {
-        public RootForm1()
+        public RootController()
         {
             InitializeComponent();
             ScheduleService = new ScheduleService();
@@ -26,11 +26,12 @@ namespace pharmacy
             CategoryService = new CategoryService();
         }
 
-        private ScheduleService ScheduleService { get; set; }
-        private UsersService UsersService { get; set; }
-        private PharmacyService PharmacyService { get; set; }
-        private StatusService StatusService { get; set; }
-        private CategoryService CategoryService { get; set; }
+        private ScheduleService ScheduleService { get; }
+        private UsersService UsersService { get; }
+        private PharmacyService PharmacyService { get; }
+        private StatusService StatusService { get; }
+        private CategoryService CategoryService { get; }
+        private StatisticsService StatisticsService { get; }
 
         private void ClearFormBeforeLoading()
         {
@@ -493,7 +494,7 @@ namespace pharmacy
         private void button27_Click(object sender, EventArgs e) //Кнопка "Выход"
         {
             this.Hide();
-            AuthorizationForm form = new AuthorizationForm();
+            AuthorizationController form = new AuthorizationController();
             form.Show();
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace pharmacy
 {
-    partial class AuthorizationForm
+    partial class AuthorizationController
     {
         /// <summary>
         /// Обязательная переменная конструктора.

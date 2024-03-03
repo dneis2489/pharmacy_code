@@ -9,7 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace pharmacy
 {
-    public partial class AdminForm : Form
+    public partial class AdminController : Form
     {
 
         static public DataTable dtShop = new DataTable();
@@ -21,14 +21,16 @@ namespace pharmacy
         private ShopService ShopService { get; }
         private BasketService BasketService { get; }
         private StatusService StatusService { get; }
+        private StatisticsService StatisticsService { get; }
         private User User;
 
-        public AdminForm(User user)
+        public AdminController(User user)
         {
             InitializeComponent();
             ShopService = new ShopService();
             BasketService = new BasketService();
             StatusService = new StatusService();
+            StatisticsService = new StatisticsService();
             User = user;
         }
 
@@ -51,7 +53,7 @@ namespace pharmacy
             ShopService.GetAllReleaseForm().ForEach(item => comboBox4.Items.Add(item));
             
             //Магазин
-            ShopService.getMedicinesInAdmin(User.PharmacyId);
+            ShopService.GetMedicinesInAdmin(User.PharmacyId);
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
 
@@ -166,7 +168,7 @@ namespace pharmacy
             }
             else
             {
-                ShopService.getMedicinesInAdmin(User.PharmacyId);
+                ShopService.GetMedicinesInAdmin(User.PharmacyId);
                 dtShop = ShopService.dtShop;
                 dataGridView1.DataSource = dtShop;
             }
@@ -184,7 +186,7 @@ namespace pharmacy
             changeForm = false;
             changePrescription = false;
 
-            ShopService.getMedicinesInAdmin(User.PharmacyId);
+            ShopService.GetMedicinesInAdmin(User.PharmacyId);
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
         }
@@ -343,7 +345,7 @@ namespace pharmacy
         private void button6_Click(object sender, EventArgs e) //Кнопка ВЫХОД
         {
             this.Hide();
-            AuthorizationForm form = new AuthorizationForm();
+            AuthorizationController form = new AuthorizationController();
             form.Show();
         }
 

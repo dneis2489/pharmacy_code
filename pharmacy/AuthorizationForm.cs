@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace pharmacy
 {
-    public partial class AuthorizationForm : Form
+    public partial class AuthorizationController : Form
     {
         private AuthorizationService AuthorizationService;
         private User authorizedUser;
-        public AuthorizationForm()
+        public AuthorizationController()
         {
             InitializeComponent();
             AuthorizationService = new AuthorizationService();
@@ -56,17 +56,17 @@ namespace pharmacy
             {
                 case ("Пользователь"):
                     this.Hide();
-                    UserForm userForm = new UserForm(authorizedUser);
+                    UserController userForm = new UserController(authorizedUser);
                     userForm.Show();
                     break;
                 case ("Администратор"):
                     this.Hide();
-                    AdminForm adminForm = new AdminForm(authorizedUser);
+                    AdminController adminForm = new AdminController(authorizedUser);
                     adminForm.Show();
                     break;
                 case ("Супер администратор"):
                     this.Hide();
-                    RootForm1 rooForm = new RootForm1();
+                    RootController rooForm = new RootController();
                     rooForm.Show();
                     break;
             }

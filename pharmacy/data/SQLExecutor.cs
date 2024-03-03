@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,24 @@ namespace pharmacy
             }
 
             return result;
-        }        
+        }
+        
+        public void ExecuteSelectQueryWithFill(string query, DataTable dataTable)
+        {
+            try
+            {
+                DBConnection.command.CommandText = query;
+                dataTable.Clear();
+                DBConnection.dataAdapter.SelectCommand = DBConnection.command;
+                DBConnection.dataAdapter.Fill(dataTable);
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Ошибка при получении данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+
+        }
     }    
 }
 

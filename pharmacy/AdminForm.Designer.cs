@@ -1,6 +1,6 @@
 ﻿namespace pharmacy
 {
-    partial class AdminForm
+    partial class AdminController
     {
         /// <summary>
         /// Required designer variable.

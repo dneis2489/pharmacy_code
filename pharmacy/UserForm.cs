@@ -17,24 +17,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy
 {
-    public partial class UserForm : Form
+    public partial class UserController : Form
     {
         bool categoryMenu = false;
         static public DataTable dtShop = new DataTable();
         private User User;
 
-        //Препарат в корзине
-        public class medicine
-        {
-            public int id { get; set; }
-            public string name { get; set; }
-            public int costs { get; set; }
-            public string on_prescription { get; set; }
-            public int count { get; set; }
-        }
 
         //Перечень препаратов в корзине
-        List <medicine> med = new List<medicine>();
+        List <Medicine> med = new List<Medicine>();
 
         public static string EditOnPrescriptionMedicines, 
             EditNameMedicines, 
@@ -51,7 +42,7 @@ namespace pharmacy
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
 
-        public UserForm(User user)
+        public UserController(User user)
         {
             InitializeComponent();
             User = user;
@@ -60,7 +51,7 @@ namespace pharmacy
             BasketService = new BasketService();
             CategoryService = new CategoryService();
 
-            ShopService.getMedicines();
+            ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
             dataGridView1.Columns["id"].Visible = false;
@@ -75,7 +66,7 @@ namespace pharmacy
         {
             ToolStripControlHost host;
             System.Windows.Forms.TextBox textBox;
-            ShopService.getMedicines();
+            ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
             dataGridView1.Columns["id"].Visible = false;
@@ -160,14 +151,14 @@ namespace pharmacy
             System.Windows.Forms.TextBox clickedTextBox = (System.Windows.Forms.TextBox)sender;
             if (clickedTextBox.Text == "Все")
             {
-                ShopService.getMedicines();
+                ShopService.GetMedicines();
                 dataGridView1.DataSource = ShopService.dtShop;
                 dataGridView1.Columns["id"].Visible = false;
                 //dataGridView1.Columns["category"].Visible = false;
             }
             else
             {
-                ShopService.updateViaCategory(clickedTextBox.Text);
+                ShopService.UpdateViaCategory(clickedTextBox.Text);
                 dataGridView1.DataSource = ShopService.dtShop;
                 dataGridView1.Columns["id"].Visible = false;
             }
@@ -233,7 +224,7 @@ namespace pharmacy
             }
             else
             {
-                ShopService.getMedicines();
+                ShopService.GetMedicines();
                 dtShop = ShopService.dtShop;
                 dataGridView1.DataSource = dtShop;
             }
@@ -246,7 +237,7 @@ namespace pharmacy
             comboBox4.SelectedIndex = -1;
             textBox7.Text = "";
 
-            ShopService.getMedicines();
+            ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
         }
@@ -262,13 +253,13 @@ namespace pharmacy
 
 
                 Editcount = Int32.Parse(textBox1.Text);
-                med.Add(new medicine
+                med.Add(new Medicine
                 {
-                    id = EditIdMedicines,
-                    name = EditNameMedicines,
-                    costs = EditCostsMedicines,
-                    on_prescription = EditOnPrescriptionMedicines,
-                    count = Editcount,
+                    Id = EditIdMedicines,
+                    Name = EditNameMedicines,
+                    Costs = EditCostsMedicines,
+                    OnPrescription = EditOnPrescriptionMedicines,
+                    Count = Editcount,
                 }
                 );
                 textBox1.Text = null;
@@ -317,12 +308,12 @@ namespace pharmacy
 
             for (int i = 0; i < med.Count; i++)
             {
-                basket_costs += med[i].costs * med[i].count;
+                basket_costs += med[i].Costs * med[i].Count;
             }
 
             for (int i = 0; i < med.Count; i++)
             {
-                medicineId[i] = med[i].id;
+                medicineId[i] = med[i].Id;
             }
             textBox3.Text = basket_costs.ToString();
             textBox2.Text = null;
@@ -338,7 +329,7 @@ namespace pharmacy
         private void button2_Click(object sender, EventArgs e) //Кнопка "удалить из списка"
         {
             EditIdMedicines = Int32.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
-            medicine itemToRemove = med.Find(x => x.id == EditIdMedicines);
+            Medicine itemToRemove = med.Find(x => x.Id == EditIdMedicines);
             med.Remove(itemToRemove);
             basketCountingValues();
 
@@ -349,8 +340,8 @@ namespace pharmacy
             if(textBox4.Text != "")
             {
                 EditIdMedicines = Int32.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
-                medicine itemToUpdate = med.Find(x => x.id == EditIdMedicines);
-                itemToUpdate.count = Int32.Parse(textBox4.Text);
+                Medicine itemToUpdate = med.Find(x => x.Id == EditIdMedicines);
+                itemToUpdate.Count = Int32.Parse(textBox4.Text);
                 basketCountingValues();
                 textBox4.Text = "";
             }
@@ -409,7 +400,7 @@ namespace pharmacy
             int[] medicineId = new int[med.Count];
             for (int i = 0; i < med.Count; i++)
             {
-                medicineId[i] = med[i].id;
+                medicineId[i] = med[i].Id;
             }
             if (comboBox1.SelectedItem != null || med.Count == 0)
             {
@@ -434,7 +425,7 @@ namespace pharmacy
         private void button6_Click(object sender, EventArgs e) //Кнопка выход
         {
             this.Hide();
-            AuthorizationForm form = new AuthorizationForm();
+            AuthorizationController form = new AuthorizationController();
             form.Show();
         }
 

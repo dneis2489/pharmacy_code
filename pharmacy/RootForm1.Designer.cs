@@ -1,6 +1,6 @@
 ﻿namespace pharmacy
 {
-    partial class RootForm1
+    partial class RootController
     {
         /// <summary>
         /// Required designer variable.

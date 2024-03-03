@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pharmacy.service;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace pharmacy
         static public DataTable dtBasket = new DataTable();
 
         //TODO: разбить метод мб
-        public static string OrerDate(int[] id, string adress) //Расчет даты доставки
+        public string OrerDate(int[] id, string adress) //Расчет даты доставки
         {
             DBConnection.command.CommandText =
                    @"SELECT id FROM pharmacy.pharmacy
@@ -116,7 +117,7 @@ namespace pharmacy
             return number_basket;
         }
 
-        public static void AddBasketInDB(List<UserForm.medicine> med, string adress, string date, string basketNumber, int userId) //Добавление заказа в БД
+        public void AddBasketInDB(List<Medicine> med, string adress, string date, string basketNumber, int userId) //Добавление заказа в БД
         {
             int[] medCount = new int[med.Count];
             DateTime dateNow = DateTime.Now;
@@ -140,7 +141,7 @@ namespace pharmacy
                     pharmId = Int32.Parse(result.ToString()) + 1;
                 }
 
-                foreach (UserForm.medicine medicine in med)
+                foreach (Medicine medicine in med)
                 {
                     DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`basket_has_users`
                                                             (`date`,
@@ -153,13 +154,13 @@ namespace pharmacy
                                                             `medicines_id`)
                                                          VALUES
                                                             ('" + date + @"',
-                                                            " + medicine.count + @",
-                                                            " + medicine.costs + @",
+                                                            " + medicine.Count + @",
+                                                            " + medicine.Costs + @",
                                                             " + pharmId + @",
                                                             " + basketNumber + @",
                                                             " + userId + @",
                                                             " + (equalDate ? 2 : 1) + @",
-                                                            " + medicine.id + ");";
+                                                            " + medicine.Id + ");";
                     if (DBConnection.command.ExecuteNonQuery() <= 0)
                     {
                         MessageBox.Show("Ошибка добавления значений в базу basket_has_users", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -172,7 +173,7 @@ namespace pharmacy
             }
         }
 
-        public static void GetBasketMedicines(int id) //Получение истории заказов
+        public void GetBasketMedicines(int id) //Получение истории заказов
         {
             try
             {

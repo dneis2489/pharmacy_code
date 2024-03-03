@@ -24,7 +24,7 @@ namespace pharmacy
         private SQLExecutor SQLExecutor { get;}
 
 
-        public void getMedicines() //Подгрузить перечень лекарств из всех аптек
+        public void GetMedicines() //Подгрузить перечень лекарств из всех аптек
         {
             try
             {
@@ -57,7 +57,7 @@ namespace pharmacy
             }
         }
 
-        public void getMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
+        public void GetMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
         {
             try
             {
@@ -88,7 +88,7 @@ namespace pharmacy
             }
         }
 
-        public void updateViaCategory(string name) //Обновить список лекарств в соответствии с выбранным фильтром
+        public void UpdateViaCategory(string name) //Обновить список лекарств в соответствии с выбранным фильтром
         {
             try
             {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static pharmacy.UserForm;
+using static pharmacy.UserController;
 using System.Windows.Forms;
 using System.Data;
 
@@ -18,7 +18,7 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //СТАТИСТИКА ДЛЯ АДМИНА
-        public static DataTable AdminGetCountBuyMedicinesStat(int pharmacyId) //Количество купленного товара в магазине для Админа
+        public DataTable AdminGetCountBuyMedicinesStat(int pharmacyId) //Количество купленного товара в магазине для Админа
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
@@ -62,7 +62,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static DataTable AdminGetCountBasketStat(int pharmacyId) //Количество покупок в магазине для Админа
+        public DataTable AdminGetCountBasketStat(int pharmacyId) //Количество покупок в магазине для Админа
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
@@ -106,7 +106,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static void getTopUsersInPharmacy(int pharmacyId) //Рейтинг покупателей для Админа
+        public void getTopUsersInPharmacy(int pharmacyId) //Рейтинг покупателей для Админа
         {
             try
             {
@@ -134,7 +134,7 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //СТАТИСТИКА ДЛЯ СУПЕР-ПОЛЬЗОВАТЕЛЯ
-        public static DataTable RootGetCountBuyMedicinesStat() //Количество проданной продукции
+        public DataTable RootGetCountBuyMedicinesStat() //Количество проданной продукции
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
@@ -177,7 +177,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static DataTable RootGetCountBasketStat() //Количество заказов
+        public DataTable RootGetCountBasketStat() //Количество заказов
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
@@ -220,7 +220,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static DataTable RootGetRevenueByMonth() //Доходы
+        public DataTable RootGetRevenueByMonth() //Доходы
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
@@ -265,7 +265,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static void getTopPharmacy() //Рейтинг магазинов
+        public void getTopPharmacy() //Рейтинг магазинов
         {
             try
             {
@@ -281,7 +281,7 @@ namespace pharmacy
             }
 
         }
-        public static void getTopMedicines() //Рейтинг лекарств
+        public void getTopMedicines() //Рейтинг лекарств
         {
             try
             {

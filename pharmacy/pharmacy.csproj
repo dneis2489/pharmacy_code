@@ -125,7 +125,7 @@
     </Compile>
     <Compile Include="service\CategoryService.cs" />
     <Compile Include="service\IService.cs" />
-    <Compile Include="Medicine.cs" />
+    <Compile Include="data\Medicine.cs" />
     <Compile Include="service\PharmacyService.cs" />
     <Compile Include="service\ScheduleService.cs" />
     <Compile Include="service\StatusService.cs" />
