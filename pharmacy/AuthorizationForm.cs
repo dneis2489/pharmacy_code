@@ -1,5 +1,4 @@
-﻿using pharmacy.controller;
-using pharmacy.data;
+﻿using pharmacy.data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +14,12 @@ namespace pharmacy
 {
     public partial class AuthorizationForm : Form
     {
-        private AuthorizationController AuthorizationController;
+        private AuthorizationService AuthorizationService;
         private User authorizedUser;
         public AuthorizationForm()
         {
             InitializeComponent();
-            AuthorizationController = new AuthorizationController();
+            AuthorizationService = new AuthorizationService();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -37,14 +36,17 @@ namespace pharmacy
         {
             string login = textBox1.Text;
             string password = textBox2.Text;
-            authorizedUser = AuthorizationController.Authorize(login, password);
-            if (authorizedUser != null)
+            if (login != null && password != null)
             {
-                OpenForm();
+                authorizedUser = AuthorizationService.AuthorizationUser(login, password);
+                if (authorizedUser != null)
+                {
+                    OpenForm();
+                }
             }
             else
             {
-                label3.Text = AuthorizationController.CheckLoginPassword(login, password);
+                label3.Text = "Заполните все обязательные поля!";
             }           
         }
 
@@ -54,12 +56,12 @@ namespace pharmacy
             {
                 case ("Пользователь"):
                     this.Hide();
-                    UserForm userForm = new UserForm();
+                    UserForm userForm = new UserForm(authorizedUser);
                     userForm.Show();
                     break;
                 case ("Администратор"):
                     this.Hide();
-                    AdminForm adminForm = new AdminForm();
+                    AdminForm adminForm = new AdminForm(authorizedUser);
                     adminForm.Show();
                     break;
                 case ("Супер администратор"):

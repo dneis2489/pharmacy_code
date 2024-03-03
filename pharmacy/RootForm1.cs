@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pharmacy.data;
 using pharmacy.service;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,6 @@ namespace pharmacy
 {
     public partial class RootForm1 : Form
     {
-        //  TODO: добавить контроллеры (ctrl + \ + T - показать список todo)
         public RootForm1()
         {
             InitializeComponent();
@@ -26,12 +26,11 @@ namespace pharmacy
             CategoryService = new CategoryService();
         }
 
-        public ScheduleService ScheduleService { get; set; }
-        public UsersService UsersService { get; set; }
-        public PharmacyService PharmacyService { get; set; }
-        public StatusService StatusService { get; set; }
-        public CategoryService CategoryService { get; set; }
-
+        private ScheduleService ScheduleService { get; set; }
+        private UsersService UsersService { get; set; }
+        private PharmacyService PharmacyService { get; set; }
+        private StatusService StatusService { get; set; }
+        private CategoryService CategoryService { get; set; }
 
         private void ClearFormBeforeLoading()
         {

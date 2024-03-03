@@ -60,8 +60,6 @@ namespace pharmacy
             BasketService = new BasketService();
             CategoryService = new CategoryService();
 
-            ToolStripControlHost host;
-            System.Windows.Forms.TextBox textBox;
             ShopService.getMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
@@ -334,7 +332,7 @@ namespace pharmacy
                 textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
             textBox5.Text = BasketService.BasketNumber().ToString();
-            textBox6.Text = AuthorizationService.name;
+            textBox6.Text = User.Name;
         }
 
         private void button2_Click(object sender, EventArgs e) //Кнопка "удалить из списка"

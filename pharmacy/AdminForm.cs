@@ -1,4 +1,5 @@
-﻿using pharmacy.service;
+﻿using pharmacy.data;
+using pharmacy.service;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,17 +18,18 @@ namespace pharmacy
         private static bool changeForm = false;
         private static bool changePrescription = false;
 
-        public ShopService ShopService { get; }
-        public BasketService BasketService { get; }
-        public StatusService StatusService { get; }
+        private ShopService ShopService { get; }
+        private BasketService BasketService { get; }
+        private StatusService StatusService { get; }
+        private User User;
 
-
-        public AdminForm()
+        public AdminForm(User user)
         {
             InitializeComponent();
             ShopService = new ShopService();
             BasketService = new BasketService();
             StatusService = new StatusService();
+            User = user;
         }
 
         private void AdminForm_Load(object sender, EventArgs e)
@@ -49,7 +51,7 @@ namespace pharmacy
             ShopService.GetAllReleaseForm().ForEach(item => comboBox4.Items.Add(item));
             
             //Магазин
-            ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+            ShopService.getMedicinesInAdmin(User.PharmacyId);
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
 
@@ -58,7 +60,7 @@ namespace pharmacy
             System.Windows.Forms.TextBox textBox;
             ToolStripControlHost host;
 
-            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(AuthorizationService.pharmacy_id);
+            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(User.PharmacyId);
 
             foreach (var item in ordersInfos)
             {
@@ -84,7 +86,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat(User.PharmacyId);
 
             chart1.Series.Clear();
 
@@ -164,7 +166,7 @@ namespace pharmacy
             }
             else
             {
-                ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+                ShopService.getMedicinesInAdmin(User.PharmacyId);
                 dtShop = ShopService.dtShop;
                 dataGridView1.DataSource = dtShop;
             }
@@ -182,7 +184,7 @@ namespace pharmacy
             changeForm = false;
             changePrescription = false;
 
-            ShopService.getMedicinesInAdmin(AuthorizationService.pharmacy_id);
+            ShopService.getMedicinesInAdmin(User.PharmacyId);
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
         }
@@ -241,7 +243,7 @@ namespace pharmacy
             ToolStripControlHost host;
             menuStrip2.Items.Clear();
 
-            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(AuthorizationService.pharmacy_id);
+            List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(User.PharmacyId);
 
             foreach (var item in ordersInfos)
             {
@@ -281,7 +283,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat(User.PharmacyId);
 
             chart1.Series.Clear();
 
@@ -310,7 +312,7 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.AdminGetCountBasketStat();
+            DataTable dummyData = StatisticsService.AdminGetCountBasketStat(User.PharmacyId);
 
             chart1.Series.Clear();
 
@@ -330,7 +332,7 @@ namespace pharmacy
         {
             chart1.Visible = false;
             dataGridView3.Visible = true;
-            StatisticsService.getTopUsersInPharmacy();
+            StatisticsService.getTopUsersInPharmacy(User.PharmacyId);
             dataGridView3.DataSource = StatisticsService.dtStat;
 
         }

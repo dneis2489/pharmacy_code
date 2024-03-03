@@ -16,8 +16,6 @@ namespace pharmacy
         static public MySqlDataAdapter dataAdapter;
         static MySqlConnection connect;
         static public MySqlCommand command;
-        static public MySqlDataReader reader;
-
 
         public static bool ConnectionDB()
         {

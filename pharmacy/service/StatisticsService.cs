@@ -18,14 +18,13 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //СТАТИСТИКА ДЛЯ АДМИНА
-        public static DataTable AdminGetCountBuyMedicinesStat() //Количество купленного товара в магазине для Админа
+        public static DataTable AdminGetCountBuyMedicinesStat(int pharmacyId) //Количество купленного товара в магазине для Админа
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
             dataTable.Columns.Add("Quantity", typeof(int));
 
             string[,] data = { { }, { } };
-            int row;
 
             try
             {
@@ -36,7 +35,7 @@ namespace pharmacy
                          SUM(count) AS TotalCount
                      FROM 
                          basket_has_users
-                     WHERE pharmacy_id = " + AuthorizationService.pharmacy_id + @"
+                     WHERE pharmacy_id = " + pharmacyId + @"
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
@@ -63,14 +62,13 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static DataTable AdminGetCountBasketStat() //Количество покупок в магазине для Админа
+        public static DataTable AdminGetCountBasketStat(int pharmacyId) //Количество покупок в магазине для Админа
         {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
             dataTable.Columns.Add("Quantity", typeof(int));
 
             string[,] data = { { }, { } };
-            int row;
 
             try
             {
@@ -81,7 +79,7 @@ namespace pharmacy
                          COUNT(distinct(basket_number)) AS TotalCount
                      FROM 
                          basket_has_users
-                     WHERE pharmacy_id = " + AuthorizationService.pharmacy_id + @"
+                     WHERE pharmacy_id = " + pharmacyId + @"
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
@@ -108,7 +106,7 @@ namespace pharmacy
             }
             return dataTable;
         }
-        public static void getTopUsersInPharmacy() //Рейтинг покупателей для Админа
+        public static void getTopUsersInPharmacy(int pharmacyId) //Рейтинг покупателей для Админа
         {
             try
             {
@@ -118,7 +116,7 @@ namespace pharmacy
                                                         COUNT(distinct(b.basket_number)) as 'Количество заказов'
                                                     FROM basket_has_users b
                                                     JOIN users u on b.users_id = u.id
-                                                    where b.pharmacy_id = " + AuthorizationService.pharmacy_id + @"
+                                                    where b.pharmacy_id = " + pharmacyId + @"
                                                     GROUP BY users_id
                                                     ORDER BY 'Количество заказов' DESC;";
                 dtStat.Clear();
@@ -143,7 +141,6 @@ namespace pharmacy
             dataTable.Columns.Add("Quantity", typeof(int));
 
             string[,] data = { { }, { } };
-            int row;
 
             try
             {
@@ -187,7 +184,6 @@ namespace pharmacy
             dataTable.Columns.Add("Quantity", typeof(int));
 
             string[,] data = { { }, { } };
-            int row;
 
             try
             {
@@ -231,7 +227,6 @@ namespace pharmacy
             dataTable.Columns.Add("Quantity", typeof(int));
 
             string[,] data = { { }, { } };
-            int row;
 
             try
             {
