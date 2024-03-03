@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace pharmacy.data
 {
-    class User
+    public class User
     {
         public int UserId { get; set; }
         public string Name { get; set; }

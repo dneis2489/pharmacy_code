@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pharmacy.data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,19 @@ namespace pharmacy.controller
             AuthorizationService = new AuthorizationService();
         }
 
-        public string Authorize(string login, string password)
+        public User Authorize(string login, string password)
+        {
+            if (CheckLoginPassword(login, password) == "")
+            {
+                return AuthorizationService.AuthorizationUser(login, password);
+            }
+            return null;
+        }
+
+        public string CheckLoginPassword (string login, string password)
         {
             if (login != null && password != null)
             {
-                AuthorizationService.AuthorizationUser(login, password);
                 return "";
             }
             else

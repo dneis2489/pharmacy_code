@@ -105,6 +105,7 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="controller\AdminController.cs" />
     <Compile Include="controller\AuthorizationController.cs" />
     <Compile Include="data\User.cs" />
     <Compile Include="service\AuthorizationService.cs" />

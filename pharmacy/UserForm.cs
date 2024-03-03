@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities;
+using pharmacy.data;
 using pharmacy.service;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace pharmacy
     {
         bool categoryMenu = false;
         static public DataTable dtShop = new DataTable();
+        private User User;
 
         //Препарат в корзине
         public class medicine
@@ -47,9 +49,10 @@ namespace pharmacy
         private PharmacyService PharmacyService { get; }
         private BasketService BasketService { get; }
 
-        public UserForm()
+        public UserForm(User user)
         {
             InitializeComponent();
+            User = user;
             ShopService = new ShopService();
             PharmacyService = new PharmacyService();
             BasketService = new BasketService();

@@ -1,4 +1,5 @@
 ﻿using pharmacy.controller;
+using pharmacy.data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace pharmacy
     public partial class AuthorizationForm : Form
     {
         private AuthorizationController AuthorizationController;
+        private User authorizedUser;
         public AuthorizationForm()
         {
             InitializeComponent();
@@ -33,20 +35,22 @@ namespace pharmacy
 
         private void button1_Click(object sender, EventArgs e) //Кнопка авторизоваться
         {
-            string authorizeResult = AuthorizationController.Authorize(textBox1.Text, textBox2.Text);
-            if (authorizeResult!="")
+            string login = textBox1.Text;
+            string password = textBox2.Text;
+            authorizedUser = AuthorizationController.Authorize(login, password);
+            if (authorizedUser != null)
             {
-                label3.Text = authorizeResult;
+                OpenForm();
             }
             else
             {
-                OpenForm();
-            }            
+                label3.Text = AuthorizationController.CheckLoginPassword(login, password);
+            }           
         }
 
         public void OpenForm()
         {
-            switch (AuthorizationService.role)
+            switch (authorizedUser.Role)
             {
                 case ("Пользователь"):
                     this.Hide();

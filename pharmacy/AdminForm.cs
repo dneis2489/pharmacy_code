@@ -12,10 +12,10 @@ namespace pharmacy
     {
 
         static public DataTable dtShop = new DataTable();
-        public static bool changeDate = false;
-        public static bool changeFactory = false;
-        public static bool changeForm = false;
-        public static bool changePrescription = false;
+        private static bool changeDate = false;
+        private static bool changeFactory = false;
+        private static bool changeForm = false;
+        private static bool changePrescription = false;
 
         public ShopService ShopService { get; }
         public BasketService BasketService { get; }
