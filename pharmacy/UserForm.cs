@@ -46,10 +46,10 @@ namespace pharmacy
         {
             InitializeComponent();
             User = user;
-            ShopService = new ShopService();
-            PharmacyService = new PharmacyService();
-            BasketService = new BasketService();
-            CategoryService = new CategoryService();
+            ShopService = ShopService.Instance;
+            PharmacyService = PharmacyService.Instance;
+            BasketService = BasketService.Instance;
+            CategoryService = CategoryService.Instance;
 
             ShopService.GetMedicines();
             dtShop = ShopService.dtShop;

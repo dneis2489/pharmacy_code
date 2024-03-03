@@ -15,6 +15,24 @@ namespace pharmacy
 
     internal class AuthorizationService
     {
+        private AuthorizationService()
+        {
+        }
+        private static AuthorizationService instance;
+
+        public static AuthorizationService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new AuthorizationService();
+                }
+                return instance;
+            }
+        }
+
+
         public User AuthorizationUser(string login, string password)
         {
             User user = null;

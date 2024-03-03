@@ -1,20 +1,33 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static pharmacy.UserController;
 using System.Windows.Forms;
 using System.Data;
 
 namespace pharmacy
 {
-    internal class StatisticsService
+    public class StatisticsService
     {
+        private StatisticsService()
+        {
+            dtStat = new DataTable();
+            dtStat2 = new DataTable();
+        }
+        private static StatisticsService instance;
 
-        static public DataTable dtStat = new DataTable();
-        static public DataTable dtStat2 = new DataTable();
+        public static StatisticsService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new StatisticsService();
+                }
+                return instance;
+            }
+        }
+
+        static public DataTable dtStat;
+        static public DataTable dtStat2;
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //СТАТИСТИКА ДЛЯ АДМИНА

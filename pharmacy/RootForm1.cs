@@ -19,11 +19,11 @@ namespace pharmacy
         public RootController()
         {
             InitializeComponent();
-            ScheduleService = new ScheduleService();
-            UsersService = new UsersService();
-            PharmacyService = new PharmacyService();
-            StatusService = new StatusService();
-            CategoryService = new CategoryService();
+            ScheduleService = ScheduleService.Instance;
+            UsersService = UsersService.Instance;
+            PharmacyService = PharmacyService.Instance;
+            StatusService = StatusService.Instance;
+            CategoryService = CategoryService.Instance;
         }
 
         private ScheduleService ScheduleService { get; }
@@ -86,7 +86,7 @@ namespace pharmacy
         //Раздел ДОБАВИТЬ ДАННЫЕ
         private void button1_Click(object sender, EventArgs e) //Добавить магазин - Добавить
         {
-            if (comboBox1.SelectedItem != "" && textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "")
+            if (!Equals(comboBox1.SelectedItem, "") && textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "")
             {
                 string choice = comboBox1.SelectedItem.ToString();
                 char id = choice[0];
@@ -176,7 +176,7 @@ namespace pharmacy
         private void button10_Click(object sender, EventArgs e) //Добавить пользователей - Добавить
         {
             if (textBox4.Text != "" && textBox11.Text != "" && textBox12.Text != "" && textBox13.Text != "" && textBox14.Text != "" && textBox15.Text != "" &&
-                comboBox2.SelectedItem != "")
+                !Equals(comboBox2.SelectedItem, ""))
             {
                 if (textBox14.Text == textBox15.Text && ((comboBox2.SelectedItem.ToString() == "Администратор" && comboBox3.SelectedIndex != -1) || (comboBox2.SelectedItem.ToString() != "Администратор")))
                 {
