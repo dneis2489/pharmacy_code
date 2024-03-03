@@ -104,10 +104,10 @@ namespace pharmacy
         }
 
         //Подгрузка срока годности для фильтра в разделе "Лекарства в аптеке"
-        public List<string> GetMedicinesExpirationDate() 
+        public List<string>     () 
         {
             string query = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";
-            return SQLExecutor.ExecuteSelectQuery(query, "expirationd_date");
+            return SQLExecutor.ExecuteSelectQuery(query, "expiration_date");
         }
 
         //Подгрузка производителей для фильтра в разделе "Лекарства в аптеке"

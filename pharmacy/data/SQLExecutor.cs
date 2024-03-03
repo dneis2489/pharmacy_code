@@ -40,7 +40,7 @@ namespace pharmacy
                             {
                                 if (result.IndexOf(filed) == -1)
                                 {
-                                    res += reader.GetString(filed) + ". ";
+                                    res += reader.GetString(filed);
                                 }
                                 else
                                 {
