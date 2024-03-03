@@ -38,9 +38,9 @@ namespace pharmacy
                             string res = "";
                             foreach (var filed in returnedField)
                             {
-                                if (result.IndexOf(filed) == -1)
+                                if (result.IndexOf(filed) != -1)
                                 {
-                                    res += reader.GetString(filed);
+                                    res += reader.GetString(filed) + ". ";
                                 }
                                 else
                                 {
