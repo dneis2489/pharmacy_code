@@ -33,66 +33,27 @@ namespace pharmacy.service
         //Добавить категорию товаров
         public void Add(string name)
         {
-            try
-            {
+            string query =
                 DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`category`
                                                         (`name`)
                                                      VALUES
                                                         ('" + name + @"');
                                                         ";
-                if (DBConnection.command.ExecuteNonQuery() < 0)
-                {
-                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            SQLExecutor.ExecuteInsertOrDelete(query, "Ошибка добавления значений в базу");
         }
 
         //Удалить категорию
         public void Delete(int id) 
         {
-            try
-            {
-                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`category`
+            string query = @"DELETE FROM `pharmacy`.`category`
                                                      WHERE id = " + id + ";";
-                if (DBConnection.command.ExecuteNonQuery() < 0)
-                {
-                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            SQLExecutor.ExecuteInsertOrDelete(query, "Ошибка удаления значений из базы");
         }
 
         public List<string> GetAll()
         {
-            List<string> result = new List<string>();
-
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.category;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-                        }
-                    }                                       
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            return result;
+            string query = @"SELECT * FROM pharmacy.category;";
+            return SQLExecutor.ExecuteSelectQuery(query, "id", "name");
         }
 
 

@@ -446,7 +446,7 @@ namespace pharmacy
             chart1.Visible = false;
             dataGridView1.Visible = true;
             dataGridView2.Visible = false;
-            StatisticsService.getTopPharmacy();
+            StatisticsService.GetTopPharmacy();
             dataGridView1.DataSource = StatisticsService.dtStat;
         }
 
@@ -484,7 +484,7 @@ namespace pharmacy
             chart1.Visible = false;
             dataGridView1.Visible = false;
             dataGridView2.Visible = true;
-            StatisticsService.getTopMedicines();
+            StatisticsService.GetTopMedicines();
             dataGridView2.DataSource = StatisticsService.dtStat2;
         }
 

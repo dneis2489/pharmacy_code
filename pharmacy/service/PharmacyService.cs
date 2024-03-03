@@ -34,9 +34,7 @@ namespace pharmacy.service
         //Добавить аптеку
         public void Add(string name, string adress, string phone_number, int pharmacy_schedule)
         {
-            try
-            {
-                DBConnection.command.CommandText = @"INSERT INTO `pharmacy`.`pharmacy`
+            string query = @"INSERT INTO `pharmacy`.`pharmacy`
                                                         (`name`,
                                                         `address`,
                                                         `phone_number`,
@@ -47,62 +45,22 @@ namespace pharmacy.service
                                                         '" + phone_number + @"',
                                                         " + pharmacy_schedule + @");
                                                      ";
-                if (DBConnection.command.ExecuteNonQuery() < 0)
-                {
-                    MessageBox.Show("Ошибка добавления значений в базу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            SQLExecutor.ExecuteInsertOrDelete(query, "Ошибка добавления значений в базу");
         }
 
         //Удалить аптеку
         public void Delete(int id) 
         {
-            try
-            {
-                DBConnection.command.CommandText = @"DELETE FROM `pharmacy`.`pharmacy`
+            string query = @"DELETE FROM `pharmacy`.`pharmacy`
                                                      WHERE id = " + id + ";";
-                if (DBConnection.command.ExecuteNonQuery() < 0)
-                {
-                    MessageBox.Show("Ошибка удаления значений из базы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            SQLExecutor.ExecuteInsertOrDelete(query, "Ошибка удаления значений из базы");
         }
 
-        //TODO:SQLExecutor
         //Подгрузка магазинов для добавления пользователя
         public List<string> GetAll()
         {
-            List<string> result = new List<string>();
-
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT * FROM pharmacy.pharmacy;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(reader.GetInt32("id").ToString() + ". " + reader.GetString("name").ToString());
-
-                        }
-                    }                   
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            return result;
+            string query = @"SELECT * FROM pharmacy.pharmacy;";
+            return SQLExecutor.ExecuteSelectQuery(query, "id", "name");
         }
 
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace pharmacy
 {
@@ -73,8 +74,50 @@ namespace pharmacy
             {
                 MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Ошибка при получении данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
 
+        public void ExecuteInsertOrDelete(string query, string error)
+        {
+            try
+            {
+                DBConnection.command.CommandText = query;
+                if (DBConnection.command.ExecuteNonQuery() < 0)
+                {
+                    MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch
+            {
+                MessageBox.Show(ErrorMessage, "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
+        public DataTable ExecuteQueryWithNewData(string query, string firstColumn, string lastColumn, DataTable dataTable)
+        {
+            try
+            {
+                DBConnection.command.CommandText = query;
+
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            dataTable.Rows.Add(reader.GetDateTime(firstColumn), reader.GetInt32(lastColumn));
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return dataTable;
         }
     }    
 }
