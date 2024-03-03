@@ -470,8 +470,8 @@ namespace pharmacy
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["OrderDate"];
+                int quantity = (int)row["Revenue"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
