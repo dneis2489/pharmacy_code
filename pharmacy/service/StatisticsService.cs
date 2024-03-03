@@ -132,19 +132,19 @@ namespace pharmacy
         public DataTable RootGetRevenueByMonth() //Доходы
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
-            dataTable.Columns.Add("Quantity", typeof(int));
+            dataTable.Columns.Add("OrderDate", typeof(DateTime));
+            dataTable.Columns.Add("Revenue", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m') AS OrderDate,
+                         DATE_FORMAT(date, '%Y-%m-01') AS OrderDate,
                          SUM(m.costs * bhu.count) AS Revenue
                      FROM 
                              basket_has_users bhu
                      JOIN 
                              medicines m ON bhu.medicines_id = m.id
                      GROUP BY 
-                             DATE_FORMAT(date, '%Y-%m')
+                             DATE_FORMAT(date, '%Y-%m-01')
                      ORDER BY 
                              OrderDate;";
             return SQLExecutor.ExecuteQueryWithNewData(query, "OrderDate", "Revenue", dataTable);
