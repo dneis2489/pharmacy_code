@@ -10,6 +10,12 @@ namespace pharmacy
 {
     public class SQLExecutor
     {
+        public SQLExecutor(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+
+        public string ErrorMessage { get; }
 
         /// <summary>
         /// Выполняет select запрос с одним возвращаемым полем 
@@ -33,8 +39,8 @@ namespace pharmacy
                 }
             }
             catch
-            {
-                MessageBox.Show("Ошибка подключения к базе с аптеками", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            {                
+                MessageBox.Show(ErrorMessage, "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             return result;

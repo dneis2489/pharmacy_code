@@ -116,7 +116,7 @@ namespace pharmacy
             return number_basket;
         }
 
-        public static void AddBasketInDB(List<UserForm.medicine> med, string adress, string date, string basketNumber) //Добавление заказа в БД
+        public static void AddBasketInDB(List<UserForm.medicine> med, string adress, string date, string basketNumber, int userId) //Добавление заказа в БД
         {
             int[] medCount = new int[med.Count];
             DateTime dateNow = DateTime.Now;
@@ -157,7 +157,7 @@ namespace pharmacy
                                                             " + medicine.costs + @",
                                                             " + pharmId + @",
                                                             " + basketNumber + @",
-                                                            " + AuthorizationService.id + @",
+                                                            " + userId + @",
                                                             " + (equalDate ? 2 : 1) + @",
                                                             " + medicine.id + ");";
                     if (DBConnection.command.ExecuteNonQuery() <= 0)
@@ -256,6 +256,42 @@ namespace pharmacy
             {
                 MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        public List<string> GetOrdersInfosByUserId(int userId)
+        {
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = @"USE pharmacy;
+                                                         SELECT DISTINCT 
+                                                           b.basket_number, 
+                                                           s.name AS status_id, 
+                                                           b.date, 
+                                                           p.name AS pharmacy_id
+                                                         FROM pharmacy.basket_has_users b
+                                                         JOIN status s on b.status_id = s.id
+                                                         JOIN pharmacy p on b.pharmacy_id = p.id
+                                                         WHERE users_id = " + userId + ";";
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add("Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
+                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nАдрес доставки: " + reader.GetString(reader.GetOrdinal("pharmacy_id")));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось получить перечень совершенных заказов", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
         }
 
     }

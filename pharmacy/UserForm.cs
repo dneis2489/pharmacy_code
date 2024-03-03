@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using Org.BouncyCastle.Utilities;
 using pharmacy.data;
 using pharmacy.service;
@@ -48,6 +49,7 @@ namespace pharmacy
         private ShopService ShopService { get; }
         private PharmacyService PharmacyService { get; }
         private BasketService BasketService { get; }
+        private CategoryService CategoryService { get; }
 
         public UserForm(User user)
         {
@@ -56,6 +58,7 @@ namespace pharmacy
             ShopService = new ShopService();
             PharmacyService = new PharmacyService();
             BasketService = new BasketService();
+            CategoryService = new CategoryService();
 
             ToolStripControlHost host;
             System.Windows.Forms.TextBox textBox;
@@ -93,84 +96,57 @@ namespace pharmacy
             comboBox4.Items.AddRange(ShopService.GetAllReleaseForm().ToArray());
 
             //Подгрузка категорий
-            try
+            var categories = CategoryService.GetAllName();
+
+            foreach (var item in categories)
             {
-                DBConnection.command.CommandText = "SELECT name FROM pharmacy.category;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                textBox = new System.Windows.Forms.TextBox()
                 {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            textBox = new System.Windows.Forms.TextBox()
-                            {
-                                Multiline = true,
-                                Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
-                                ReadOnly = true
-                            };
-                            textBox.Text = reader.GetString(reader.GetOrdinal("name"));
-                            host = new ToolStripControlHost(textBox)
-                            {
-                                AutoSize = false // Отключаем автоматическое определение размеров
-                            };
-                            menuStrip3.Items.Add(host);
-                            textBox.Click += TextBox_Click;
-                        }
-                        categoryMenu = true;
+                    Multiline = true,
+                    Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
 
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось получить перечень категорий лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                textBox.Text = item;
 
+                host = new ToolStripControlHost(textBox)
+                {
+                    AutoSize = false // Отключаем автоматическое определение размеров
+                };
+
+                menuStrip3.Items.Add(host);
+                textBox.Click += TextBox_Click;
+                
+            }
+            categoryMenu = true;
+
+            
             //Подгрузка истории заказов
             menuStrip2.Items.Clear();
             System.Windows.Forms.TextBox textBox1;
             ToolStripControlHost host1;
-            try
-            {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                         SELECT DISTINCT 
-                                                           b.basket_number, 
-                                                           s.name AS status_id, 
-                                                           b.date, 
-                                                           p.name AS pharmacy_id
-                                                         FROM pharmacy.basket_has_users b
-                                                         JOIN status s on b.status_id = s.id
-                                                         JOIN pharmacy p on b.pharmacy_id = p.id
-                                                         WHERE users_id = " + AuthorizationService.id + ";";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            textBox1 = new System.Windows.Forms.TextBox()
-                            {
-                                Multiline = true,
-                                Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
-                                ReadOnly = true
-                            };
-                            textBox1.Text = "Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
-                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nАдрес доставки: " + reader.GetString(reader.GetOrdinal("pharmacy_id"));
-                            host1 = new ToolStripControlHost(textBox1)
-                            {
-                                AutoSize = false // Отключаем автоматическое определение размеров
-                            };
-                            menuStrip2.Items.Add(host1);
-                            textBox1.Click += TextBox_My_Orders_Click;
-                        }
 
-                    }
-                }
-            }
-            catch
+            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
+
+            foreach (var orderInfo in ordersInfos)
             {
-                MessageBox.Show("Не удалось получить перечень совершенных заказов", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                textBox1 = new System.Windows.Forms.TextBox()
+                {
+                    Multiline = true,
+                    Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
+
+                textBox1.Text = orderInfo;
+
+                host1 = new ToolStripControlHost(textBox1)
+                {
+                    AutoSize = false // Отключаем автоматическое определение размеров
+                };
+
+                menuStrip2.Items.Add(host1);
+                textBox1.Click += TextBox_My_Orders_Click;
+            }           
 
             //Подгрузка аптек для совершения заказа
             comboBox1.Items.AddRange(PharmacyService.GetAllName().ToArray());
@@ -387,59 +363,47 @@ namespace pharmacy
             
         }
 
+        public void RefreshOrderList() 
+        {
+            //Подгрузка истории заказов
+            menuStrip2.Items.Clear();
+            System.Windows.Forms.TextBox textBox1;
+            ToolStripControlHost host;
+
+            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
+
+            foreach (var orderInfo in ordersInfos)
+            {
+                textBox1 = new System.Windows.Forms.TextBox()
+                {
+                    Multiline = true,
+                    Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
+
+                textBox1.Text = orderInfo;
+
+                host = new ToolStripControlHost(textBox1)
+                {
+                    AutoSize = false // Отключаем автоматическое определение размеров
+                };
+
+                menuStrip2.Items.Add(host);
+                textBox1.Click += TextBox_My_Orders_Click;
+            }
+        }
+
+
         private void button3_Click(object sender, EventArgs e) //Кнопка "Сделать заказ"
         {
-            BasketService.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text);
+            BasketService.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text, User.UserId);
             dataGridView2.DataSource = null;
             textBox2.Text = "";
             textBox3.Text = "";
             textBox5.Text = "";
             med.Clear();
-            menuStrip2.Items.Clear();
-            System.Windows.Forms.TextBox textBox1;
-            ToolStripControlHost host1;
-            //Обновление истории заказов
-            try
-            {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                         SELECT DISTINCT 
-                                                           b.basket_number, 
-                                                           s.name AS status_id, 
-                                                           b.date, 
-                                                           p.name AS pharmacy_id
-                                                         FROM pharmacy.basket_has_users b
-                                                         JOIN status s on b.status_id = s.id
-                                                         JOIN pharmacy p on b.pharmacy_id = p.id
-                                                         WHERE users_id = " + AuthorizationService.id + ";";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            textBox1 = new System.Windows.Forms.TextBox()
-                            {
-                                Multiline = true,
-                                Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
-                                ReadOnly = true
-                            };
-                            textBox1.Text = "Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
-                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nАдрес доставки: " + reader.GetString(reader.GetOrdinal("pharmacy_id"));
-                            host1 = new ToolStripControlHost(textBox1)
-                            {
-                                AutoSize = false // Отключаем автоматическое определение размеров
-                            };
-                            menuStrip2.Items.Add(host1);
-                            textBox1.Click += TextBox_My_Orders_Click;
-                        }
 
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось сохранить совершенный заказ", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            RefreshOrderList();
         }
 
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e) //Перерасчет даты доставки в зависимости от выбранного пункта выдачи

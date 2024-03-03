@@ -12,7 +12,7 @@ namespace pharmacy.service
     {
         public StatusService()
         {
-            SQLExecutor = new SQLExecutor();
+            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
 
         SQLExecutor SQLExecutor { get; }

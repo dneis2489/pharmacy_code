@@ -13,7 +13,7 @@ namespace pharmacy.service
         private SQLExecutor SQLExecutor;
         public PharmacyService() 
         { 
-            SQLExecutor = new SQLExecutor();
+            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
 
         //Добавить аптеку

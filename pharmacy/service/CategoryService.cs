@@ -10,6 +10,13 @@ namespace pharmacy.service
 {
     public class CategoryService:IService<List<string>>
     {
+        public CategoryService()
+        {
+            SQLExecutor = new SQLExecutor("Не удалось получить перечень категорий лекарств");
+        }
+
+        public SQLExecutor SQLExecutor { get; }
+
         //Добавить категорию товаров
         public void Add(string name)
         {
@@ -78,7 +85,8 @@ namespace pharmacy.service
 
         public List<string> GetAllName()
         {
-            throw new NotImplementedException();
+            string query = "SELECT name FROM pharmacy.category;";
+            return SQLExecutor.ExecuteSelectQuery(query, "name");
         }
     }
 }

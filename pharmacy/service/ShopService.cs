@@ -16,7 +16,7 @@ namespace pharmacy
         public ShopService()
         {
             dtShop = new DataTable();
-            SQLExecutor = new SQLExecutor();
+            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
 
 
@@ -24,7 +24,7 @@ namespace pharmacy
         private SQLExecutor SQLExecutor { get;}
 
 
-        public void GetMedicines() //Подгрузить перечень лекарств из всех аптек
+        public void getMedicines() //Подгрузить перечень лекарств из всех аптек
         {
             try
             {
@@ -57,7 +57,7 @@ namespace pharmacy
             }
         }
 
-        public void GetMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
+        public void getMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
         {
             try
             {
@@ -88,7 +88,7 @@ namespace pharmacy
             }
         }
 
-        public static void updateViaCategory(string name) //Обновить список лекарств в соответствии с выбранным фильтром
+        public void updateViaCategory(string name) //Обновить список лекарств в соответствии с выбранным фильтром
         {
             try
             {
