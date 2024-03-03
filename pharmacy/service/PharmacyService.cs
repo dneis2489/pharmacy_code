@@ -61,6 +61,7 @@ namespace pharmacy.service
             }
         }
 
+        //TODO:SQLExecutor
         //Подгрузка магазинов для добавления пользователя
         public List<string> GetAll()
         {

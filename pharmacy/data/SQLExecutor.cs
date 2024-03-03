@@ -21,7 +21,7 @@ namespace pharmacy
         /// <summary>
         /// Выполняет select запрос с одним возвращаемым полем 
         /// </summary>      
-        public List<string> ExecuteSelectQuery(string query, string returnedField)
+        public List<string> ExecuteSelectQuery(string query, params string[] returnedField)
         {
             List<string> result = new List<string>();
 
@@ -34,7 +34,20 @@ namespace pharmacy
                     {
                         while (reader.Read())
                         {
-                            result.Add(reader.GetString(returnedField));
+                            string res = "";
+                            foreach (var filed in returnedField)
+                            {
+                                if (result.IndexOf(filed) == -1)
+                                {
+                                    res += reader.GetString(filed) + ". ";
+                                }
+                                else
+                                {
+                                    res += reader.GetString(filed);
+                                }
+                            }
+                            result.Add(res);
+                            //result.Add(reader.GetString(returnedField));
                         }
                     }
                 }
