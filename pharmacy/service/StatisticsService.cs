@@ -144,9 +144,9 @@ namespace pharmacy
                      JOIN 
                              medicines m ON bhu.medicines_id = m.id
                      GROUP BY 
-                             OrderDate
+                             DATE_FORMAT(date, '%Y-%m')
                      ORDER BY 
-                             OrderDate";
+                             OrderDate;";
             return SQLExecutor.ExecuteQueryWithNewData(query, "OrderDate", "Revenue", dataTable);
         }
 
