@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
+using pharmacy.data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,11 +15,9 @@ namespace pharmacy
 
     internal class AuthorizationService
     {
-        static public string name, role;
-        static public int id, pharmacy_id;
-
-        static public void AuthorizationUser(string login, string password)
+        public User AuthorizationUser(string login, string password)
         {
+            User user = null;
             try
             {
                 DBConnection.command.CommandText =
@@ -39,14 +38,15 @@ namespace pharmacy
                     {
                         while (reader.Read())
                         {
-                            id = reader.GetInt32(reader.GetOrdinal("id"));
-                            name = reader.GetString(reader.GetOrdinal("name"));
-                            role = reader.GetString(reader.GetOrdinal("role"));
+                            int id = reader.GetInt32(reader.GetOrdinal("id"));
+                            string name = reader.GetString(reader.GetOrdinal("name"));
+                            string role = reader.GetString(reader.GetOrdinal("role"));
+                            int pharmacyId = 0;
                             if (role == "Администратор")
                             {
-                                pharmacy_id = reader.GetInt32(reader.GetOrdinal("pharmacy_id"));
+                                pharmacyId = reader.GetInt32(reader.GetOrdinal("pharmacy_id"));
                             }
-                            
+                             user = new User(id, name, role, pharmacyId);
                         }
                     }
                     else 
@@ -59,6 +59,7 @@ namespace pharmacy
             {
 
             }
+            return user;
         }
     }
 }

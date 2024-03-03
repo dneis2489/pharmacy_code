@@ -15,7 +15,7 @@ namespace pharmacy
         public static int id, supId, pharmId = 0;
         static public DataTable dtBasket = new DataTable();
 
-
+        //TODO: разбить метод мб
         public static string OrerDate(int[] id, string adress) //Расчет даты доставки
         {
             DBConnection.command.CommandText =

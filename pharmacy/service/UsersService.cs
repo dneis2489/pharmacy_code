@@ -127,6 +127,6 @@ namespace pharmacy.service
             }
 
             return result;
-        }        
+        }       
     }
 }

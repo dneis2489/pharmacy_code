@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities;
+using pharmacy.service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,10 +43,16 @@ namespace pharmacy
             EditReleaseFormMedicines;
 
         public static int Editcount, EditIdMedicines, EditCostsMedicines;
+        private ShopService ShopService { get; }
+        private PharmacyService PharmacyService { get; }
+        private BasketService BasketService { get; }
 
         public UserForm()
         {
             InitializeComponent();
+            ShopService = new ShopService();
+            PharmacyService = new PharmacyService();
+            BasketService = new BasketService();
 
             ToolStripControlHost host;
             System.Windows.Forms.TextBox textBox;
@@ -74,66 +81,13 @@ namespace pharmacy
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
 
             //Подгрузка сроков годности для фильтров
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox2.Items.Add(reader.GetString("expiration_date"));
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось получить перечень сроков годности лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            comboBox2.Items.AddRange(ShopService.GetMedicinesExpirationDate().ToArray());
 
             //Подгрузка производителей для фильтров
-            try
-            {
-                DBConnection.command.CommandText = @"USE pharmacy;
-                                                     SELECT distinct(f.name) FROM pharmacy.medicines m
-                                                     JOIN medicine_factory f on m.medicine_factory_id = f.id;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox3.Items.Add(reader.GetString("name"));
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось получить перечень производителей лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            comboBox3.Items.AddRange(ShopService.GetMedicineWithFactory().ToArray());
 
             //Подгрузка форм выпуска для фильтра
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT distinct(release_form) FROM pharmacy.medicines;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox4.Items.Add(reader.GetString("release_form"));
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось получить перечень форм выпуска лекарств", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            comboBox4.Items.AddRange(ShopService.GetAllReleaseForm().ToArray());
 
             //Подгрузка категорий
             try
@@ -216,24 +170,7 @@ namespace pharmacy
             }
 
             //Подгрузка аптек для совершения заказа
-            try
-            {
-                DBConnection.command.CommandText = @"SELECT name FROM pharmacy.pharmacy;";
-                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            comboBox1.Items.Add(reader.GetString(reader.GetOrdinal("name")));
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось получить перечень аптек", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            comboBox1.Items.AddRange(PharmacyService.GetAllName().ToArray());
         }
 
 

@@ -13,7 +13,7 @@ namespace pharmacy.service
         public int Costs { get; set; }
         public string OnPrescription { get; set; }
         public int Count { get; set; }
-        public string BestBeforeDate { get; set; } // TODO: переименовать в expiration date?
+        public string ExpirationDate { get; set; }
         public string Volume { get; set; }
         public string PrimaryPackaging { get; set; }
         public string ActiveSubstance { get; set; }

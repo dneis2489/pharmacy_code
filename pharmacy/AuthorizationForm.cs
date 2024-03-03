@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pharmacy.controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,11 +14,11 @@ namespace pharmacy
 {
     public partial class AuthorizationForm : Form
     {
-        static public string loginactive;
-
+        private AuthorizationController AuthorizationController;
         public AuthorizationForm()
         {
             InitializeComponent();
+            AuthorizationController = new AuthorizationController();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,16 +33,15 @@ namespace pharmacy
 
         private void button1_Click(object sender, EventArgs e) //Кнопка авторизоваться
         {
-            if(textBox1.Text != "" && textBox2.Text != "")
+            string authorizeResult = AuthorizationController.Authorize(textBox1.Text, textBox2.Text);
+            if (authorizeResult!="")
             {
-                AuthorizationService.AuthorizationUser(textBox1.Text, textBox2.Text);
-                OpenForm();
+                label3.Text = authorizeResult;
             }
             else
             {
-                label3.Text = "Заполните все обязательные поля!";
-            }
-            
+                OpenForm();
+            }            
         }
 
         public void OpenForm()
@@ -50,18 +50,18 @@ namespace pharmacy
             {
                 case ("Пользователь"):
                     this.Hide();
-                    UserForm form = new UserForm();
-                    form.Show();
+                    UserForm userForm = new UserForm();
+                    userForm.Show();
                     break;
                 case ("Администратор"):
                     this.Hide();
-                    AdminForm form1 = new AdminForm();
-                    form1.Show();
+                    AdminForm adminForm = new AdminForm();
+                    adminForm.Show();
                     break;
                 case ("Супер администратор"):
                     this.Hide();
-                    RootForm1 form2 = new RootForm1();
-                    form2.Show();
+                    RootForm1 rooForm = new RootForm1();
+                    rooForm.Show();
                     break;
             }
         }

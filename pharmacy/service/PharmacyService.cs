@@ -10,6 +10,12 @@ namespace pharmacy.service
 {
     public class PharmacyService:IService<List<string>>
     {
+        private SQLExecutor SQLExecutor;
+        public PharmacyService() 
+        { 
+            SQLExecutor = new SQLExecutor();
+        }
+
         //Добавить аптеку
         public void Add(string name, string adress, string phone_number, int pharmacy_schedule)
         {
@@ -86,7 +92,8 @@ namespace pharmacy.service
 
         public List<string> GetAllName()
         {
-            throw new NotImplementedException();
+            string query = @"SELECT name FROM pharmacy.pharmacy;";
+            return SQLExecutor.ExecuteSelectQuery(query, "name");
         }
 
     }

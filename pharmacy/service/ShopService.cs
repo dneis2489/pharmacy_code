@@ -20,11 +20,11 @@ namespace pharmacy
         }
 
 
-        static public DataTable dtShop;
-        public SQLExecutor SQLExecutor { get;}
+        public DataTable dtShop { get; }
+        private SQLExecutor SQLExecutor { get;}
 
 
-        public static void getMedicines() //Подгрузить перечень лекарств из всех аптек
+        public void GetMedicines() //Подгрузить перечень лекарств из всех аптек
         {
             try
             {
@@ -57,7 +57,7 @@ namespace pharmacy
             }
         }
 
-        public static void getMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
+        public void GetMedicinesInAdmin(int id) //Получить список препаратов в конкретной аптеке
         {
             try
             {
@@ -161,6 +161,7 @@ namespace pharmacy
 
             return SQLExecutor.ExecuteSelectQuery(query, "name");
         }
+
         public List<string> GetAllReleaseForm() 
         {
             string query = @"SELECT distinct(release_form) FROM pharmacy.medicines;";
