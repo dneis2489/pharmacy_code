@@ -147,7 +147,7 @@ namespace pharmacy
                              OrderDate
                      ORDER BY 
                              OrderDate";
-            return SQLExecutor.ExecuteQueryWithNewData(query, "OrderDate", "Revenue", dataTable);
+            return SQLExecutor.ExecuteQueryWithNewData(query, "PurchaseDate", "Quantity", dataTable);
         }
 
         public void GetTopPharmacy() //Рейтинг магазинов

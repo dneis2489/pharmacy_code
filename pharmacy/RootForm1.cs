@@ -24,6 +24,7 @@ namespace pharmacy
             PharmacyService = PharmacyService.Instance;
             StatusService = StatusService.Instance;
             CategoryService = CategoryService.Instance;
+            StatisticsService = StatisticsService.Instance;
         }
 
         private ScheduleService ScheduleService { get; }
