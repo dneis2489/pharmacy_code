@@ -10,9 +10,22 @@ namespace pharmacy.service
 {
     public class CategoryService:IService<List<string>>
     {
-        public CategoryService()
+        private CategoryService()
         {
             SQLExecutor = new SQLExecutor("Не удалось получить перечень категорий лекарств");
+        }
+        private static CategoryService instance;
+
+        public static CategoryService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new CategoryService();
+                }
+                return instance;
+            }
         }
 
         public SQLExecutor SQLExecutor { get; }

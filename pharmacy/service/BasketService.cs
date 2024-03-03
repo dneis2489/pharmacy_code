@@ -4,18 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Windows.Forms;
 
 namespace pharmacy
 {
     public class BasketService
     {
+        private BasketService()
+        {
+        }
+        private static BasketService instance;
+
+        public static BasketService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new BasketService();
+                }
+                return instance;
+            }
+        }
+
         public static string date;
         public static int adressId, number_basket, medicineId, pharmacyId, countInPharmacy;
         public static bool equalDate = false;
         public static int id, supId, pharmId = 0;
         static public DataTable dtBasket = new DataTable();
 
+        
         //TODO: разбить метод мб
         public string OrerDate(int[] id, string adress) //Расчет даты доставки
         {

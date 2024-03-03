@@ -27,10 +27,10 @@ namespace pharmacy
         public AdminController(User user)
         {
             InitializeComponent();
-            ShopService = new ShopService();
-            BasketService = new BasketService();
-            StatusService = new StatusService();
-            StatisticsService = new StatisticsService();
+            ShopService = ShopService.Instance;
+            BasketService = BasketService.Instance;
+            StatusService = StatusService.Instance;
+            StatisticsService = StatisticsService.Instance;
             User = user;
         }
 

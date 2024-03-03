@@ -1,25 +1,32 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy
 {
     public class ShopService
     {
-        public ShopService()
+        private ShopService()
         {
             dtShop = new DataTable();
             SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
+        private static ShopService instance;
 
+        public static ShopService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ShopService();                   
+                }
+                return instance;
+            }
+        }
 
+       
         public DataTable dtShop { get; }
         private SQLExecutor SQLExecutor { get;}
 

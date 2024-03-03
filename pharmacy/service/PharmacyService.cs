@@ -10,11 +10,26 @@ namespace pharmacy.service
 {
     public class PharmacyService:IService<List<string>>
     {
-        private SQLExecutor SQLExecutor;
-        public PharmacyService() 
-        { 
+        private PharmacyService()
+        {
             SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
+        private static PharmacyService instance;
+
+        public static PharmacyService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new PharmacyService();
+                }
+                return instance;
+            }
+        }
+
+
+        private SQLExecutor SQLExecutor;        
 
         //Добавить аптеку
         public void Add(string name, string adress, string phone_number, int pharmacy_schedule)

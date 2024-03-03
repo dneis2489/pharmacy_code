@@ -7,9 +7,21 @@ namespace pharmacy.service
 {
     public class UsersService:IService<List<string>>
     {
-        public UsersService()
+        private UsersService()
         {
-            
+        }
+        private static UsersService instance;
+
+        public static UsersService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new UsersService();
+                }
+                return instance;
+            }
         }
 
         Medicine Medicine { get; set; } // TODO: а зачем?

@@ -1,19 +1,29 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pharmacy.service
 {
     public class StatusService : IService<List<string>>
     {
-        public StatusService()
+        private StatusService()
         {
             SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
         }
+        private static StatusService instance;
+
+        public static StatusService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new StatusService();
+                }
+                return instance;
+            }
+        }
+
 
         SQLExecutor SQLExecutor { get; }
 

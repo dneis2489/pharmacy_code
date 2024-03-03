@@ -19,7 +19,7 @@ namespace pharmacy
         public AuthorizationController()
         {
             InitializeComponent();
-            AuthorizationService = new AuthorizationService();
+            AuthorizationService = AuthorizationService.Instance;
         }
 
         private void Form1_Load(object sender, EventArgs e)

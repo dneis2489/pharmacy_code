@@ -11,8 +11,21 @@ namespace pharmacy
 {
     public class ScheduleService: IService<List<string>>
     {
-        public ScheduleService()
+        private ScheduleService()
         {
+        }
+        private static ScheduleService instance;
+
+        public static ScheduleService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ScheduleService();
+                }
+                return instance;
+            }
         }
 
         //Добавить график работы
