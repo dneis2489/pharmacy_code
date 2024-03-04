@@ -238,7 +238,8 @@ namespace pharmacy
         {
             if(comboBox1.SelectedItem.ToString() != "" && textBox3.Text != "")
             {
-                BasketService.UpdateStatusByNameAndBasketNumber(textBox3.Text, comboBox1.SelectedItem.ToString());                
+                BasketService.UpdateStatusByNameAndBasketNumber(textBox3.Text, comboBox1.SelectedItem.ToString());
+                textBox5.Text = comboBox1.SelectedItem.ToString();
             }
 
             System.Windows.Forms.TextBox textBox;
