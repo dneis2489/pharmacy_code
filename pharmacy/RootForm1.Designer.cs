@@ -832,6 +832,7 @@
             this.ОбщееКоличество});
             this.dataGridView2.Location = new System.Drawing.Point(281, 23);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(755, 401);
             this.dataGridView2.TabIndex = 87;
             // 
@@ -840,12 +841,14 @@
             this.Название_Товара.DataPropertyName = "Название_Товара";
             this.Название_Товара.HeaderText = "Наименование товара:";
             this.Название_Товара.Name = "Название_Товара";
+            this.Название_Товара.ReadOnly = true;
             // 
             // ОбщееКоличество
             // 
             this.ОбщееКоличество.DataPropertyName = "ОбщееКоличество";
             this.ОбщееКоличество.HeaderText = "Количество купленной продукции:";
             this.ОбщееКоличество.Name = "ОбщееКоличество";
+            this.ОбщееКоличество.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -1094,14 +1097,14 @@
             this.button27.UseVisualStyleBackColor = true;
             this.button27.Click += new System.EventHandler(this.button27_Click);
             // 
-            // RootForm1
+            // RootController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 529);
             this.Controls.Add(this.button27);
             this.Controls.Add(this.tabControl1);
-            this.Name = "RootForm1";
+            this.Name = "RootController";
             this.Text = "RootForm1";
             this.Load += new System.EventHandler(this.RootForm1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();

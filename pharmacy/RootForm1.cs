@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace pharmacy
 {
@@ -25,6 +26,8 @@ namespace pharmacy
             StatusService = StatusService.Instance;
             CategoryService = CategoryService.Instance;
             StatisticsService = StatisticsService.Instance;
+
+
         }
 
         private ScheduleService ScheduleService { get; }
@@ -33,6 +36,8 @@ namespace pharmacy
         private StatusService StatusService { get; }
         private CategoryService CategoryService { get; }
         private StatisticsService StatisticsService { get; }
+
+        
 
         private void ClearFormBeforeLoading()
         {
@@ -64,7 +69,6 @@ namespace pharmacy
             //Магазины
             pharmacies.ForEach(item => comboBox4.Items.Add(item));
 
-            //Подгрузка графиков работ для добавления Магазина
             //Графики
             ScheduleService.GetAll().ForEach(item => comboBox5.Items.Add(item));
 
@@ -99,6 +103,11 @@ namespace pharmacy
                 textBox1.Text = "";
                 textBox2.Text = "";
                 textBox3.Text = "";
+                comboBox4.Items.Clear();
+                comboBox3.Items.Clear();
+                var pharmacies = PharmacyService.GetAll();
+                pharmacies.ForEach(item => comboBox4.Items.Add(item));
+                pharmacies.ForEach(item => comboBox3.Items.Add(item));
             }
             else
             {
@@ -120,6 +129,8 @@ namespace pharmacy
             {
                 CategoryService.Add(textBox5.Text);
                 textBox5.Text = "";
+                comboBox8.Items.Clear();
+                CategoryService.GetAll().ForEach(item => comboBox8.Items.Add(item));
             }
             else
             {
@@ -141,6 +152,10 @@ namespace pharmacy
                 textBox7.Text = "";
                 textBox8.Text = "";
                 textBox9.Text = "";
+                comboBox1.Items.Clear();
+                comboBox5.Items.Clear();
+                ScheduleService.GetAll().ForEach(item => comboBox1.Items.Add(item));
+                ScheduleService.GetAll().ForEach(item => comboBox5.Items.Add(item));
             }
             else
             {
@@ -162,6 +177,8 @@ namespace pharmacy
             {
                 StatusService.Add(textBox10.Text);
                 textBox10.Text = "";
+                comboBox7.Items.Clear();
+                StatusService.GetAll().ForEach(item => comboBox7.Items.Add(item));
             }
             else
             {
@@ -185,16 +202,16 @@ namespace pharmacy
                     string choiceRole = comboBox2.SelectedItem.ToString();
                     char role = choiceRole[0];
                     int roleId = Int32.Parse(role.ToString());
-                    if (comboBox2.SelectedItem.ToString() == "Администратор" && comboBox3.SelectedIndex != -1)
+                    if (comboBox2.SelectedItem.ToString() == "2. Администратор" && comboBox3.SelectedIndex != -1)
                     {
                         string choicePharm = comboBox3.SelectedItem.ToString();
                         char pharm = choicePharm[0];
                         int pharmId = Int32.Parse(pharm.ToString());
-                        UsersService.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, pharmId);
+                        UsersService.AddUser(textBox4.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, pharmId);
                     }
                     else
                     {
-                        UsersService.AddUser(textBox10.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, 0);
+                        UsersService.AddUser(textBox4.Text, textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, roleId, 0);
                     }
                     textBox4.Text = "";
                     textBox11.Text = "";
@@ -204,6 +221,8 @@ namespace pharmacy
                     textBox15.Text = "";
                     comboBox2.SelectedIndex = -1;
                     comboBox3.SelectedIndex = -1;
+                    comboBox6.Items.Clear();
+                    UsersService.GetAll().ForEach(item => comboBox6.Items.Add(item));
                 }
                 else
                 {
@@ -237,8 +256,8 @@ namespace pharmacy
             if (comboBox4.SelectedIndex != -1)
             {
                 string choice = comboBox4.SelectedItem.ToString();
-                char id = choice[0];
-                int pharmId = Int32.Parse(id.ToString());
+                string[] parts = choice.Split('.');
+                int pharmId = Int32.Parse(parts[0].ToString());
                 if(pharmId == 1)
                 {
                     MessageBox.Show("Невозможно удалить главную аптеку", "Пожалуйста, выберете другого пользователя", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -247,9 +266,14 @@ namespace pharmacy
                 {
                     PharmacyService.Delete(pharmId);
                 }
-
-
                 comboBox4.SelectedIndex = -1;
+                comboBox4.Items.Clear();
+                comboBox3.Items.Clear();
+                var pharmacies = PharmacyService.GetAll();
+                pharmacies.ForEach(item => comboBox4.Items.Add(item));
+                pharmacies.ForEach(item => comboBox3.Items.Add(item));
+
+
             }
             else
             {
@@ -267,8 +291,8 @@ namespace pharmacy
             if (comboBox5.SelectedIndex != -1)
             {
                 string choice = comboBox5.SelectedItem.ToString();
-                char id = choice[0];
-                int cheduleId = Int32.Parse(id.ToString());
+                string[] parts = choice.Split('.');
+                int cheduleId = Int32.Parse(parts[0].ToString());
                 if (cheduleId == 1)
                 {
                     MessageBox.Show("Невозможно удалить главный график работы", "Пожалуйста, выберете другой график", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -277,9 +301,11 @@ namespace pharmacy
                 {
                     ScheduleService.Delete(cheduleId);
                 }
-                
-
-                comboBox5.SelectedItem = "";
+                comboBox5.SelectedIndex = -1;
+                comboBox1.Items.Clear();
+                comboBox5.Items.Clear();
+                ScheduleService.GetAll().ForEach(item => comboBox1.Items.Add(item));
+                ScheduleService.GetAll().ForEach(item => comboBox5.Items.Add(item));
             }
             else
             {
@@ -296,9 +322,9 @@ namespace pharmacy
         {
             if (comboBox6.SelectedIndex != -1)
             {
-                string choice = comboBox5.SelectedItem.ToString();
-                char id = choice[0];
-                int userId = Int32.Parse(id.ToString());
+                string choice = comboBox6.SelectedItem.ToString();
+                string[] parts = choice.Split('.');
+                int userId = Int32.Parse(parts[0].ToString());
                 if (userId == 1)
                 {
                     MessageBox.Show("Невозможно удалить главного администратора", "Пожалуйста, выберете другого пользователя", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -308,7 +334,9 @@ namespace pharmacy
                     UsersService.Delete(userId);
                 }
 
-                comboBox6.SelectedItem = "";
+                comboBox6.SelectedIndex = -1;
+                comboBox6.Items.Clear();
+                UsersService.GetAll().ForEach(item => comboBox6.Items.Add(item));
             }
             else
             {
@@ -326,10 +354,10 @@ namespace pharmacy
             if (comboBox7.SelectedIndex != -1)
             {
                 string choice = comboBox7.SelectedItem.ToString();
-                char id = choice[0];
-                int statId = Int32.Parse(id.ToString());
+                string[] parts = choice.Split('.');
+                int statId = Int32.Parse(parts[0].ToString());
 
-                if(statId == 1)
+                if (statId == 1)
                 {
                     MessageBox.Show("Невозможно удалить основной статус", "Пожалуйста, выберете другой статус", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -337,9 +365,10 @@ namespace pharmacy
                 {
                     StatusService.Delete(statId);
                 }
+                comboBox7.SelectedIndex = -1;
+                comboBox7.Items.Clear();
+                StatusService.GetAll().ForEach(item => comboBox7.Items.Add(item));
                 
-
-                comboBox7.SelectedItem = "";
             }
             else
             {
@@ -357,9 +386,9 @@ namespace pharmacy
             if (comboBox8.SelectedIndex != -1)
             {
                 string choice = comboBox8.SelectedItem.ToString();
-                char id = choice[0];
-                int catId = Int32.Parse(id.ToString());
-                if(catId == 1)
+                string[] parts = choice.Split('.');
+                int catId = Int32.Parse(parts[0].ToString());
+                if (catId == 1)
                 {
                     MessageBox.Show("Невозможно удалить освновную категорию", "Пожалуйста, выберете другую категорию", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -367,7 +396,10 @@ namespace pharmacy
                 {
                     CategoryService.Delete(catId);
                 }
-                comboBox8.SelectedItem = "";
+                comboBox8.SelectedIndex = -1;
+                comboBox8.Items.Clear();
+                CategoryService.GetAll().ForEach(item => comboBox8.Items.Add(item));
+                
             }
             else
             {

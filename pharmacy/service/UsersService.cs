@@ -31,12 +31,12 @@ namespace pharmacy.service
         public void AddUser(string name, string birth_day, string phone_number, string login, string password, int role_id, int pharmacy_id)
         {
             DateTime originalDate = DateTime.ParseExact(birth_day, "dd.MM.yyyy", null);
-            birth_day = originalDate.ToString("yyyy-MM-dd HH:mm:ss");
-            object pharmacy_id_obj = pharmacy_id;
+            birth_day = originalDate.ToString("yyyy-MM-dd");
+            string pharmacy_id_obj = pharmacy_id.ToString();
 
-            if (pharmacy_id == 0)
+            if (role_id != 2)
             {
-                pharmacy_id_obj = null;
+                pharmacy_id_obj = "null";
             }
             string query = @"INSERT INTO `pharmacy`.`users`
                                                          (`name`,
@@ -53,8 +53,7 @@ namespace pharmacy.service
                                                          '" + login + @"',
                                                          '" + password + @"',
                                                          " + role_id + @",
-                                                         " + pharmacy_id_obj + @");
-                                                         ";
+                                                         " + pharmacy_id_obj + @");";
             SQLExecutor.ExecuteInsertOrDelete(query, "Ошибка добавления значений в базу");
         }
 
