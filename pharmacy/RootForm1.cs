@@ -533,6 +533,15 @@ namespace pharmacy
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
+        //Закрытие приложения
+        private void RootForm1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Завершаем процесс приложения
+            Application.Exit();
+        }
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //Раздел ПУСТЫЕ МЕТОДЫ БЕЗ РЕАЛИЗАЦИИ
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -560,6 +569,11 @@ namespace pharmacy
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

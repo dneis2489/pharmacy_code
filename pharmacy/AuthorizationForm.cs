@@ -59,17 +59,17 @@ namespace pharmacy
                 case ("Пользователь"):
                     this.Hide();
                     UserController userForm = new UserController(authorizedUser);
-                    userForm.Show();
+                    userForm.ShowDialog();
                     break;
                 case ("Администратор"):
                     this.Hide();
                     AdminController adminForm = new AdminController(authorizedUser);
-                    adminForm.Show();
+                    adminForm.ShowDialog();
                     break;
                 case ("Супер администратор"):
                     this.Hide();
                     RootController rooForm = new RootController();
-                    rooForm.Show();
+                    rooForm.ShowDialog();
                     break;
             }
         }
@@ -92,6 +92,14 @@ namespace pharmacy
                 button2.Image = Properties.Resources.open_eye;
             }
 
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------
+        //Закрытие приложения
+        private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Завершаем процесс приложения
+            Application.Exit();
         }
     }
 }
