@@ -61,31 +61,6 @@ namespace pharmacy
 
             //Заказы
 
-            //menuStrip2.Items.Clear();
-
-            //ToolStripControlHost host;
-            
-
-            //foreach (var item in ordersInfos)
-            //{
-            //    textBox = new System.Windows.Forms.TextBox()
-            //    {
-            //        Multiline = true,
-            //        Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
-            //        ReadOnly = true
-            //    };
-
-            //    textBox.Text = item;
-
-            //    host = new ToolStripControlHost(textBox)
-            //    {
-            //        AutoSize = false // Отключаем автоматическое определение размеров
-            //    };
-
-            //    menuStrip2.Items.Add(host);
-            //    textBox.Click += TextBox_Admin_Orders_Click;
-            //}
-
             refreshOrderList();
 
             //Статистика
@@ -245,35 +220,10 @@ namespace pharmacy
                 BasketService.UpdateStatusByNameAndBasketNumber(textBox3.Text, comboBox1.SelectedItem.ToString());
                 textBox5.Text = comboBox1.SelectedItem.ToString();
             }
-
-            //System.Windows.Forms.TextBox textBox;
-            //ToolStripControlHost host;
-            //menuStrip2.Items.Clear();
-
-            //List<string> ordersInfos = BasketService.GetOrdersInfosByPharmacyId(User.PharmacyId);
-
-            //foreach (var item in ordersInfos)
-            //{
-            //    textBox = new System.Windows.Forms.TextBox()
-            //    {
-            //        Multiline = true,
-            //        Size = new System.Drawing.Size(160, 70), // Устанавливаем размеры текстового поля
-            //        ReadOnly = true
-            //    };
-
-            //    textBox.Text = item;
-
-            //    host = new ToolStripControlHost(textBox)
-            //    {
-            //        AutoSize = false // Отключаем автоматическое определение размеров
-            //    };
-
-            //    menuStrip2.Items.Add(host);
-            //    textBox.Click += TextBox_Admin_Orders_Click;
-            //}
             refreshOrderList();
         }
 
+        //Обновление перечня заказов
         private void refreshOrderList()
         {
             flowLayoutPanel1.Controls.Clear();
@@ -288,6 +238,7 @@ namespace pharmacy
                     Size = new System.Drawing.Size(126, 120), // Устанавливаем размеры текстового поля
                     ReadOnly = true
                 };
+                textBox.MouseEnter += (sender, e) => { ((Control)sender).Cursor = Cursors.Hand; };
                 textBox.Text = item;
 
                 textBox.Click += TextBox_Admin_Orders_Click; // Обработчик события нажатия на текстовое поле
@@ -380,7 +331,7 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //Закрытие приложения
-        private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void CloseButton_Click(object sender, FormClosingEventArgs e)
         {
             // Завершаем процесс приложения
             Application.Exit();
@@ -415,6 +366,11 @@ namespace pharmacy
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void pharmacy_Click(object sender, EventArgs e)
         {
 
         }

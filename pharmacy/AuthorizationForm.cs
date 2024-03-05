@@ -57,19 +57,22 @@ namespace pharmacy
             switch (authorizedUser.Role)
             {
                 case ("Пользователь"):
-                    this.Hide();
+                    
                     UserController userForm = new UserController(authorizedUser);
-                    userForm.ShowDialog();
+                    userForm.Show();
+                    this.Hide();
                     break;
                 case ("Администратор"):
-                    this.Hide();
+                    
                     AdminController adminForm = new AdminController(authorizedUser);
-                    adminForm.ShowDialog();
+                    adminForm.Show();
+                    this.Hide();
                     break;
                 case ("Супер администратор"):
-                    this.Hide();
+                    
                     RootController rooForm = new RootController();
-                    rooForm.ShowDialog();
+                    rooForm.Show();
+                    this.Hide();
                     break;
             }
         }
@@ -94,9 +97,7 @@ namespace pharmacy
 
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------
-        //Закрытие приложения
-        private void Authorization_FormClosing(object sender, FormClosingEventArgs e)
+        private void CloseButton_Click(object sender, FormClosingEventArgs e)
         {
             // Завершаем процесс приложения
             Application.Exit();

@@ -32,6 +32,19 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Наименование = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Стоимость = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Количество = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Объём = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.expiration_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.release_form = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.medicine_factory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -70,19 +83,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Наименование = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Стоимость = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Количество = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Объём = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.expiration_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.release_form = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.medicine_factory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -122,6 +122,99 @@
             this.dataGridView1.Size = new System.Drawing.Size(1174, 435);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Column4
+            // 
+            this.Column4.DataPropertyName = "id";
+            this.Column4.HeaderText = "id";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Visible = false;
+            // 
+            // Наименование
+            // 
+            this.Наименование.DataPropertyName = "Наименование";
+            this.Наименование.HeaderText = "Наименование:";
+            this.Наименование.Name = "Наименование";
+            this.Наименование.ReadOnly = true;
+            // 
+            // Стоимость
+            // 
+            this.Стоимость.DataPropertyName = "Стоимость";
+            this.Стоимость.HeaderText = "Стоимость:";
+            this.Стоимость.Name = "Стоимость";
+            this.Стоимость.ReadOnly = true;
+            // 
+            // Количество
+            // 
+            this.Количество.DataPropertyName = "Количество";
+            this.Количество.HeaderText = "Количество:";
+            this.Количество.Name = "Количество";
+            this.Количество.ReadOnly = true;
+            // 
+            // Объём
+            // 
+            this.Объём.DataPropertyName = "Объём";
+            this.Объём.HeaderText = "Объём:";
+            this.Объём.Name = "Объём";
+            this.Объём.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.DataPropertyName = "Магазин";
+            this.Column5.HeaderText = "Магазин";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Visible = false;
+            // 
+            // prescription
+            // 
+            this.prescription.DataPropertyName = "prescription";
+            this.prescription.HeaderText = "Рецепт:";
+            this.prescription.Name = "prescription";
+            this.prescription.ReadOnly = true;
+            // 
+            // expiration_date
+            // 
+            this.expiration_date.DataPropertyName = "expiration_date";
+            this.expiration_date.HeaderText = "Срок годности";
+            this.expiration_date.Name = "expiration_date";
+            this.expiration_date.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "Первичная упаковка";
+            this.Column1.HeaderText = "Первичная упаковка";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "Активное вещество";
+            this.Column2.HeaderText = "Активное вещество";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "Специальные свойства";
+            this.Column3.HeaderText = "Специальные свойства";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // release_form
+            // 
+            this.release_form.DataPropertyName = "release_form";
+            this.release_form.HeaderText = "Форма выпуска";
+            this.release_form.Name = "release_form";
+            this.release_form.ReadOnly = true;
+            // 
+            // medicine_factory
+            // 
+            this.medicine_factory.DataPropertyName = "medicine_factory";
+            this.medicine_factory.HeaderText = "Производитель";
+            this.medicine_factory.Name = "medicine_factory";
+            this.medicine_factory.ReadOnly = true;
             // 
             // dataGridView2
             // 
@@ -425,6 +518,7 @@
             this.pharmacy.TabIndex = 0;
             this.pharmacy.Text = "Лекарства в аптеке";
             this.pharmacy.UseVisualStyleBackColor = true;
+            this.pharmacy.Click += new System.EventHandler(this.pharmacy_Click);
             // 
             // button7
             // 
@@ -510,99 +604,6 @@
             this.button6.Text = "Выход";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // Column4
-            // 
-            this.Column4.DataPropertyName = "id";
-            this.Column4.HeaderText = "id";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Visible = false;
-            // 
-            // Наименование
-            // 
-            this.Наименование.DataPropertyName = "Наименование";
-            this.Наименование.HeaderText = "Наименование:";
-            this.Наименование.Name = "Наименование";
-            this.Наименование.ReadOnly = true;
-            // 
-            // Стоимость
-            // 
-            this.Стоимость.DataPropertyName = "Стоимость";
-            this.Стоимость.HeaderText = "Стоимость:";
-            this.Стоимость.Name = "Стоимость";
-            this.Стоимость.ReadOnly = true;
-            // 
-            // Количество
-            // 
-            this.Количество.DataPropertyName = "Количество";
-            this.Количество.HeaderText = "Количество:";
-            this.Количество.Name = "Количество";
-            this.Количество.ReadOnly = true;
-            // 
-            // Объём
-            // 
-            this.Объём.DataPropertyName = "Объём";
-            this.Объём.HeaderText = "Объём:";
-            this.Объём.Name = "Объём";
-            this.Объём.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            this.Column5.DataPropertyName = "Магазин";
-            this.Column5.HeaderText = "Магазин";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Visible = false;
-            // 
-            // prescription
-            // 
-            this.prescription.DataPropertyName = "prescription";
-            this.prescription.HeaderText = "Рецепт:";
-            this.prescription.Name = "prescription";
-            this.prescription.ReadOnly = true;
-            // 
-            // expiration_date
-            // 
-            this.expiration_date.DataPropertyName = "expiration_date";
-            this.expiration_date.HeaderText = "Срок годности";
-            this.expiration_date.Name = "expiration_date";
-            this.expiration_date.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "Первичная упаковка";
-            this.Column1.HeaderText = "Первичная упаковка";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.DataPropertyName = "Активное вещество";
-            this.Column2.HeaderText = "Активное вещество";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.DataPropertyName = "Специальные свойства";
-            this.Column3.HeaderText = "Специальные свойства";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // release_form
-            // 
-            this.release_form.DataPropertyName = "release_form";
-            this.release_form.HeaderText = "Форма выпуска";
-            this.release_form.Name = "release_form";
-            this.release_form.ReadOnly = true;
-            // 
-            // medicine_factory
-            // 
-            this.medicine_factory.DataPropertyName = "medicine_factory";
-            this.medicine_factory.HeaderText = "Производитель";
-            this.medicine_factory.Name = "medicine_factory";
-            this.medicine_factory.ReadOnly = true;
             // 
             // AdminController
             // 

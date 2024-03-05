@@ -534,7 +534,7 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //Закрытие приложения
-        private void RootForm1_FormClosing(object sender, FormClosingEventArgs e)
+        private void CloseButton_Click(object sender, FormClosingEventArgs e)
         {
             // Завершаем процесс приложения
             Application.Exit();

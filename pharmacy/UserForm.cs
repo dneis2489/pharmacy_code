@@ -63,8 +63,6 @@ namespace pharmacy
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            ToolStripControlHost host;
-            System.Windows.Forms.TextBox textBoxCategory;
             ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
@@ -83,29 +81,7 @@ namespace pharmacy
             comboBox4.Items.AddRange(ShopService.GetAllReleaseForm().ToArray());
 
             //Подгрузка категорий
-            var categories = CategoryService.GetAllName();
-            flowLayoutPanel2.Controls.Clear();
-            System.Windows.Forms.TextBox textBoxOrderList;
-            flowLayoutPanel2.AutoScroll = true;
-
-            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
-
-            foreach (var item in categories)
-            {
-                textBoxCategory = new System.Windows.Forms.TextBox()
-                {
-                    Multiline = true,
-                    Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
-                    ReadOnly = true
-                };
-
-                textBoxCategory.Text = item;
-
-                textBoxCategory.Click += TextBox_Click; // Обработчик события нажатия на текстовое поле
-
-                flowLayoutPanel2.Controls.Add(textBoxCategory); // Добавляем TextBox в FlowLayoutPanel
-            }
-
+            getCategories();
 
             //Подгрузка истории заказов
             RefreshOrderList();
@@ -134,6 +110,32 @@ namespace pharmacy
             {
                 ShopService.UpdateViaCategory(clickedTextBox.Text);
                 dataGridView1.DataSource = ShopService.dtShop;
+            }
+        }
+
+        private void getCategories()
+        {
+            var categories = CategoryService.GetAllName();
+            System.Windows.Forms.TextBox textBoxCategory;
+            flowLayoutPanel2.Controls.Clear();
+            System.Windows.Forms.TextBox textBoxOrderList;
+            flowLayoutPanel2.AutoScroll = true;
+
+            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
+
+            foreach (var item in categories)
+            {
+                textBoxCategory = new System.Windows.Forms.TextBox()
+                {
+                    Multiline = true,
+                    Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
+                    ReadOnly = true
+                };
+                textBoxCategory.MouseEnter += (sender, e) => { ((Control)sender).Cursor = Cursors.Hand; };
+                textBoxCategory.Text = item;
+                textBoxCategory.Click += TextBox_Click; // Обработчик события нажатия на текстовое поле
+
+                flowLayoutPanel2.Controls.Add(textBoxCategory); // Добавляем TextBox в FlowLayoutPanel
             }
         }
 
@@ -342,6 +344,7 @@ namespace pharmacy
                     Size = new System.Drawing.Size(126, 90), // Устанавливаем размеры текстового поля
                     ReadOnly = true
                 };
+                textBoxOrderList.MouseEnter += (sender, e) => { ((Control)sender).Cursor = Cursors.Hand; };
 
                 textBoxOrderList.Text = orderInfo;
 
@@ -402,7 +405,7 @@ namespace pharmacy
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //Закрытие приложения
-        private void UserForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void CloseButton_Click(object sender, FormClosingEventArgs e)
         {
             // Завершаем процесс приложения
             Application.Exit();
