@@ -291,7 +291,7 @@ namespace pharmacy
             textBox3.Text = basket_costs.ToString();
             textBox2.Text = null;
             comboBox1.Text = null;
-            if (comboBox1.SelectedItem != null && med.Count != 0)
+            if (comboBox1.SelectedIndex !=-1 && med.Count != 0)
             {
                 textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
@@ -355,12 +355,12 @@ namespace pharmacy
         private void button3_Click(object sender, EventArgs e) //Кнопка "Сделать заказ"
         {
             BasketService.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text, User.UserId);
-            dataGridView2.DataSource = null;
             comboBox1.SelectedIndex = -1;
             textBox2.Text = "";
             textBox3.Text = "";
             textBox5.Text = "";
             med.Clear();
+            dataGridView2.Refresh();
 
             RefreshOrderList();
         }
@@ -372,7 +372,7 @@ namespace pharmacy
             {
                 medicineId[i] = med[i].Id;
             }
-            if (comboBox1.SelectedItem != null || med.Count == 0)
+            if (comboBox1.SelectedIndex != -1 && med.Count != 0)
             {
                 textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
