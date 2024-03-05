@@ -54,7 +54,6 @@ namespace pharmacy
             ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
-            dataGridView1.Columns["id"].Visible = false;
             textBox7.TextChanged += textBox7_TextChanged;
             comboBox1.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
@@ -65,11 +64,10 @@ namespace pharmacy
         private void UserForm_Load(object sender, EventArgs e)
         {
             ToolStripControlHost host;
-            System.Windows.Forms.TextBox textBox;
+            System.Windows.Forms.TextBox textBoxCategory;
             ShopService.GetMedicines();
             dtShop = ShopService.dtShop;
             dataGridView1.DataSource = dtShop;
-            dataGridView1.Columns["id"].Visible = false;
             textBox7.TextChanged += textBox7_TextChanged;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
@@ -87,55 +85,32 @@ namespace pharmacy
             //Подгрузка категорий
             var categories = CategoryService.GetAllName();
 
+            flowLayoutPanel2.Controls.Clear();
+            System.Windows.Forms.TextBox textBoxOrderList;
+            flowLayoutPanel2.AutoScroll = true;
+
+            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
+
             foreach (var item in categories)
             {
-                textBox = new System.Windows.Forms.TextBox()
+                textBoxCategory = new System.Windows.Forms.TextBox()
                 {
                     Multiline = true,
                     Size = new System.Drawing.Size(126, 50), // Устанавливаем размеры текстового поля
                     ReadOnly = true
                 };
 
-                textBox.Text = item;
+                textBoxCategory.Text = item;
 
-                host = new ToolStripControlHost(textBox)
-                {
-                    AutoSize = false // Отключаем автоматическое определение размеров
-                };
+                textBoxCategory.Click += TextBox_Click; // Обработчик события нажатия на текстовое поле
 
-                menuStrip3.Items.Add(host);
-                textBox.Click += TextBox_Click;
-                
+                flowLayoutPanel2.Controls.Add(textBoxCategory); // Добавляем TextBox в FlowLayoutPanel
             }
-            categoryMenu = true;
 
-            
+
             //Подгрузка истории заказов
-            menuStrip2.Items.Clear();
-            System.Windows.Forms.TextBox textBox1;
-            ToolStripControlHost host1;
+            RefreshOrderList();
 
-            var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
-
-            foreach (var orderInfo in ordersInfos)
-            {
-                textBox1 = new System.Windows.Forms.TextBox()
-                {
-                    Multiline = true,
-                    Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
-                    ReadOnly = true
-                };
-
-                textBox1.Text = orderInfo;
-
-                host1 = new ToolStripControlHost(textBox1)
-                {
-                    AutoSize = false // Отключаем автоматическое определение размеров
-                };
-
-                menuStrip2.Items.Add(host1);
-                textBox1.Click += TextBox_My_Orders_Click;
-            }           
 
             //Подгрузка аптек для совершения заказа
             comboBox1.Items.AddRange(PharmacyService.GetAllName().ToArray());
@@ -160,7 +135,6 @@ namespace pharmacy
             {
                 ShopService.UpdateViaCategory(clickedTextBox.Text);
                 dataGridView1.DataSource = ShopService.dtShop;
-                dataGridView1.Columns["id"].Visible = false;
             }
         }
 
@@ -342,7 +316,7 @@ namespace pharmacy
                 EditIdMedicines = Int32.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
                 Medicine itemToUpdate = med.Find(x => x.Id == EditIdMedicines);
                 itemToUpdate.Count = Int32.Parse(textBox4.Text);
-                basketCountingValues();
+                dataGridView2.Refresh();
                 textBox4.Text = "";
             }
             else
@@ -352,33 +326,29 @@ namespace pharmacy
             
         }
 
+        //Подгрузка истории заказов
         public void RefreshOrderList() 
         {
-            //Подгрузка истории заказов
-            menuStrip2.Items.Clear();
-            System.Windows.Forms.TextBox textBox1;
-            ToolStripControlHost host;
+            flowLayoutPanel1.Controls.Clear();
+            System.Windows.Forms.TextBox textBoxOrderList;
+            flowLayoutPanel1.AutoScroll = true;
 
             var ordersInfos = BasketService.GetOrdersInfosByUserId(User.UserId);
 
             foreach (var orderInfo in ordersInfos)
             {
-                textBox1 = new System.Windows.Forms.TextBox()
+                textBoxOrderList = new System.Windows.Forms.TextBox()
                 {
                     Multiline = true,
-                    Size = new System.Drawing.Size(126, 70), // Устанавливаем размеры текстового поля
+                    Size = new System.Drawing.Size(126, 90), // Устанавливаем размеры текстового поля
                     ReadOnly = true
                 };
 
-                textBox1.Text = orderInfo;
+                textBoxOrderList.Text = orderInfo;
 
-                host = new ToolStripControlHost(textBox1)
-                {
-                    AutoSize = false // Отключаем автоматическое определение размеров
-                };
+                textBoxOrderList.Click += TextBox_My_Orders_Click; // Обработчик события нажатия на текстовое поле
 
-                menuStrip2.Items.Add(host);
-                textBox1.Click += TextBox_My_Orders_Click;
+                flowLayoutPanel1.Controls.Add(textBoxOrderList); // Добавляем TextBox в FlowLayoutPanel
             }
         }
 
@@ -387,6 +357,7 @@ namespace pharmacy
         {
             BasketService.AddBasketInDB(med, comboBox1.SelectedItem.ToString(), textBox2.Text, textBox5.Text, User.UserId);
             dataGridView2.DataSource = null;
+            comboBox1.SelectedIndex = -1;
             textBox2.Text = "";
             textBox3.Text = "";
             textBox5.Text = "";
@@ -452,17 +423,7 @@ namespace pharmacy
 
         }
 
-        private void menuStrip2_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void menuStrip3_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }

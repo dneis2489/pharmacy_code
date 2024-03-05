@@ -73,8 +73,8 @@
             this.Наименование = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Стоимость = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Количество = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Объём = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.expiration_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -103,8 +103,8 @@
             this.Наименование,
             this.Стоимость,
             this.Количество,
-            this.prescription,
             this.Объём,
+            this.prescription,
             this.expiration_date,
             this.Column1,
             this.Column2,
@@ -535,19 +535,19 @@
             this.Количество.Name = "Количество";
             this.Количество.ReadOnly = true;
             // 
-            // prescription
-            // 
-            this.prescription.DataPropertyName = "prescription";
-            this.prescription.HeaderText = "Рецепт:";
-            this.prescription.Name = "prescription";
-            this.prescription.ReadOnly = true;
-            // 
             // Объём
             // 
             this.Объём.DataPropertyName = "Объём";
             this.Объём.HeaderText = "Объём:";
             this.Объём.Name = "Объём";
             this.Объём.ReadOnly = true;
+            // 
+            // prescription
+            // 
+            this.prescription.DataPropertyName = "prescription";
+            this.prescription.HeaderText = "Рецепт:";
+            this.prescription.Name = "prescription";
+            this.prescription.ReadOnly = true;
             // 
             // expiration_date
             // 
@@ -659,8 +659,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Наименование;
         private System.Windows.Forms.DataGridViewTextBoxColumn Стоимость;
         private System.Windows.Forms.DataGridViewTextBoxColumn Количество;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn Объём;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn expiration_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
