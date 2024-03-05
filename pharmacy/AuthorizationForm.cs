@@ -1,6 +1,7 @@
 ﻿using pharmacy.data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -25,6 +26,7 @@ namespace pharmacy
         private void Form1_Load(object sender, EventArgs e)
         {
             DBConnection.ConnectionDB();
+            button2.Image = Properties.Resources.close_eye;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -82,10 +84,12 @@ namespace pharmacy
             if (textBox2.UseSystemPasswordChar == false)
             {
                 textBox2.UseSystemPasswordChar = true;
+                button2.Image = Properties.Resources.close_eye;
             }
             else
             {
                 textBox2.UseSystemPasswordChar = false;
+                button2.Image = Properties.Resources.open_eye;
             }
 
         }

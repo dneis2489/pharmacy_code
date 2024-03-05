@@ -84,7 +84,6 @@ namespace pharmacy
 
             //Подгрузка категорий
             var categories = CategoryService.GetAllName();
-
             flowLayoutPanel2.Controls.Clear();
             System.Windows.Forms.TextBox textBoxOrderList;
             flowLayoutPanel2.AutoScroll = true;
