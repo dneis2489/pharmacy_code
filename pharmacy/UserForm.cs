@@ -25,7 +25,7 @@ namespace pharmacy
 
 
         //Перечень препаратов в корзине
-        List <Medicine> med = new List<Medicine>();
+        BindingList<Medicine> med = new BindingList<Medicine>();
 
         public static string EditOnPrescriptionMedicines, 
             EditNameMedicines, 
@@ -276,8 +276,12 @@ namespace pharmacy
         
         public void basketCountingValues() //Заполнение основных данных по покупке в корзине
         {
-            dataGridView2.DataSource = null;
+            dataGridView2.Refresh();
             dataGridView2.DataSource = med;
+            
+
+            //dataGridView2.DataSource = null;
+
             int basket_costs = 0;
             int[] medicineId = new int[med.Count];
 
@@ -291,8 +295,11 @@ namespace pharmacy
                 medicineId[i] = med[i].Id;
             }
             textBox3.Text = basket_costs.ToString();
-            textBox2.Text = null;
-            comboBox1.Text = null;
+            if(med.Count == 0)
+            {
+                textBox2.Text = null;
+                comboBox1.SelectedIndex = -1;
+            }
             if (comboBox1.SelectedIndex !=-1 && med.Count != 0)
             {
                 textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
@@ -304,7 +311,7 @@ namespace pharmacy
         private void button2_Click(object sender, EventArgs e) //Кнопка "удалить из списка"
         {
             EditIdMedicines = Int32.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
-            Medicine itemToRemove = med.Find(x => x.Id == EditIdMedicines);
+            Medicine itemToRemove = med.FirstOrDefault(x => x.Id == EditIdMedicines);
             med.Remove(itemToRemove);
             basketCountingValues();
 
@@ -315,10 +322,11 @@ namespace pharmacy
             if(textBox4.Text != "")
             {
                 EditIdMedicines = Int32.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
-                Medicine itemToUpdate = med.Find(x => x.Id == EditIdMedicines);
+                Medicine itemToUpdate = med.FirstOrDefault(x => x.Id == EditIdMedicines);
                 itemToUpdate.Count = Int32.Parse(textBox4.Text);
                 dataGridView2.Refresh();
                 textBox4.Text = "";
+                basketCountingValues();
             }
             else
             {
@@ -397,20 +405,11 @@ namespace pharmacy
         //Раздел ВЫХОД
         private void button6_Click(object sender, EventArgs e) //Кнопка выход
         {
-            this.Hide();
+            
             AuthorizationController form = new AuthorizationController();
             form.Show();
+            this.Close();
         }
-
-
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------
-        //Закрытие приложения
-        private void CloseButton_Click(object sender, FormClosingEventArgs e)
-        {
-            // Завершаем процесс приложения
-            Application.Exit();
-        }
-
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //ПУСТЫЕ МЕТОДЫ БЕЗ РЕАЛИЗАЦИИ

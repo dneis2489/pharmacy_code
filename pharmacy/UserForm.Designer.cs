@@ -51,17 +51,6 @@
             this.всеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.on_prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.costs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrimaryPackaging = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ActiveSubstance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SpecialProperties = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReleaseForm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -106,6 +95,18 @@
             this.button7 = new System.Windows.Forms.Button();
             this.basket = new System.Windows.Forms.TabPage();
             this.button6 = new System.Windows.Forms.Button();
+            this.medicineBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.on_prescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.costs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExpirationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrimaryPackaging = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ActiveSubstance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpecialProperties = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReleaseForm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -114,6 +115,7 @@
             this.pharm.SuspendLayout();
             this.ordres.SuspendLayout();
             this.basket.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.medicineBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -314,90 +316,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(763, 432);
             this.dataGridView2.TabIndex = 10;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "Id";
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "Name";
-            this.name.HeaderText = "Наименование:";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            // 
-            // on_prescription
-            // 
-            this.on_prescription.DataPropertyName = "OnPrescription";
-            this.on_prescription.HeaderText = "Рецепт";
-            this.on_prescription.Name = "on_prescription";
-            this.on_prescription.ReadOnly = true;
-            // 
-            // costs
-            // 
-            this.costs.DataPropertyName = "Costs";
-            this.costs.HeaderText = "Стоимость:";
-            this.costs.Name = "costs";
-            this.costs.ReadOnly = true;
-            // 
-            // count
-            // 
-            this.count.DataPropertyName = "Count";
-            this.count.HeaderText = "Количество:";
-            this.count.Name = "count";
-            this.count.ReadOnly = true;
-            // 
-            // ExpirationDate
-            // 
-            this.ExpirationDate.DataPropertyName = "ExpirationDate";
-            this.ExpirationDate.HeaderText = "ExpirationDate";
-            this.ExpirationDate.Name = "ExpirationDate";
-            this.ExpirationDate.ReadOnly = true;
-            this.ExpirationDate.Visible = false;
-            // 
-            // Volume
-            // 
-            this.Volume.DataPropertyName = "Volume";
-            this.Volume.HeaderText = "Volume";
-            this.Volume.Name = "Volume";
-            this.Volume.ReadOnly = true;
-            this.Volume.Visible = false;
-            // 
-            // PrimaryPackaging
-            // 
-            this.PrimaryPackaging.DataPropertyName = "PrimaryPackaging";
-            this.PrimaryPackaging.HeaderText = "PrimaryPackaging";
-            this.PrimaryPackaging.Name = "PrimaryPackaging";
-            this.PrimaryPackaging.ReadOnly = true;
-            this.PrimaryPackaging.Visible = false;
-            // 
-            // ActiveSubstance
-            // 
-            this.ActiveSubstance.DataPropertyName = "ActiveSubstance";
-            this.ActiveSubstance.HeaderText = "ActiveSubstance";
-            this.ActiveSubstance.Name = "ActiveSubstance";
-            this.ActiveSubstance.ReadOnly = true;
-            this.ActiveSubstance.Visible = false;
-            // 
-            // SpecialProperties
-            // 
-            this.SpecialProperties.DataPropertyName = "SpecialProperties";
-            this.SpecialProperties.HeaderText = "SpecialProperties";
-            this.SpecialProperties.Name = "SpecialProperties";
-            this.SpecialProperties.ReadOnly = true;
-            this.SpecialProperties.Visible = false;
-            // 
-            // ReleaseForm
-            // 
-            this.ReleaseForm.DataPropertyName = "ReleaseForm";
-            this.ReleaseForm.HeaderText = "ReleaseForm";
-            this.ReleaseForm.Name = "ReleaseForm";
-            this.ReleaseForm.ReadOnly = true;
-            this.ReleaseForm.Visible = false;
             // 
             // label2
             // 
@@ -818,6 +736,94 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // medicineBindingSource
+            // 
+            this.medicineBindingSource.DataSource = typeof(pharmacy.service.Medicine);
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "Name";
+            this.name.HeaderText = "Наименование:";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            // 
+            // on_prescription
+            // 
+            this.on_prescription.DataPropertyName = "OnPrescription";
+            this.on_prescription.HeaderText = "Рецепт";
+            this.on_prescription.Name = "on_prescription";
+            this.on_prescription.ReadOnly = true;
+            // 
+            // costs
+            // 
+            this.costs.DataPropertyName = "Costs";
+            this.costs.HeaderText = "Стоимость:";
+            this.costs.Name = "costs";
+            this.costs.ReadOnly = true;
+            // 
+            // count
+            // 
+            this.count.DataPropertyName = "Count";
+            this.count.HeaderText = "Количество:";
+            this.count.Name = "count";
+            this.count.ReadOnly = true;
+            // 
+            // ExpirationDate
+            // 
+            this.ExpirationDate.DataPropertyName = "ExpirationDate";
+            this.ExpirationDate.HeaderText = "ExpirationDate";
+            this.ExpirationDate.Name = "ExpirationDate";
+            this.ExpirationDate.ReadOnly = true;
+            this.ExpirationDate.Visible = false;
+            // 
+            // Volume
+            // 
+            this.Volume.DataPropertyName = "Volume";
+            this.Volume.HeaderText = "Volume";
+            this.Volume.Name = "Volume";
+            this.Volume.ReadOnly = true;
+            this.Volume.Visible = false;
+            // 
+            // PrimaryPackaging
+            // 
+            this.PrimaryPackaging.DataPropertyName = "PrimaryPackaging";
+            this.PrimaryPackaging.HeaderText = "PrimaryPackaging";
+            this.PrimaryPackaging.Name = "PrimaryPackaging";
+            this.PrimaryPackaging.ReadOnly = true;
+            this.PrimaryPackaging.Visible = false;
+            // 
+            // ActiveSubstance
+            // 
+            this.ActiveSubstance.DataPropertyName = "ActiveSubstance";
+            this.ActiveSubstance.HeaderText = "ActiveSubstance";
+            this.ActiveSubstance.Name = "ActiveSubstance";
+            this.ActiveSubstance.ReadOnly = true;
+            this.ActiveSubstance.Visible = false;
+            // 
+            // SpecialProperties
+            // 
+            this.SpecialProperties.DataPropertyName = "SpecialProperties";
+            this.SpecialProperties.HeaderText = "SpecialProperties";
+            this.SpecialProperties.Name = "SpecialProperties";
+            this.SpecialProperties.ReadOnly = true;
+            this.SpecialProperties.Visible = false;
+            // 
+            // ReleaseForm
+            // 
+            this.ReleaseForm.DataPropertyName = "ReleaseForm";
+            this.ReleaseForm.HeaderText = "ReleaseForm";
+            this.ReleaseForm.Name = "ReleaseForm";
+            this.ReleaseForm.ReadOnly = true;
+            this.ReleaseForm.Visible = false;
+            // 
             // UserController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -838,6 +844,7 @@
             this.ordres.ResumeLayout(false);
             this.basket.ResumeLayout(false);
             this.basket.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.medicineBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -896,17 +903,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn release_form;
         private System.Windows.Forms.DataGridViewTextBoxColumn medicine_factory;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn on_prescription;
-        private System.Windows.Forms.DataGridViewTextBoxColumn costs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ExpirationDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Volume;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrimaryPackaging;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ActiveSubstance;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SpecialProperties;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ReleaseForm;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
@@ -920,5 +916,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.BindingSource medicineBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn on_prescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn costs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ExpirationDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Volume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PrimaryPackaging;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ActiveSubstance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SpecialProperties;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReleaseForm;
     }
 }

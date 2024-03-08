@@ -57,12 +57,11 @@ namespace pharmacy
             switch (authorizedUser.Role)
             {
                 case ("Пользователь"):
-                    
                     UserController userForm = new UserController(authorizedUser);
                     userForm.Show();
                     this.Hide();
                     break;
-                case ("Администратор"):
+                case ("Администратор"): 
                     
                     AdminController adminForm = new AdminController(authorizedUser);
                     adminForm.Show();

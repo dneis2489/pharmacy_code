@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace pharmacy.service
 {
-    public class Medicine
+    public class Medicine 
     {
         public int Id { get; set; }
         public string Name { get; set; }

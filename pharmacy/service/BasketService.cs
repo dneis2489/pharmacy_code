@@ -2,6 +2,7 @@
 using pharmacy.service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Management.Instrumentation;
@@ -136,7 +137,7 @@ namespace pharmacy
             return number_basket;
         }
 
-        public void AddBasketInDB(List<Medicine> med, string adress, string date, string basketNumber, int userId) //Добавление заказа в БД
+        public void AddBasketInDB(BindingList<Medicine> med, string adress, string date, string basketNumber, int userId) //Добавление заказа в БД
         {
             int[] medCount = new int[med.Count];
             DateTime dateNow = DateTime.Now;
