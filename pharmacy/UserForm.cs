@@ -41,6 +41,7 @@ namespace pharmacy
         private PharmacyService PharmacyService { get; }
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
+        private ExcelExport ExcelExport { get; }
 
         public UserController(User user)
         {
@@ -387,6 +388,24 @@ namespace pharmacy
             {
                 textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
             }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранить файл Excel";
+            saveFileDialog.FileName = "Отчет по заказу.xlsx"; // Имя файла по умолчанию
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ExcelExport.ExportData(BasketService.dtBasket, saveFileDialog);
+            }
+            else
+            {
+                Console.WriteLine("Сохранение файла отменено.");
+            }
+            Console.WriteLine("Сохранение файла отменено.");
         }
 
         private void textBox7_TextChanged_1(object sender, EventArgs e)
