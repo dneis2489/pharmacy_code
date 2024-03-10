@@ -133,35 +133,35 @@
             // 
             // Наименование
             // 
-            this.Наименование.DataPropertyName = "Наименование";
+            this.Наименование.DataPropertyName = "Наименование:";
             this.Наименование.HeaderText = "Наименование:";
             this.Наименование.Name = "Наименование";
             this.Наименование.ReadOnly = true;
             // 
             // Стоимость
             // 
-            this.Стоимость.DataPropertyName = "Стоимость";
+            this.Стоимость.DataPropertyName = "Стоимость:";
             this.Стоимость.HeaderText = "Стоимость:";
             this.Стоимость.Name = "Стоимость";
             this.Стоимость.ReadOnly = true;
             // 
             // Количество
             // 
-            this.Количество.DataPropertyName = "Количество";
+            this.Количество.DataPropertyName = "Количество:";
             this.Количество.HeaderText = "Количество:";
             this.Количество.Name = "Количество";
             this.Количество.ReadOnly = true;
             // 
             // Объём
             // 
-            this.Объём.DataPropertyName = "Объём";
+            this.Объём.DataPropertyName = "Объём:";
             this.Объём.HeaderText = "Объём:";
             this.Объём.Name = "Объём";
             this.Объём.ReadOnly = true;
             // 
             // Column5
             // 
-            this.Column5.DataPropertyName = "Магазин";
+            this.Column5.DataPropertyName = "Магазин:";
             this.Column5.HeaderText = "Магазин";
             this.Column5.Name = "Column5";
             this.Column5.ReadOnly = true;
@@ -169,50 +169,50 @@
             // 
             // prescription
             // 
-            this.prescription.DataPropertyName = "prescription";
+            this.prescription.DataPropertyName = "Рецепт:";
             this.prescription.HeaderText = "Рецепт:";
             this.prescription.Name = "prescription";
             this.prescription.ReadOnly = true;
             // 
             // expiration_date
             // 
-            this.expiration_date.DataPropertyName = "expiration_date";
-            this.expiration_date.HeaderText = "Срок годности";
+            this.expiration_date.DataPropertyName = "Срок годности:";
+            this.expiration_date.HeaderText = "Срок годности:";
             this.expiration_date.Name = "expiration_date";
             this.expiration_date.ReadOnly = true;
             // 
             // Column1
             // 
-            this.Column1.DataPropertyName = "Первичная упаковка";
+            this.Column1.DataPropertyName = "Первичная упаковка:";
             this.Column1.HeaderText = "Первичная упаковка";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             // 
             // Column2
             // 
-            this.Column2.DataPropertyName = "Активное вещество";
+            this.Column2.DataPropertyName = "Активное вещество:";
             this.Column2.HeaderText = "Активное вещество";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
             // 
             // Column3
             // 
-            this.Column3.DataPropertyName = "Специальные свойства";
+            this.Column3.DataPropertyName = "Специальные свойства:";
             this.Column3.HeaderText = "Специальные свойства";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 
             // release_form
             // 
-            this.release_form.DataPropertyName = "release_form";
-            this.release_form.HeaderText = "Форма выпуска";
+            this.release_form.DataPropertyName = "Форма выпуска:";
+            this.release_form.HeaderText = "Форма выпуска:";
             this.release_form.Name = "release_form";
             this.release_form.ReadOnly = true;
             // 
             // medicine_factory
             // 
-            this.medicine_factory.DataPropertyName = "medicine_factory";
-            this.medicine_factory.HeaderText = "Производитель";
+            this.medicine_factory.DataPropertyName = "Производитель:";
+            this.medicine_factory.HeaderText = "Производитель:";
             this.medicine_factory.Name = "medicine_factory";
             this.medicine_factory.ReadOnly = true;
             // 
@@ -595,6 +595,7 @@
             this.button8.TabIndex = 61;
             this.button8.Text = "Выгрузить в Excel";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button6
             // 

@@ -27,7 +27,7 @@ namespace pharmacy
             CategoryService = CategoryService.Instance;
             StatisticsService = StatisticsService.Instance;
             authController = authControl;
-
+            this.dummyData = new DataTable();
         }
 
         private ScheduleService ScheduleService { get; }
@@ -38,6 +38,8 @@ namespace pharmacy
         private StatisticsService StatisticsService { get; }
 
         private AuthorizationController authController { get;}
+
+        private DataTable dummyData;
 
         private void ClearFormBeforeLoading()
         {
@@ -85,6 +87,7 @@ namespace pharmacy
             dataGridView1.Visible = false;
             dataGridView2.Visible = false;
             chart1.Visible = true;
+            
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -417,6 +420,10 @@ namespace pharmacy
         //Раздел СТАТИСТИКА
         private void button24_Click(object sender, EventArgs e) //Статистика - Количество проданной продукции
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Series.Clear();
             chart1.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
@@ -428,14 +435,15 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.RootGetCountBuyMedicinesStat();
+            dummyData.Clear();
+            dummyData = StatisticsService.RootGetCountBuyMedicinesStat();
 
 
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -447,6 +455,10 @@ namespace pharmacy
 
         private void button22_Click(object sender, EventArgs e) //Статистика - Количество заказов
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Series.Clear();
             chart1.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
@@ -458,14 +470,15 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.RootGetCountBasketStat();
+            dummyData.Clear();
+            dummyData = StatisticsService.RootGetCountBasketStat();
 
             chart1.Series.Clear();
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -476,6 +489,10 @@ namespace pharmacy
 
         private void button23_Click(object sender, EventArgs e) //Статистика - Рейтинг магазинов
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Visible = false;
             dataGridView1.Visible = true;
             dataGridView2.Visible = false;
@@ -483,8 +500,28 @@ namespace pharmacy
             dataGridView1.DataSource = StatisticsService.dtStat;
         }
 
+
+        private void button25_Click(object sender, EventArgs e) //Рейтинг лекарств
+        {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
+            chart1.Visible = false;
+            dataGridView1.Visible = false;
+            dataGridView2.Visible = true;
+
+            StatisticsService.GetTopMedicines();
+
+            dataGridView2.DataSource = StatisticsService.dtStat2;
+        }
+
         private void button21_Click(object sender, EventArgs e) //Статистика - Доходы
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Series.Clear();
             chart1.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
@@ -496,14 +533,14 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.RootGetRevenueByMonth();
+            dummyData = StatisticsService.RootGetRevenueByMonth();
 
             chart1.Series.Clear();
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["OrderDate"];
-                int quantity = (int)row["Revenue"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -512,14 +549,8 @@ namespace pharmacy
             chart1.Series.Add(series);
         }
 
-        private void button25_Click(object sender, EventArgs e) //Рейтинг лекарств
-        {
-            chart1.Visible = false;
-            dataGridView1.Visible = false;
-            dataGridView2.Visible = true;
-            StatisticsService.GetTopMedicines();
-            dataGridView2.DataSource = StatisticsService.dtStat2;
-        }
+
+
 
         //Экспорт
         private void button26_Click(object sender, EventArgs e)
@@ -529,38 +560,26 @@ namespace pharmacy
             saveFileDialog.Title = "Сохранить файл Excel";
             saveFileDialog.FileName = "Отчет по статистике.xlsx"; // Имя файла по умолчанию
 
-            DataGridView currentData = null;
+            DataTable exportData = new DataTable();
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-
-                if (dataGridView1.Visible)
-                {
-                    currentData = dataGridView1;
-                }
-                else if (dataGridView2.Visible)
-                {
-                    currentData = dataGridView2;
-                }
                 try
                 {
-                    if (currentData != null && !chart1.Visible)
+                    if (dummyData.Rows.Count != 0)
                     {
-                        List<string> columnNames = new List<string>();
-                        foreach (DataGridViewColumn column in currentData.Columns)
-                        {
-                            columnNames.Add(column.Name);
-                        }
-                        ExcelExport.ExportDataFromDataTable((DataTable)currentData.DataSource, saveFileDialog, columnNames);
+                        exportData = dummyData;
                     }
-                    else if (chart1.Visible)
+                    else if (StatisticsService.dtStat.Rows.Count != 0)
                     {
-                        List<string> columnNames = new List<string>() { "Дата", "Значение" };
-                        ExcelExport.ExportDataFromChart(chart1, saveFileDialog, columnNames);
+                        exportData = StatisticsService.dtStat;
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка", "Не найдено, что сохранять", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        exportData = StatisticsService.dtStat2;
                     }
+
+                    ExcelExport.ExportDataFromStat(exportData, saveFileDialog);
                 }
                 catch
                 {

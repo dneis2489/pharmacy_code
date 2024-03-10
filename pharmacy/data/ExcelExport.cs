@@ -39,7 +39,7 @@ namespace pharmacy.data
             Console.WriteLine("Файл Excel успешно создан и сохранен по пути: " + excelFile.FullName);
         }
 
-        public static void ExportDataFromChart(System.Windows.Forms.DataVisualization.Charting.Chart chart, SaveFileDialog saveFileDialog, List<string> columnNames)
+        public static void ExportDataFromStat(DataTable exportData, SaveFileDialog saveFileDialog)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // Создаем новый файл Excel
@@ -48,18 +48,18 @@ namespace pharmacy.data
             // Добавляем лист
             ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
 
-            //Заполняем шапку таблицы
-            for (int i = 0; i < columnNames.Count; i++)
+            for (int i = 0; i < exportData.Columns.Count; i++)
             {
-                worksheet.Cells[1, i + 1].Value = columnNames[i];
+                worksheet.Cells[1, i + 1].Value = exportData.Columns[i].ColumnName;
             }
 
-            for (int i = 0; i < chart.Series["DataPoints"].Points.Count; i++)
+            for (int i = 0; i < exportData.Rows.Count; i++)
             {
-                worksheet.Cells[i + 2, 1].Value = chart.Series["DataPoints"].Points[i].XValue;
-                worksheet.Cells[i + 2, 2].Value = chart.Series["DataPoints"].Points[i].YValues;
+                for (int j = 0; j < exportData.Columns.Count; j++)
+                {
+                    worksheet.Cells[i + 2, j+1].Value = exportData.Rows[i][j].ToString();
+                }
             }
-
             // Сохраняем файл на выбранное место
             FileInfo excelFile = new FileInfo(saveFileDialog.FileName);
             excelPackage.SaveAs(excelFile);

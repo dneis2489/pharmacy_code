@@ -104,11 +104,7 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button25 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.purchase_count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.Название_Товара = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ОбщееКоличество = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.add = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -800,25 +796,10 @@
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.name,
-            this.purchase_count});
             this.dataGridView1.Location = new System.Drawing.Point(281, 23);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(755, 401);
             this.dataGridView1.TabIndex = 86;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "Наименование аптеки:";
-            this.name.Name = "name";
-            // 
-            // purchase_count
-            // 
-            this.purchase_count.DataPropertyName = "purchase_count";
-            this.purchase_count.HeaderText = "Количество заказов в магазине:";
-            this.purchase_count.Name = "purchase_count";
             // 
             // dataGridView2
             // 
@@ -828,28 +809,11 @@
             this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Название_Товара,
-            this.ОбщееКоличество});
             this.dataGridView2.Location = new System.Drawing.Point(281, 23);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(755, 401);
             this.dataGridView2.TabIndex = 87;
-            // 
-            // Название_Товара
-            // 
-            this.Название_Товара.DataPropertyName = "Название_Товара";
-            this.Название_Товара.HeaderText = "Наименование товара:";
-            this.Название_Товара.Name = "Название_Товара";
-            this.Название_Товара.ReadOnly = true;
-            // 
-            // ОбщееКоличество
-            // 
-            this.ОбщееКоличество.DataPropertyName = "ОбщееКоличество";
-            this.ОбщееКоличество.HeaderText = "Количество купленной продукции:";
-            this.ОбщееКоличество.Name = "ОбщееКоличество";
-            this.ОбщееКоличество.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -1217,10 +1181,6 @@
         private System.Windows.Forms.Button button25;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn purchase_count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Название_Товара;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ОбщееКоличество;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage add;
         private System.Windows.Forms.GroupBox groupBox1;

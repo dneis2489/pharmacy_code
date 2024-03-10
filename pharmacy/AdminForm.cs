@@ -27,6 +27,9 @@ namespace pharmacy
         private User User;
         private AuthorizationController authController { get;}
 
+        private DataTable dummyData;
+
+
         public AdminController(User user, AuthorizationController authControl)
         {
             InitializeComponent();
@@ -36,6 +39,7 @@ namespace pharmacy
             StatisticsService = StatisticsService.Instance;
             User = user;
             authController = authControl;
+            this.dummyData = new DataTable();
         }
 
         private void AdminForm_Load(object sender, EventArgs e)
@@ -75,8 +79,8 @@ namespace pharmacy
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -254,6 +258,10 @@ namespace pharmacy
         //Раздел СТАТИСТИКА
         private void button2_Click(object sender, EventArgs e) //Статистика - Количество купленного товара в магазине
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Series.Clear();
             chart1.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
@@ -266,14 +274,14 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.AdminGetCountBuyMedicinesStat(User.PharmacyId);
+            dummyData = StatisticsService.AdminGetCountBuyMedicinesStat(User.PharmacyId);
 
             chart1.Series.Clear();
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -284,6 +292,10 @@ namespace pharmacy
 
         private void button3_Click(object sender, EventArgs e) //Статистика - Количество покупок в магазине
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Series.Clear();
             chart1.ChartAreas.Clear();
             ChartArea chartArea = new ChartArea();
@@ -295,14 +307,14 @@ namespace pharmacy
             Series series = new Series("DataPoints");
             series.ChartType = SeriesChartType.Line;
             series.MarkerStyle = MarkerStyle.Circle;
-            DataTable dummyData = StatisticsService.AdminGetCountBasketStat(User.PharmacyId);
+            dummyData = StatisticsService.AdminGetCountBasketStat(User.PharmacyId);
 
             chart1.Series.Clear();
 
             foreach (DataRow row in dummyData.Rows)
             {
-                DateTime date = (DateTime)row["PurchaseDate"];
-                int quantity = (int)row["Quantity"];
+                DateTime date = (DateTime)row["Дата"];
+                int quantity = (int)row["Значение"];
                 DateTime monthYearDate = new DateTime(date.Year, date.Month, 1);
 
                 series.Points.AddXY(monthYearDate.ToString("MM.yyyy"), quantity);
@@ -313,6 +325,10 @@ namespace pharmacy
 
         private void button4_Click(object sender, EventArgs e) //Рейтинг покупателей
         {
+            dummyData.Clear();
+            StatisticsService.dtStat.Clear();
+            StatisticsService.dtStat2.Clear();
+
             chart1.Visible = false;
             dataGridView3.Visible = true;
             StatisticsService.getTopUsersInPharmacy(User.PharmacyId);
@@ -320,7 +336,7 @@ namespace pharmacy
 
         }
 
-        //Экспорт
+        //Экспорт лекарств
         private void button7_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -402,14 +418,50 @@ namespace pharmacy
 
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void AdminController_FormClosing(object sender, FormClosingEventArgs e)
         {
             authController.Show();
+        }
+
+        //Экспорт статистики
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранить файл Excel";
+            saveFileDialog.FileName = "Отчет по статистике.xlsx"; // Имя файла по умолчанию
+
+            DataTable exportData = new DataTable();
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (dummyData.Rows.Count != 0)
+                    {
+                        exportData = dummyData;
+                    }
+                    else if (StatisticsService.dtStat.Rows.Count != 0)
+                    {
+                        exportData = StatisticsService.dtStat;
+                    }
+                    else
+                    {
+                        exportData = StatisticsService.dtStat2;
+                    }
+
+                    ExcelExport.ExportDataFromStat(exportData, saveFileDialog);
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Сохранение файла отменено.");
+            }
+            Console.WriteLine("Сохранение файла отменено.");
         }
     }
 }

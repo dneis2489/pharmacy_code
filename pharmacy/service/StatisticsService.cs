@@ -38,43 +38,43 @@ namespace pharmacy
         public DataTable AdminGetCountBuyMedicinesStat(int pharmacyId) //Количество купленного товара в магазине для Админа
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
-            dataTable.Columns.Add("Quantity", typeof(int));
+            dataTable.Columns.Add("Дата", typeof(DateTime));
+            dataTable.Columns.Add("Значение", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
-                         SUM(count) AS TotalCount
+                         DATE_FORMAT(date, '%Y-%m-01') AS 'Дата',
+                         SUM(count) AS 'Значение'
                      FROM 
                          basket_has_users
                      WHERE pharmacy_id = " + pharmacyId + @"
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
-                         PurchaseMonth;";
+                         'Дата';";
 
-            return SQLExecutor.ExecuteQueryWithNewData(query, "PurchaseMonth", "TotalCount", dataTable);
+            return SQLExecutor.ExecuteQueryWithNewData(query, "Дата", "Значение", dataTable);
         }
 
         public DataTable AdminGetCountBasketStat(int pharmacyId) //Количество покупок в магазине для Админа
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
-            dataTable.Columns.Add("Quantity", typeof(int));
+            dataTable.Columns.Add("Дата", typeof(DateTime));
+            dataTable.Columns.Add("Значение", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
-                         COUNT(distinct(basket_number)) AS TotalCount
+                         DATE_FORMAT(date, '%Y-%m-01') AS 'Дата',
+                         COUNT(distinct(basket_number)) AS 'Значение'
                      FROM 
                          basket_has_users
                      WHERE pharmacy_id = " + pharmacyId + @"
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
-                         PurchaseMonth;";
+                         'Дата';";
 
-            return SQLExecutor.ExecuteQueryWithNewData(query, "PurchaseMonth", "TotalCount", dataTable);
+            return SQLExecutor.ExecuteQueryWithNewData(query, "Дата", "Значение", dataTable);
         }
 
         public void getTopUsersInPharmacy(int pharmacyId) //Рейтинг покупателей для Админа
@@ -97,50 +97,50 @@ namespace pharmacy
         public DataTable RootGetCountBuyMedicinesStat() //Количество проданной продукции
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
-            dataTable.Columns.Add("Quantity", typeof(int));
+            dataTable.Columns.Add("Дата", typeof(DateTime));
+            dataTable.Columns.Add("Значение", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
-                         SUM(count) AS TotalCount
+                         DATE_FORMAT(date, '%Y-%m-01') AS 'Дата',
+                         SUM(count) AS 'Значение'
                      FROM 
                          basket_has_users
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
-                         PurchaseMonth;";
-            return SQLExecutor.ExecuteQueryWithNewData(query, "PurchaseMonth", "TotalCount", dataTable);
+                         'Дата';";
+            return SQLExecutor.ExecuteQueryWithNewData(query, "Дата", "Значение", dataTable);
         }
 
         public DataTable RootGetCountBasketStat() //Количество заказов
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("PurchaseDate", typeof(DateTime));
-            dataTable.Columns.Add("Quantity", typeof(int));
+            dataTable.Columns.Add("Дата", typeof(DateTime));
+            dataTable.Columns.Add("Значение", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m-01') AS PurchaseMonth,
-                         COUNT(distinct(basket_number)) AS TotalCount
+                         DATE_FORMAT(date, '%Y-%m-01') AS 'Дата',
+                         COUNT(distinct(basket_number)) AS 'Значение'
                      FROM 
                          basket_has_users
                      GROUP BY 
                          DATE_FORMAT(date, '%Y-%m-01') 
                      ORDER BY 
-                         PurchaseMonth;";
-            return SQLExecutor.ExecuteQueryWithNewData(query, "PurchaseMonth", "TotalCount", dataTable);
+                         'Дата';";
+            return SQLExecutor.ExecuteQueryWithNewData(query, "Дата", "Значение", dataTable);
         }
         public DataTable RootGetRevenueByMonth() //Доходы
         {
             DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("OrderDate", typeof(DateTime));
-            dataTable.Columns.Add("Revenue", typeof(int));
+            dataTable.Columns.Add("Дата", typeof(DateTime));
+            dataTable.Columns.Add("Значение", typeof(int));
 
             string query = @"USE pharmacy;    
                      SELECT 
-                         DATE_FORMAT(date, '%Y-%m-01') AS OrderDate,
-                         SUM(m.costs * bhu.count) AS Revenue
+                         DATE_FORMAT(date, '%Y-%m-01') AS 'Дата',
+                         SUM(m.costs * bhu.count) AS 'Значение'
                      FROM 
                              basket_has_users bhu
                      JOIN 
@@ -148,19 +148,25 @@ namespace pharmacy
                      GROUP BY 
                              DATE_FORMAT(date, '%Y-%m-01')
                      ORDER BY 
-                             OrderDate;";
-            return SQLExecutor.ExecuteQueryWithNewData(query, "OrderDate", "Revenue", dataTable);
+                             'Дата';";
+            return SQLExecutor.ExecuteQueryWithNewData(query, "Дата", "Значение", dataTable);
         }
 
         public void GetTopPharmacy() //Рейтинг магазинов
         {
-            string query = @"SELECT * FROM pharmacy.top_pharmacy;";
+            string query = @"SELECT 
+	                            Название_Товара AS 'Наименование:', 
+                                ОбщееКоличество AS 'Количество:' 
+                             FROM pharmacy.top_medicines;";
             SQLExecutor.ExecuteSelectQueryWithFill(query, dtStat);
 
         }
         public void GetTopMedicines() //Рейтинг лекарств
         {
-            string query = @"SELECT * FROM pharmacy.top_medicines;";
+            string query = @"SELECT 
+	                            name AS 'Наименование:', 
+                                purchase_count AS 'Количество:'
+                             FROM pharmacy.top_pharmacy;";
             SQLExecutor.ExecuteSelectQueryWithFill(query, dtStat2);
         }
     }
