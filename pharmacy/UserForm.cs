@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -399,7 +400,13 @@ namespace pharmacy
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ExcelExport.ExportData(BasketService.dtBasket, saveFileDialog);
+                ExcelPackage excel = BasketService.GetExcelFileForExport();
+
+                // Сохраняем файл на выбранное место
+                FileInfo excelFile = new FileInfo(saveFileDialog.FileName);
+                excel.SaveAs(excelFile);
+
+                Console.WriteLine("Файл Excel успешно создан и сохранен по пути: " + excelFile.FullName);
             }
             else
             {

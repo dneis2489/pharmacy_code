@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Windows.Forms;
@@ -33,7 +34,7 @@ namespace pharmacy
         public static int adressId, number_basket, medicineId, pharmacyId, countInPharmacy;
         public static bool equalDate = false;
         public static int id, supId, pharmId = 0;
-        static public DataTable dtBasket = new DataTable();
+        public DataTable dtBasket = new DataTable();
 
         
         //TODO: разбить метод мб
@@ -313,6 +314,30 @@ namespace pharmacy
             }
 
             return result;
+        }
+
+        public ExcelPackage GetExcelFileForExport() 
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;            
+            ExcelPackage excelPackage = new ExcelPackage();
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+            // Заполняем ячейки данными файл из dataTable
+            for (int i = 0; i < dtBasket.Columns.Count; i++)
+            {
+                worksheet.Cells[1, i + 1].Value = dtBasket.Columns[i].ColumnName;
+            }
+
+            for (int i = 0; i < dtBasket.Rows.Count; i++)
+            {
+                for (int j = 0; j < dtBasket.Columns.Count; j++)
+                {
+                    worksheet.Cells[i + 2, j + 1].Value = dtBasket.Rows[i][j];
+                }
+            }
+
+
+            return excelPackage;           
         }
 
     }
