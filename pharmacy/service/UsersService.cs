@@ -9,7 +9,7 @@ namespace pharmacy.service
     {
         private UsersService()
         {
-            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            SQLExecutor = new SQLExecutor("Ошибка получения данных по пользователю");
         }
         private static UsersService instance;
 

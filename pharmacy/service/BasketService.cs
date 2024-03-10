@@ -229,7 +229,7 @@ namespace pharmacy
             }
             catch
             {
-                MessageBox.Show("Не удалось получить данные. Приносим извинения за предоставленные неудобства!", "Ошибка при получении данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Не удалось получить данные по заказу. Приносим извинения за предоставленные неудобства!", "Ошибка при получении данных", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -264,7 +264,7 @@ namespace pharmacy
             }
             catch
             {
-                MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Не удалось получить историю заказов!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             return result;
@@ -283,7 +283,7 @@ namespace pharmacy
             }
             catch
             {
-                MessageBox.Show("Не удалось загрузить данные по категориям товаров!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Не удалось обновить статус заказа!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -317,7 +317,7 @@ namespace pharmacy
             }
             catch
             {
-                MessageBox.Show("Не удалось получить перечень совершенных заказов", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Не удалось получить историю заказов!", "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             return result;

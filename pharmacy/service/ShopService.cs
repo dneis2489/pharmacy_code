@@ -1,7 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 
 namespace pharmacy
 {
@@ -113,7 +111,7 @@ namespace pharmacy
         public List<string> GetMedicinesExpirationDate()
         {
             string query = @"SELECT distinct(expiration_date) FROM pharmacy.medicines;";
-            return SQLExecutor.ExecuteSelectQuery(query, "expiration_date");
+            return SQLExecutor.ExecuteSelectQuery(query, "Не удалось получить данные для фильтра по сроку годности!", "expiration_date");
         }
 
         //Подгрузка производителей для фильтра в разделе "Лекарства в аптеке"
@@ -123,14 +121,14 @@ namespace pharmacy
                                 SELECT distinct(f.name) FROM pharmacy.medicines m
                                     JOIN medicine_factory f on m.medicine_factory_id = f.id;";
 
-            return SQLExecutor.ExecuteSelectQuery(query, "name");
+            return SQLExecutor.ExecuteSelectQuery(query, "Не удалось получить данные для фильтра производителей!", "name");
         }
 
         public List<string> GetAllReleaseForm() 
         {
-            string query = @"SELECT distinct(release_form) FROM pharmacy.medicines;";
+            string query = @"SELECT distinct(release_form) FROM pharmacy.medicines;";            
 
-            return SQLExecutor.ExecuteSelectQuery(query, "release_form");
+            return SQLExecutor.ExecuteSelectQueryWithError(query,"Не удалось получить данные для фильтра форм выпуска!", "release_form");
         }
     }
 }
