@@ -1073,6 +1073,7 @@
             this.button26.TabIndex = 89;
             this.button26.Text = "Выгрузить в Excel";
             this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
             // 
             // groupBox11
             // 

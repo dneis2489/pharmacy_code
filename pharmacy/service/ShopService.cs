@@ -8,7 +8,12 @@ namespace pharmacy
         private ShopService()
         {
             dtShop = new DataTable();
-            SQLExecutor = new SQLExecutor("Не удалось получить перечень лекарств!");
+            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            dataColumns = new List<string>() {
+                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
+                "Срок годности:", "Объём:", "Первичная упаковка:",
+                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
+                "Производитель:" };
         }
         private static ShopService instance;
 
@@ -26,8 +31,9 @@ namespace pharmacy
 
        
         public DataTable dtShop { get; }
+        public List<string> dataColumns;
         private SQLExecutor SQLExecutor { get;}
-
+        
 
         public void GetMedicines() //Подгрузить перечень лекарств из всех аптек
         {
@@ -57,17 +63,17 @@ namespace pharmacy
         {
             string query = @"USE pharmacy;
                                                      SELECT 
-	                                                     m.name AS 'Наименование',
-                                                         m.costs AS 'Стоимость',
-                                                         mp.count AS 'Количество',
-                                                         CASE WHEN m.on_prescription = 0 then 'Не требуется' ELSE 'Требуется' END AS prescription,
-                                                         expiration_date,
-                                                         concat(m.volume, ' ' ,m.units_of_measurement) AS 'Объём',
-                                                         m.primary_packaging AS 'Первичная упаковка',
-                                                         m.active_substance AS 'Активное вещество',
-                                                         m.special_properties AS 'Специальные свойства',
-                                                         m.release_form AS release_form,
-                                                         mf.name AS medicine_factory
+	                                                     m.name AS 'Наименование:',
+                                                         m.costs AS 'Стоимость:',
+                                                         mp.count AS 'Количество:',
+                                                         CASE WHEN m.on_prescription = 0 then 'Не требуется' ELSE 'Требуется' END AS 'Рецепт:',
+                                                         m.expiration_date AS 'Срок годности:',
+                                                         concat(m.volume, ' ' ,m.units_of_measurement) AS 'Объём:',
+                                                         m.primary_packaging AS 'Первичная упаковка:',
+                                                         m.active_substance AS 'Активное вещество:',
+                                                         m.special_properties AS 'Специальные свойства:',
+                                                         m.release_form AS 'Форма выпуска:',
+                                                         mf.name AS 'Производитель:'
                                                      FROM pharmacy.medicines m
                                                      JOIN pharmacy.medicines_has_pharmacy mp ON m.id = mp.medicines_id
                                                      JOIN pharmacy.medicine_factory mf ON m.medicine_factory_id = mf.id
