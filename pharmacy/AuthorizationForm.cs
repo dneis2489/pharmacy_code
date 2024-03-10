@@ -17,6 +17,10 @@ namespace pharmacy
     {
         private AuthorizationService AuthorizationService;
         private User authorizedUser;
+        private UserController userForm;
+        private AdminController adminForm;
+        private RootController rootForm;
+
         public AuthorizationController()
         {
             InitializeComponent();
@@ -52,25 +56,28 @@ namespace pharmacy
             }           
         }
 
+       
+
+
         public void OpenForm()
         {
             switch (authorizedUser.Role)
             {
                 case ("Пользователь"):
-                    UserController userForm = new UserController(authorizedUser);
+                    userForm = new UserController(authorizedUser);
                     userForm.Show();
                     this.Hide();
                     break;
                 case ("Администратор"): 
                     
-                    AdminController adminForm = new AdminController(authorizedUser);
+                    adminForm = new AdminController(authorizedUser);
                     adminForm.Show();
                     this.Hide();
                     break;
                 case ("Супер администратор"):
                     
-                    RootController rooForm = new RootController();
-                    rooForm.Show();
+                    rootForm = new RootController();
+                    rootForm.Show();
                     this.Hide();
                     break;
             }
@@ -96,10 +103,22 @@ namespace pharmacy
 
         }
 
-        private void CloseButton_Click(object sender, FormClosingEventArgs e)
+        private void AuthorizationController_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Завершаем процесс приложения
-            Application.Exit();
+            if (userForm != null) 
+            {
+                userForm.Close();
+            }
+
+            if (adminForm != null)
+            {
+                adminForm.Close();
+            }
+
+            if (rootForm != null)
+            {
+                rootForm.Close();
+            }
         }
     }
 }

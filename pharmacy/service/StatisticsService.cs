@@ -11,7 +11,7 @@ namespace pharmacy
         {
             dtStat = new DataTable();
             dtStat2 = new DataTable();
-            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            SQLExecutor = new SQLExecutor("Ошибка получения статистики");
         }
         private static StatisticsService instance;
 

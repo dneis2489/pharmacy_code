@@ -60,7 +60,46 @@ namespace pharmacy
 
             return result;
         }
-        
+
+        public List<string> ExecuteSelectQueryWithError(string query, string error, params string[] returnedField)
+        {
+            List<string> result = new List<string>();
+
+            try
+            {
+                DBConnection.command.CommandText = query;
+                using (MySqlDataReader reader = DBConnection.command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            string res = "";
+                            foreach (var filed in returnedField)
+                            {
+                                if (returnedField.Length > 1 && Array.IndexOf(returnedField, filed) != returnedField.Length - 1)
+                                {
+                                    res += reader.GetString(filed) + ". ";
+                                }
+                                else
+                                {
+                                    res += reader.GetString(filed);
+                                }
+                            }
+                            result.Add(res);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show(error.ToString(), "Пожалуйста, попробуйте ещё раз", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return result;
+        }
+
+
         public void ExecuteSelectQueryWithFill(string query, DataTable dataTable)
         {
             try

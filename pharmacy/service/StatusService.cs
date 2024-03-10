@@ -8,7 +8,7 @@ namespace pharmacy.service
     {
         private StatusService()
         {
-            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            SQLExecutor = new SQLExecutor("Ошибка получения перечня статусов");
         }
         private static StatusService instance;
 

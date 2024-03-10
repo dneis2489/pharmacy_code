@@ -12,7 +12,7 @@ namespace pharmacy.service
     {
         private PharmacyService()
         {
-            SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            SQLExecutor = new SQLExecutor("Не удалось получить перечень аптек!");
         }
         private static PharmacyService instance;
 
@@ -60,7 +60,7 @@ namespace pharmacy.service
         public List<string> GetAll()
         {
             string query = @"SELECT * FROM pharmacy.pharmacy;";
-            return SQLExecutor.ExecuteSelectQuery(query, "id", "name");
+            return SQLExecutor.ExecuteSelectQuery(query,"id", "name");
         }
 
 
