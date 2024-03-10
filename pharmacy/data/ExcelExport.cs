@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
@@ -8,24 +9,7 @@ namespace pharmacy.data
 {
     internal class ExcelExport
     {
-        private ExcelExport()
-        {
-        }
-        private static ExcelExport instance;
-
-        public static ExcelExport Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new ExcelExport();
-                }
-                return instance;
-            }
-        }
-
-        public static void ExportData(DataTable data, SaveFileDialog saveFileDialog)
+        public static void ExportDataFromDataTable(DataTable data, SaveFileDialog saveFileDialog, List<string> exportColumns)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // Создаем новый файл Excel
@@ -34,17 +18,17 @@ namespace pharmacy.data
             // Добавляем лист
             ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
 
-            // Заполняем ячейки данными из DataTable
-            for (int i = 0; i < data.Columns.Count; i++)
-            {
-                worksheet.Cells[1, i + 1].Value = data.Columns[i].ColumnName;
-            }
+            //Заполняем шапку таблицы
+            exportColumns.ForEach(columnName =>
+            worksheet.Cells[1, exportColumns.IndexOf(columnName) + 1].Value = columnName);
+
+            List<int> indexesForExportColumns = GetColumnIndexForExport(exportColumns, data);
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-                for (int j = 0; j < data.Columns.Count; j++)
+                for (int j = 0; j < exportColumns.Count; j++)
                 {
-                    worksheet.Cells[i + 2, j + 1].Value = data.Rows[i][j];
+                    worksheet.Cells[i + 2, j + 1].Value = data.Rows[i][indexesForExportColumns[j]];
                 }
             }
 
@@ -53,6 +37,22 @@ namespace pharmacy.data
             excelPackage.SaveAs(excelFile);
 
             Console.WriteLine("Файл Excel успешно создан и сохранен по пути: " + excelFile.FullName);
+        }
+
+        private static List<int> GetColumnIndexForExport(List<string> exportColumns, DataTable data)
+        {
+            List<int> indexes = new List<int>();
+            DataColumnCollection basketColumn = data.Columns;
+
+            for (int i = 0; i < basketColumn.Count; i++)
+            {
+                if (exportColumns.Contains(basketColumn[i].ColumnName)) // TODO: тут мб будет баг из-за неполного совпадения
+                {
+                    indexes.Add(i);
+                }
+            }
+
+            return indexes;
         }
     }
 }

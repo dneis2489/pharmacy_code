@@ -11,6 +11,11 @@ namespace pharmacy
         {
             dtShop = new DataTable();
             SQLExecutor = new SQLExecutor("Ошибка подключения к базе с аптеками");
+            dataColumns = new List<string>() {
+                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
+                "Срок годности:", "Объём:", "Первичная упаковка:",
+                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
+                "Производитель:" };
         }
         private static ShopService instance;
 
@@ -28,8 +33,9 @@ namespace pharmacy
 
        
         public DataTable dtShop { get; }
+        public List<string> dataColumns;
         private SQLExecutor SQLExecutor { get;}
-
+        
 
         public void GetMedicines() //Подгрузить перечень лекарств из всех аптек
         {

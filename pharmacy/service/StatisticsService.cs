@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Forms;
 using System.Data;
+using System.Collections.Generic;
 
 namespace pharmacy
 {
@@ -27,9 +28,10 @@ namespace pharmacy
             }
         }
 
-        static public DataTable dtStat;
-        static public DataTable dtStat2;
+        public DataTable dtStat;
+        public DataTable dtStat2;
         private SQLExecutor SQLExecutor;
+
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //СТАТИСТИКА ДЛЯ АДМИНА

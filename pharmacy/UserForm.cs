@@ -43,7 +43,6 @@ namespace pharmacy
         private PharmacyService PharmacyService { get; }
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
-        private ExcelExport ExcelExport { get; }
 
         public UserController(User user)
         {
@@ -401,13 +400,14 @@ namespace pharmacy
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ExcelPackage excel = BasketService.GetExcelFileForExport();
-
-                // Сохраняем файл на выбранное место
-                FileInfo excelFile = new FileInfo(saveFileDialog.FileName);
-                excel.SaveAs(excelFile);
-
-                Console.WriteLine("Файл Excel успешно создан и сохранен по пути: " + excelFile.FullName);
+                try
+                {
+                    ExcelExport.ExportDataFromDataTable((DataTable)dataGridView3.DataSource, saveFileDialog, BasketService.dataColumns);
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {

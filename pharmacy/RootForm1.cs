@@ -521,6 +521,58 @@ namespace pharmacy
             dataGridView2.DataSource = StatisticsService.dtStat2;
         }
 
+        //Экспорт
+        private void button26_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранить файл Excel";
+            saveFileDialog.FileName = "Отчет по статистике.xlsx"; // Имя файла по умолчанию
+
+            DataGridView currentData = null;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                if (dataGridView1.Visible)
+                {
+                    currentData = dataGridView1;
+                }
+                else if (dataGridView2.Visible)
+                {
+                    currentData = dataGridView2;
+                }
+                try
+                {
+                    if (currentData != null && !chart1.Visible)
+                    {
+                        List<string> columnNames = new List<string>();
+                        foreach (DataGridViewColumn column in currentData.Columns)
+                        {
+                            columnNames.Add(column.Name);
+                        }
+                        ExcelExport.ExportDataFromDataTable((DataTable)currentData.DataSource, saveFileDialog, columnNames);
+                    }
+                    else if (chart1.Visible)
+                    {
+                        List<string> columnNames = new List<string>() { "Дата", "Значение" };
+                        ExcelExport.ExportDataFromChart(chart1, saveFileDialog, columnNames);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка", "Не найдено, что сохранять", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Сохранение файла отменено.");
+            }
+            Console.WriteLine("Сохранение файла отменено.");
+        }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //Раздел ВЫХОД

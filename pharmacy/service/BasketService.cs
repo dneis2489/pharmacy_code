@@ -16,6 +16,11 @@ namespace pharmacy
     {
         private BasketService()
         {
+            dataColumns = new List<string>() {
+                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
+                "Срок годности:", "Объём:", "Первичная упаковка:",
+                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
+                "Производитель:" };
         }
         private static BasketService instance;
 
@@ -36,8 +41,9 @@ namespace pharmacy
         public static bool equalDate = false;
         public static int id, supId, pharmId = 0;
         public DataTable dtBasket = new DataTable();
+        public List<string> dataColumns;
 
-        
+
         //TODO: разбить метод мб
         public string OrerDate(int[] id, string adress) //Расчет даты доставки
         {
@@ -315,56 +321,6 @@ namespace pharmacy
             }
 
             return result;
-        }
-
-        public ExcelPackage GetExcelFileForExport() 
-        {
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;            
-            ExcelPackage excelPackage = new ExcelPackage();
-            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-
-            List<string> exportColumns = GetColumnNameForExport();
-
-            //Заполняем шапку таблицы
-            exportColumns.ForEach( columnName =>
-            worksheet.Cells[1, exportColumns.IndexOf(columnName) + 1].Value = columnName );
-
-            List<int> indexesForExportColumns = GetColumnIndexForExport(exportColumns);
-            
-            for (int i = 0; i < dtBasket.Rows.Count; i++)
-            {
-                for (int j = 0; j < exportColumns.Count; j++)
-                {
-                    worksheet.Cells[i + 2, j + 1].Value = dtBasket.Rows[i][indexesForExportColumns[j]];
-                }
-            }
-
-            return excelPackage;           
-        }
-
-        private List<string> GetColumnNameForExport() 
-        {
-            return new List<string>() { 
-                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
-                "Срок годности:", "Объём:", "Первичная упаковка:",
-                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
-                "Производитель:" };
-        }
-
-        private List<int> GetColumnIndexForExport(List<string> exportColumns)
-        {
-            List<int> indexes = new List<int>();
-            DataColumnCollection basketColumn =  dtBasket.Columns;
-
-            for (int i = 0; i < basketColumn.Count; i++)
-            {
-                if (exportColumns.Contains(basketColumn[i].ColumnName)) // TODO: тут мб будет баг из-за неполного совпадения
-                { 
-                    indexes.Add(i);
-                }
-            }
-
-            return indexes;
         }
 
     }

@@ -318,6 +318,32 @@ namespace pharmacy
 
         }
 
+        //Экспорт
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранить файл Excel";
+            saveFileDialog.FileName = "Отчет по товарам.xlsx"; // Имя файла по умолчанию
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ExcelExport.ExportDataFromDataTable((DataTable)dataGridView1.DataSource, saveFileDialog, ShopService.dataColumns);
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Сохранение файла отменено.");
+            }
+            Console.WriteLine("Сохранение файла отменено.");
+        }
+
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------
         //ВЫХОД
@@ -371,11 +397,6 @@ namespace pharmacy
         }
 
         private void pharmacy_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button7_Click(object sender, EventArgs e)
         {
 
         }
