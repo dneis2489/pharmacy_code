@@ -197,10 +197,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\open-eye.png" />
+    <None Include="resources\open-eye.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\close-eye.png" />
+    <None Include="resources\close-eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
