@@ -43,7 +43,6 @@ namespace pharmacy
         private PharmacyService PharmacyService { get; }
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
-        private ExcelExport ExcelExport { get; }
         private AuthorizationController authController { get; }
 
         public UserController(User user, AuthorizationController authControl)
