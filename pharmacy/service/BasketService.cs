@@ -21,6 +21,12 @@ namespace pharmacy
                 "Срок годности:", "Объём:", "Первичная упаковка:",
                 "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
                 "Производитель:" };
+
+            orderDataColumns = new List<string>() {
+                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
+                "Срок годности:", "Объём:", "Первичная упаковка:",
+                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
+                "Производитель:", "Информация по заказу:" };
         }
         private static BasketService instance;
 
@@ -42,6 +48,7 @@ namespace pharmacy
         public static int id, supId, pharmId = 0;
         public DataTable dtBasket = new DataTable();
         public List<string> dataColumns;
+        public List<string> orderDataColumns;
 
 
         //TODO: разбить метод мб
@@ -256,8 +263,8 @@ namespace pharmacy
                     {
                         while (reader.Read())
                         {
-                            result.Add("Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\nДата доставки: " + reader.GetString(reader.GetOrdinal("date"))
-                                + "\r\nСтатус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\nИмя заказчика: " + reader.GetString(reader.GetOrdinal("user")) + "\r\n");                            
+                            result.Add("Номер заказа: " + reader.GetString(reader.GetOrdinal("basket_number")) + "\r\n Дата доставки: " + reader.GetString(reader.GetOrdinal("date"))
+                                + "\r\n Статус заказа: " + reader.GetString(reader.GetOrdinal("status_id")) + "\r\n Имя заказчика: " + reader.GetString(reader.GetOrdinal("user")) + "\r\n");                            
                         }
                     }                    
                 }

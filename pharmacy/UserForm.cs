@@ -21,7 +21,6 @@ namespace pharmacy
 {
     public partial class UserController : Form
     {
-        bool categoryMenu = false;
         static public DataTable dtShop = new DataTable();
         private User User;
 
@@ -44,6 +43,8 @@ namespace pharmacy
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
         private AuthorizationController authController { get; }
+
+        private string activeOrder;
 
         public UserController(User user, AuthorizationController authControl)
         {
@@ -258,6 +259,8 @@ namespace pharmacy
         {
             // Обработка события Click элемента TextBox
             System.Windows.Forms.TextBox clickedTextBox = (System.Windows.Forms.TextBox)sender;
+            activeOrder = clickedTextBox.Text;
+
 
             int startIndex = clickedTextBox.Text.IndexOf("Номер заказа: ") + "Номер заказа: ".Length;
             int endIndex = clickedTextBox.Text.IndexOf(Environment.NewLine, startIndex);
@@ -396,7 +399,7 @@ namespace pharmacy
             {
                 try
                 {
-                    ExcelExport.ExportDataFromDataTable((DataTable)dataGridView3.DataSource, saveFileDialog, BasketService.dataColumns);
+                    ExcelExport.ExportOrderFromDataTable((DataTable)dataGridView3.DataSource, activeOrder, saveFileDialog, BasketService.orderDataColumns);
                 }
                 catch
                 {
