@@ -44,11 +44,13 @@ namespace pharmacy
         private BasketService BasketService { get; }
         private CategoryService CategoryService { get; }
         private ExcelExport ExcelExport { get; }
+        private AuthorizationController authController { get; }
 
-        public UserController(User user)
+        public UserController(User user, AuthorizationController authControl)
         {
             InitializeComponent();
             User = user;
+            authController = authControl;
             ShopService = ShopService.Instance;
             PharmacyService = PharmacyService.Instance;
             BasketService = BasketService.Instance;
@@ -381,15 +383,7 @@ namespace pharmacy
 
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e) //Перерасчет даты доставки в зависимости от выбранного пункта выдачи
         {
-            int[] medicineId = new int[med.Count];
-            for (int i = 0; i < med.Count; i++)
-            {
-                medicineId[i] = med[i].Id;
-            }
-            if (comboBox1.SelectedIndex != -1 && med.Count != 0)
-            {
-                textBox2.Text = BasketService.OrerDate(medicineId, comboBox1.SelectedItem.ToString());
-            }
+
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -416,6 +410,11 @@ namespace pharmacy
             Console.WriteLine("Сохранение файла отменено.");
         }
 
+        private void UserController_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            authController.Show();
+        }
+
         private void textBox7_TextChanged_1(object sender, EventArgs e)
         {
 
@@ -432,9 +431,8 @@ namespace pharmacy
         //Раздел ВЫХОД
         private void button6_Click(object sender, EventArgs e) //Кнопка выход
         {
-            
-            AuthorizationController form = new AuthorizationController();
-            form.Show();
+
+            authController.Show();
             this.Close();
         }
 

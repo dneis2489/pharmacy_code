@@ -25,8 +25,9 @@ namespace pharmacy
         private StatusService StatusService { get; }
         private StatisticsService StatisticsService { get; }
         private User User;
+        private AuthorizationController authController { get;}
 
-        public AdminController(User user)
+        public AdminController(User user, AuthorizationController authControl)
         {
             InitializeComponent();
             ShopService = ShopService.Instance;
@@ -34,6 +35,7 @@ namespace pharmacy
             StatusService = StatusService.Instance;
             StatisticsService = StatisticsService.Instance;
             User = user;
+            authController = authControl;
         }
 
         private void AdminForm_Load(object sender, EventArgs e)
@@ -323,9 +325,8 @@ namespace pharmacy
         //ВЫХОД
         private void button6_Click(object sender, EventArgs e) //Кнопка ВЫХОД
         {
-            this.Hide();
-            AuthorizationController form = new AuthorizationController();
-            form.Show();
+            authController.Show();
+            this.Close();
         }
 
 
@@ -378,6 +379,11 @@ namespace pharmacy
         private void button7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void AdminController_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            authController.Show();
         }
     }
 }

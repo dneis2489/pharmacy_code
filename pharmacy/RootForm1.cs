@@ -17,7 +17,7 @@ namespace pharmacy
 {
     public partial class RootController : Form
     {
-        public RootController()
+        public RootController(AuthorizationController authControl)
         {
             InitializeComponent();
             ScheduleService = ScheduleService.Instance;
@@ -26,7 +26,7 @@ namespace pharmacy
             StatusService = StatusService.Instance;
             CategoryService = CategoryService.Instance;
             StatisticsService = StatisticsService.Instance;
-
+            authController = authControl;
 
         }
 
@@ -37,7 +37,7 @@ namespace pharmacy
         private CategoryService CategoryService { get; }
         private StatisticsService StatisticsService { get; }
 
-        
+        private AuthorizationController authController { get;}
 
         private void ClearFormBeforeLoading()
         {
@@ -526,9 +526,8 @@ namespace pharmacy
         //Раздел ВЫХОД
         private void button27_Click(object sender, EventArgs e) //Кнопка "Выход"
         {
-            this.Hide();
-            AuthorizationController form = new AuthorizationController();
-            form.Show();
+            authController.Show();
+            this.Close();
         }
 
 
@@ -576,6 +575,11 @@ namespace pharmacy
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void RootController_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            authController.Show();
         }
     }
 }

@@ -1107,6 +1107,7 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "RootController";
             this.Text = "RootForm1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RootController_FormClosing);
             this.Load += new System.EventHandler(this.RootForm1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
