@@ -528,6 +528,7 @@
             this.button7.TabIndex = 60;
             this.button7.Text = "Выгрузить в Excel";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // orders
             // 
