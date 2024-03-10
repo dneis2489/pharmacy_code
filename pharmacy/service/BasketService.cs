@@ -204,15 +204,15 @@ namespace pharmacy
                                                         m.id,
                                                         m.name AS 'Наименование:',
                                                         m.costs AS 'Стоимость:',
+                                                        b.count AS 'Количество:',
                                                         CASE WHEN m.on_prescription = 0 THEN 'Не требуется' ELSE 'Требуется' END AS 'Рецепт:',
                                                         m.expiration_date AS 'Срок годности:',
-                                                        concat(m.volume, ' ' ,m.units_of_measurement) AS 'Объём',
+                                                        concat(m.volume, ' ' ,m.units_of_measurement) AS 'Объём:',
                                                         m.primary_packaging AS 'Первичная упаковка:',
                                                         m.active_substance AS 'Активное вещество:',
                                                         m.special_properties AS 'Специальные свойства:',
                                                         m.release_form AS 'Форма выпуска:',
-                                                        f.name AS 'Производитель:',
-                                                        b.count AS 'Количество:'
+                                                        f.name AS 'Производитель:'
                                                      FROM pharmacy.medicines m
                                                      JOIN medicine_factory f on f.id = m.medicine_factory_id
                                                      JOIN basket_has_users b on b.medicines_id = m.id
@@ -345,10 +345,10 @@ namespace pharmacy
         private List<string> GetColumnNameForExport() 
         {
             return new List<string>() { 
-                "Наименование", "Стоимость", "Количество", "Рецепт",
-                "Срок годности", "Объём", "Первичная упаковка",
-                "Активное вещество", "Специальные свойства", "Форма выпуска",
-                "Производитель" };
+                "Наименование:", "Стоимость:", "Количество:", "Рецепт:",
+                "Срок годности:", "Объём:", "Первичная упаковка:",
+                "Активное вещество:", "Специальные свойства:", "Форма выпуска:",
+                "Производитель:" };
         }
 
         private List<int> GetColumnIndexForExport(List<string> exportColumns)
